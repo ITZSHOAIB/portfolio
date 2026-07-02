@@ -1,0 +1,4 @@
+minimumReleaseAgeExclude:
+  - '@sveltejs/kit@2.69.0'
+  - vite@8.1.2
+  - '@lucide/svelte@1.23.0'

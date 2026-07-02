@@ -1,0 +1,25 @@
+{
+  "name": "sohab-dev-portfolio",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@lucide/svelte": "^1.23.0",
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.69.0",
+    "@sveltejs/vite-plugin-svelte": "^7.1.2",
+    "@tailwindcss/vite": "^4.3.2",
+    "simple-icons": "^16.24.1",
+    "svelte": "^5.56.4",
+    "svelte-check": "^4.7.1",
+    "tailwindcss": "^4.3.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.1.2"
+  }
+}
