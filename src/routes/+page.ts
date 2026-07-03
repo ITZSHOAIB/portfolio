@@ -43,6 +43,6 @@ export const load: PageLoad = () => {
       posts: visibleWritingPosts,
     },
     experienceText: formatExperience(experienceStartDate, new Date()),
-    siteUrl: site.url,
+    site,
   };
 };
