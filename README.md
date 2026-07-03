@@ -1,6 +1,6 @@
 <div align="center">
 
-# Sohab Sk Portfolio
+<img src="./static/images/og-image.png" alt="Sohab Sk portfolio preview" width="860" />
 
 ### A fast, dark, SEO-friendly personal portfolio for AI agents, scalable systems, and selected engineering work.
 
