@@ -13,6 +13,27 @@
     const profileImageUrl = $derived(
         `${data.site.url}${data.site.profileImage.path}`,
     );
+    const sameAsLinks = $derived(
+        data.profile.links
+            .filter((link) => link.href.startsWith("http"))
+            .map((link) => link.href),
+    );
+    const allSkills = $derived([
+        ...data.skillSummary.primary,
+        ...data.skillSummary.secondary,
+    ]);
+    const latestProjectDate = $derived(
+        data.projects
+            .map((project) => project.updated)
+            .filter((updated) => /^\d{4}-\d{2}-\d{2}$/.test(updated))
+            .sort()
+            .at(-1) ?? data.site.modifiedDate,
+    );
+    const dateModified = $derived(
+        latestProjectDate > data.site.modifiedDate
+            ? latestProjectDate
+            : data.site.modifiedDate,
+    );
     const projectSchemaItems = $derived(
         data.projects.map((project, index) => ({
             "@type": "ListItem",
@@ -26,6 +47,9 @@
                 url: project.href,
                 programmingLanguage: project.language,
                 keywords: project.topics,
+                ...(project.href.includes("github.com")
+                    ? { codeRepository: project.href }
+                    : { applicationCategory: "DeveloperApplication" }),
                 author: {
                     "@id": `${canonicalUrl}#person`,
                 },
@@ -39,20 +63,32 @@
                 "@type": "Person",
                 "@id": `${canonicalUrl}#person`,
                 name: data.profile.name,
+                givenName: "Sohab",
+                familyName: "Sk",
                 url: canonicalUrl,
-                image: profileImageUrl,
+                image: {
+                    "@type": "ImageObject",
+                    "@id": `${canonicalUrl}#profile-image`,
+                    url: profileImageUrl,
+                    width: data.site.profileImage.width,
+                    height: data.site.profileImage.height,
+                    caption: data.site.profileImage.alt,
+                },
                 jobTitle: data.profile.role,
                 email: data.profile.email,
                 description: data.site.shortDescription,
-                knowsAbout: [
-                    ...data.skillSummary.primary,
-                    "Software architecture",
-                    "Agentic AI systems",
-                    "Multi-agent workflows",
-                ],
-                sameAs: data.profile.links
-                    .filter((link) => link.href.startsWith("http"))
-                    .map((link) => link.href),
+                knowsAbout: allSkills,
+                sameAs: sameAsLinks,
+                knowsLanguage: ["en"],
+                hasOccupation: {
+                    "@type": "Occupation",
+                    name: data.profile.role,
+                    skills: allSkills.join(", "),
+                    occupationLocation: {
+                        "@type": "Country",
+                        name: "India",
+                    },
+                },
                 worksFor: {
                     "@type": "Organization",
                     name: data.profile.company,
@@ -65,17 +101,20 @@
                 url: canonicalUrl,
                 inLanguage: data.site.language,
                 description: data.site.description,
+                image: socialImageUrl,
                 publisher: {
                     "@id": `${canonicalUrl}#person`,
                 },
             },
             {
-                "@type": "ProfilePage",
+                "@type": ["WebPage", "ProfilePage"],
                 "@id": `${canonicalUrl}#profile-page`,
                 name: data.site.title,
                 url: canonicalUrl,
                 inLanguage: data.site.language,
                 description: data.site.description,
+                datePublished: data.site.publishedDate,
+                dateModified,
                 isPartOf: {
                     "@id": `${canonicalUrl}#website`,
                 },
@@ -89,6 +128,21 @@
                 mainEntity: {
                     "@id": `${canonicalUrl}#person`,
                 },
+                breadcrumb: {
+                    "@id": `${canonicalUrl}#breadcrumb`,
+                },
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": `${canonicalUrl}#breadcrumb`,
+                itemListElement: [
+                    {
+                        "@type": "ListItem",
+                        position: 1,
+                        name: data.profile.name,
+                        item: canonicalUrl,
+                    },
+                ],
             },
             {
                 "@type": "ItemList",
@@ -112,7 +166,19 @@
     <meta name="author" content={data.profile.name} />
     <meta name="keywords" content={data.site.keywords.join(", ")} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="application-name" content={data.site.name} />
+    <meta name="apple-mobile-web-app-title" content={data.site.name} />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonicalUrl} />
+    <link
+        rel="icon"
+        type={data.site.profileImage.type}
+        href={data.site.profileImage.path}
+    />
+    <link rel="apple-touch-icon" href={data.site.profileImage.path} />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="me" href={`mailto:${data.profile.email}`} />
     {#each data.profile.links.filter( (link) => link.href.startsWith("http") ) as link}
         <link rel="me" href={link.href} />
@@ -123,6 +189,7 @@
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={data.site.name} />
     <meta property="og:locale" content={data.site.locale} />
+    <meta property="og:updated_time" content={dateModified} />
     <meta property="og:image" content={socialImageUrl} />
     <meta property="og:image:secure_url" content={socialImageUrl} />
     <meta property="og:image:type" content={data.site.image.type} />
@@ -130,11 +197,15 @@
     <meta property="og:image:height" content={String(data.site.image.height)} />
     <meta property="og:image:alt" content={data.site.image.alt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={data.site.twitterHandle} />
+    <meta name="twitter:creator" content={data.site.twitterHandle} />
     <meta name="twitter:title" content={data.site.title} />
     <meta name="twitter:description" content={data.site.description} />
     <meta name="twitter:image" content={socialImageUrl} />
     <meta name="twitter:image:alt" content={data.site.image.alt} />
-    <meta name="theme-color" content="#000000" />
+    <meta name="twitter:image:width" content={String(data.site.image.width)} />
+    <meta name="twitter:image:height" content={String(data.site.image.height)} />
+    <meta name="theme-color" content={data.site.themeColor} />
     <meta name="color-scheme" content="dark" />
     {@html jsonLdScript}
 </svelte:head>
@@ -153,7 +224,7 @@
                 class="inline-flex px-3 py-2 items-center rounded-md bg-[#fafafa] px-2.5 text-sm! font-bold text-black transition hover:bg-[#e4e4e7]"
                 href="/resume.pdf"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
             >
                 Resume
             </a>

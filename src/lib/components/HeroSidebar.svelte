@@ -14,7 +14,7 @@
 </script>
 
 <aside
-    class="border-b border-[#27272a] bg-[#050505] lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r"
+    class="border-b border-[#27272a] bg-[#050505] lg:sticky lg:top-0 lg:h-dvh lg:overflow-y-auto lg:border-b-0 lg:border-r"
 >
     <div class="flex h-full flex-col justify-between">
         <div>
@@ -99,7 +99,7 @@
                         class="inline-flex items-center gap-2 rounded-md bg-[#fafafa] px-3 py-2.5 text-sm! font-bold text-[#000000] transition hover:bg-[#e4e4e7]"
                         href="/resume.pdf"
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener noreferrer"
                     >
                         <Eye class="size-4" />
                         View resume
@@ -125,7 +125,7 @@
                                 ? "_blank"
                                 : undefined}
                             rel={link.href.startsWith("http")
-                                ? "me noreferrer"
+                                ? "me noopener noreferrer"
                                 : undefined}
                             aria-label={link.label}
                         >

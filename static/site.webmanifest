@@ -1,0 +1,24 @@
+{
+  "name": "Sohab Sk",
+  "short_name": "Sohab",
+  "description": "Portfolio of Sohab Sk, Senior Software Engineer focused on AI agents, multi-agent workflows, and scalable software systems.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/images/sohab-profile.jpg",
+      "sizes": "1082x1082",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/sohab-profile.jpg",
+      "sizes": "1082x1082",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}

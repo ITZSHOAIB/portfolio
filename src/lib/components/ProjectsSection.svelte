@@ -22,7 +22,7 @@
         class="group grid gap-5 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111] sm:p-6 lg:grid-cols-[minmax(0,1fr)_10rem]"
         href={project.href}
         target="_blank"
-        rel="noreferrer"
+        rel="noopener noreferrer"
       >
         <div>
           <div class="flex flex-wrap items-center gap-3">
@@ -78,7 +78,7 @@
           class="group rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111]"
           href={project.href}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <div>
             <div class="flex items-start justify-between gap-4">

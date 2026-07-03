@@ -6,8 +6,12 @@ export const site = {
     "Sohab Sk - A Senior Software Engineer building agentic AI systems, multi-agent learning-authoring workflows, reusable agent frameworks, and scalable web platforms.",
   shortDescription:
     "Senior Software Engineer building reliable AI agents, multi-agent workflows, and scalable software systems.",
+  publishedDate: "2026-07-03",
+  modifiedDate: "2026-07-03",
   language: "en",
   locale: "en_US",
+  twitterHandle: "@0xSohab",
+  themeColor: "#000000",
   image: {
     path: "/images/og-image.png",
     width: 1668,

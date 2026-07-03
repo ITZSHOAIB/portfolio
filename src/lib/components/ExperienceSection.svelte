@@ -37,7 +37,7 @@
                   class="inline-flex items-center gap-0.5 text-[0.68rem] font-medium text-[#a1a1aa] underline decoration-[#3f3f46] decoration-1 underline-offset-3 transition hover:text-[#fafafa] hover:decoration-[#71717a]"
                   href={link.href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   {link.label}
                   <ArrowUpRight class="size-2.5 text-[#71717a]" />
