@@ -2,6 +2,22 @@
   "name": "sohab-dev-portfolio",
   "private": true,
   "version": "0.0.1",
+  "description": "Personal portfolio for Sohab Sk, focused on AI agents, multi-agent workflows, scalable systems, and selected engineering work.",
+  "author": "Sohab Sk",
+  "homepage": "https://sohab.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITZSHOAIB/portfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "sveltekit",
+    "typescript",
+    "tailwindcss",
+    "ai-agents",
+    "agentic-ai",
+    "cloudflare-pages"
+  ],
   "type": "module",
   "packageManager": "pnpm@11.9.0",
   "engines": {
