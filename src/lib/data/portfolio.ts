@@ -77,7 +77,7 @@ export const githubProjects = [
     topics: ["cmux", "agentic workspace", "lazygit", "helix"],
   },
   {
-    name: "rehype-code-group",
+    name: "Rehype Code Group",
     description:
       "Rehype plugin for grouping code blocks with tabs across documentation and tutorial sites.",
     href: "https://github.com/ITZSHOAIB/rehype-code-group",
@@ -87,7 +87,7 @@ export const githubProjects = [
     topics: ["rehype", "code tabs"],
   },
   {
-    name: "hashtegrity",
+    name: "Hashtegrity",
     description:
       "Library for generating hashes, validating data integrity, and monitoring file, directory, and off-chain data integrity.",
     href: "https://github.com/ITZSHOAIB/hashtegrity",
@@ -202,15 +202,7 @@ export const experience = [
 export const skillGroups = [
   {
     title: "AI Agent Frameworks",
-    featured: [
-      "LangGraph",
-      "LangChain",
-      "OpenAI",
-      "MCP",
-      "RAG",
-      "VectorDB",
-      "Ingestion",
-    ],
+    featured: ["LangGraph", "LangChain", "MCP", "RAG", "VectorDB", "Ingestion"],
     more: ["LlamaIndex", "A2A", "Multi-agent systems", "Agent workflow design"],
   },
   {
@@ -265,6 +257,7 @@ export const skillGroups = [
       "Azure",
       "Docker",
       "Kubernetes",
+      "RabbitMQ",
       "Module Federation",
       "Microservices",
     ],
@@ -276,7 +269,6 @@ export const skillGroups = [
       "Heroku",
       "GitHub Actions",
       "Jenkins",
-      "RabbitMQ",
       "Kafka",
       "BFF",
       "Apollo Federation",
