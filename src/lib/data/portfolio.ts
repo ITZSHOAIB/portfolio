@@ -59,8 +59,8 @@ export const githubProjects = [
     image: {
       src: "/images/plico.png",
       alt: "Plico product interface preview",
-      width: 1700,
-      height: 1032,
+      width: 1467,
+      height: 1026,
     },
   },
   {

@@ -38,7 +38,7 @@
             >
                 {#if featuredProject.image}
                     <div
-                        class="border-b border-[#27272a] bg-[#050505] p-2.5 sm:p-3 lg:border-r lg:border-b-0 flex items-center"
+                        class="flex items-center border-b border-[#27272a] bg-[#050505] p-2.5 sm:p-3 lg:border-r lg:border-b-0"
                     >
                         <div
                             class="overflow-hidden rounded-md border border-[#27272a] bg-[#000000]"
