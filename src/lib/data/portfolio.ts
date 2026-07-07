@@ -72,6 +72,12 @@ export const githubProjects = [
     updated: "Live app",
     stars: "-",
     topics: ["ai", "web3", "smart contracts", "solidity"],
+    image: {
+      src: "/images/chaingent.png",
+      alt: "Chaingent app interface preview",
+      width: 1467,
+      height: 1026,
+    },
   },
   {
     name: "Cmuxup",
