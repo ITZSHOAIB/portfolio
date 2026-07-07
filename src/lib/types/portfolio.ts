@@ -28,6 +28,12 @@ export type GithubProject = {
   updated: string;
   stars: number | string;
   topics: string[];
+  image?: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
 };
 
 export type ExperienceItem = {

@@ -7,7 +7,7 @@ export const site = {
   shortDescription:
     "Senior Software Engineer building reliable AI agents, multi-agent workflows, and scalable software systems.",
   publishedDate: "2026-07-03",
-  modifiedDate: "2026-07-03",
+  modifiedDate: "2026-07-07",
   language: "en",
   locale: "en_US",
   twitterHandle: "@0xSohab",

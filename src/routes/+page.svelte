@@ -47,6 +47,17 @@
                 url: project.href,
                 programmingLanguage: project.language,
                 keywords: project.topics,
+                ...(project.image
+                    ? {
+                          image: {
+                              "@type": "ImageObject",
+                              url: `${data.site.url}${project.image.src}`,
+                              width: project.image.width,
+                              height: project.image.height,
+                              caption: project.image.alt,
+                          },
+                      }
+                    : {}),
                 ...(project.href.includes("github.com")
                     ? { codeRepository: project.href }
                     : { applicationCategory: "DeveloperApplication" }),

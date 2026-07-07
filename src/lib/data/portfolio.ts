@@ -49,12 +49,19 @@ export const profile = {
 export const githubProjects = [
   {
     name: "Plico",
-    description: "File based Agents framework kit - IN ACTIVE DEVELOPMENT",
-    href: "https://github.com/ITZSHOAIB/plico",
+    description:
+      "Landing page for a file-based agents framework kit for composing local workflows, prompts, and tools into reusable AI agent projects.",
+    href: "https://plico.sohab.dev",
     language: "TypeScript",
-    updated: "2026-07-01",
+    updated: "In development",
     stars: 1,
-    topics: ["agent framework", "kit"],
+    topics: ["agent framework", "workflow kit", "developer tools"],
+    image: {
+      src: "/images/plico.png",
+      alt: "Plico product interface preview",
+      width: 1700,
+      height: 1032,
+    },
   },
   {
     name: "Chaingent.app",
