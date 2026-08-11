@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ArrowUpRight } from "@lucide/svelte";
+    import { ArrowUpRight, Download, Star } from "@lucide/svelte";
     import SectionHeading from "$lib/components/SectionHeading.svelte";
     import type { GithubProject } from "$lib/types/portfolio";
 
@@ -83,6 +83,7 @@
                             >
                                 {featuredProject.description}
                             </p>
+
                         </div>
 
                         <ArrowUpRight
@@ -90,14 +91,38 @@
                         />
                     </div>
 
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        {#each featuredProject.topics as topic}
-                            <span
-                                class="rounded-md border border-[#27272a] px-2.5 py-1 text-xs font-semibold text-[#a1a1aa]"
+                    <div
+                        class="mt-auto flex flex-wrap items-end justify-between gap-4 pt-4"
+                    >
+                        <div class="flex flex-wrap gap-2">
+                            {#each featuredProject.topics as topic}
+                                <span
+                                    class="rounded-md border border-[#27272a] px-2.5 py-1 text-xs font-semibold text-[#a1a1aa]"
+                                >
+                                    {topic}
+                                </span>
+                            {/each}
+                        </div>
+
+                        {#if featuredProject.metrics}
+                            <div
+                                class="ml-auto flex flex-wrap justify-end gap-x-4 gap-y-2 text-xs text-[#71717a]"
                             >
-                                {topic}
-                            </span>
-                        {/each}
+                                {#each featuredProject.metrics as metric}
+                                    <span class="flex items-center gap-1.5">
+                                        {#if metric.icon === "downloads"}
+                                            <Download class="size-3.5" />
+                                        {:else}
+                                            <Star class="size-3.5" />
+                                        {/if}
+                                        <strong class="font-semibold text-[#e4e4e7]">
+                                            {metric.value}
+                                        </strong>
+                                        <span>{metric.label}</span>
+                                    </span>
+                                {/each}
+                            </div>
+                        {/if}
                     </div>
                 </div>
             </a>
@@ -156,6 +181,7 @@
                                 >
                                     {project.description}
                                 </p>
+
                             </div>
 
                             <ArrowUpRight
@@ -163,14 +189,40 @@
                             />
                         </div>
 
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            {#each project.topics as topic}
-                                <span
-                                    class="rounded-md border border-[#27272a] px-2.5 py-1 text-xs font-semibold text-[#a1a1aa]"
+                        <div
+                            class="mt-auto flex flex-wrap items-end justify-between gap-4 pt-4"
+                        >
+                            <div class="flex flex-wrap gap-2">
+                                {#each project.topics as topic}
+                                    <span
+                                        class="rounded-md border border-[#27272a] px-2.5 py-1 text-xs font-semibold text-[#a1a1aa]"
+                                    >
+                                        {topic}
+                                    </span>
+                                {/each}
+                            </div>
+
+                            {#if project.metrics}
+                                <div
+                                    class="ml-auto flex flex-wrap justify-end gap-x-4 gap-y-2 text-xs text-[#71717a]"
                                 >
-                                    {topic}
-                                </span>
-                            {/each}
+                                    {#each project.metrics as metric}
+                                        <span class="flex items-center gap-1.5">
+                                            {#if metric.icon === "downloads"}
+                                                <Download class="size-3.5" />
+                                            {:else}
+                                                <Star class="size-3.5" />
+                                            {/if}
+                                            <strong
+                                                class="font-semibold text-[#e4e4e7]"
+                                            >
+                                                {metric.value}
+                                            </strong>
+                                            <span>{metric.label}</span>
+                                        </span>
+                                    {/each}
+                                </div>
+                            {/if}
                         </div>
                     </div>
                 </a>

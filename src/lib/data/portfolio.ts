@@ -64,6 +64,26 @@ export const githubProjects = [
     },
   },
   {
+    name: "Rehype Code Group",
+    description:
+      "Accessible Rehype plugin that turns neighboring code blocks or HTML content into tabbed groups without coupling to a frontend framework or syntax highlighter.",
+    href: "https://rehype-code-group.sohab.dev",
+    language: "TypeScript",
+    updated: "2026-04-29",
+    stars: 15,
+    topics: ["rehype", "code tabs", "accessibility"],
+    metrics: [
+      { value: "10k", label: "weekly downloads", icon: "downloads" },
+      { value: "15", label: "GitHub stars", icon: "stars" },
+    ],
+    image: {
+      src: "/images/rehype-code-group.png",
+      alt: "Rehype Code Group landing page showing accessible code tabs for documentation",
+      width: 1343,
+      height: 1032,
+    },
+  },
+  {
     name: "Chaingent.app",
     description:
       "Agentic smart contract development platform for building, auditing, and deploying Solidity applications faster.",
@@ -88,16 +108,6 @@ export const githubProjects = [
     updated: "2026-07-01",
     stars: 3,
     topics: ["cmux", "agentic workspace", "lazygit", "helix"],
-  },
-  {
-    name: "Rehype Code Group",
-    description:
-      "Rehype plugin for grouping code blocks with tabs across documentation and tutorial sites.",
-    href: "https://github.com/ITZSHOAIB/rehype-code-group",
-    language: "TypeScript",
-    updated: "2026-04-29",
-    stars: 14,
-    topics: ["rehype", "code tabs"],
   },
   {
     name: "Hashtegrity",

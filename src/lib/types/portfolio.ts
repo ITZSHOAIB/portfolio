@@ -28,6 +28,11 @@ export type GithubProject = {
   updated: string;
   stars: number | string;
   topics: string[];
+  metrics?: {
+    value: string;
+    label: string;
+    icon: "downloads" | "stars";
+  }[];
   image?: {
     src: string;
     alt: string;
