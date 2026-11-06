@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { ArrowUpRight, Check, ChevronDown, Copy, Sparkles, X } from "@lucide/svelte";
-  import { siClaude, siPerplexity } from "simple-icons";
+  import { siClaude, siGooglegemini } from "simple-icons";
 
   let { siteUrl, name }: { siteUrl: string; name: string } = $props();
 
@@ -38,24 +38,29 @@
     },
   ]);
 
+  // Claude and ChatGPT accept a prefilled prompt in the URL. Gemini does not,
+  // so its button copies the prompt first and the visitor pastes it.
   const providers = [
     {
       name: "Claude",
       path: siClaude.path,
       color: `#${siClaude.hex}`,
-      href: (q: string) => `https://claude.ai/new?q=${q}`,
+      href: (q: string) => `https://claude.ai/new?q=${encodeURIComponent(q)}`,
+      prefills: true,
     },
     {
       name: "ChatGPT",
       path: openAiPath,
       color: "currentColor",
-      href: (q: string) => `https://chatgpt.com/?q=${q}`,
+      href: (q: string) => `https://chatgpt.com/?q=${encodeURIComponent(q)}`,
+      prefills: true,
     },
     {
-      name: "Perplexity",
-      path: siPerplexity.path,
-      color: `#${siPerplexity.hex}`,
-      href: (q: string) => `https://www.perplexity.ai/search?q=${q}`,
+      name: "Gemini",
+      path: siGooglegemini.path,
+      color: `#${siGooglegemini.hex}`,
+      href: () => "https://gemini.google.com/app",
+      prefills: false,
     },
   ];
 
@@ -71,15 +76,15 @@
   );
   const needsPosting = $derived(selected === "fit" && !posting.trim());
   const tooLongForLink = $derived(prompt.length > MAX_LINK_PROMPT);
-  const linksDisabled = $derived(needsPosting || tooLongForLink);
+  const isDisabled = (prefills: boolean) => needsPosting || (prefills && tooLongForLink);
 
-  async function copy(id: string, value: string) {
+  async function copy(id: string, value: string, ms = 1600) {
     try {
       await navigator.clipboard.writeText(value);
       copied = id;
       setTimeout(() => {
         if (copied === id) copied = null;
-      }, 1600);
+      }, ms);
     } catch {
       copied = null;
     }
@@ -172,26 +177,21 @@
       </label>
     {/if}
 
-    <div class="mt-4 rounded-md border border-[#27272a] bg-[#050505] p-3">
-      <div class="flex items-start gap-3">
-        <p class="min-w-0 flex-1 whitespace-pre-line text-sm leading-6 text-[#a1a1aa] [overflow-wrap:anywhere] line-clamp-4">
-          {prompt}
-        </p>
-        {@render copyButton("prompt", prompt, "Copy prompt")}
-      </div>
-    </div>
-
     <div class="mt-4 grid grid-cols-3 gap-2">
       {#each providers as provider}
+        {@const disabled = isDisabled(provider.prefills)}
         <a
-          class="inline-flex items-center justify-center gap-2 rounded-md bg-[#fafafa] px-3 py-2.5 text-sm font-bold text-black transition hover:bg-[#e4e4e7] {linksDisabled
+          class="inline-flex items-center justify-center gap-2 rounded-md bg-[#fafafa] px-3 py-2.5 text-sm font-bold text-black transition hover:bg-[#e4e4e7] {disabled
             ? 'pointer-events-none opacity-40'
             : ''}"
-          href={provider.href(encodeURIComponent(prompt))}
+          href={provider.href(prompt)}
           target="_blank"
           rel="noopener noreferrer"
-          aria-disabled={linksDisabled}
-          tabindex={linksDisabled ? -1 : undefined}
+          onclick={() => {
+            if (!provider.prefills) copy(provider.name, prompt, 8000);
+          }}
+          aria-disabled={disabled}
+          tabindex={disabled ? -1 : undefined}
         >
           <svg class="size-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
             <path fill={provider.color} d={provider.path}></path>
@@ -201,13 +201,27 @@
         </a>
       {/each}
     </div>
-    {#if needsPosting}
-      <p class="mt-2 text-xs text-[#71717a]">Paste a job posting first.</p>
-    {:else if tooLongForLink}
-      <p class="mt-2 text-xs text-[#71717a]">
-        Too long to send in a link. Copy the prompt and paste it instead.
-      </p>
-    {/if}
+    <p class="mt-2 min-h-4 text-xs text-[#71717a]" aria-live="polite">
+      {#if needsPosting}
+        Paste a job posting first.
+      {:else if copied === "Gemini"}
+        Prompt copied. Paste it into Gemini.
+      {:else if tooLongForLink}
+        Too long for a link. Copy the prompt below and paste it instead.
+      {:else}
+        Gemini can't be prefilled, so its button copies the prompt for you to paste.
+      {/if}
+    </p>
+
+    <div class="mt-4 rounded-md border border-[#27272a] bg-[#050505] p-3">
+      <p class="text-xs font-medium text-[#71717a]">Using another AI? Copy this prompt.</p>
+      <div class="mt-2 flex items-start gap-3">
+        <p class="min-w-0 flex-1 whitespace-pre-line text-sm leading-6 text-[#a1a1aa] [overflow-wrap:anywhere] line-clamp-4">
+          {prompt}
+        </p>
+        {@render copyButton("prompt", prompt, "Copy prompt")}
+      </div>
+    </div>
 
     <details class="group mt-6 border-t border-[#27272a] pt-4">
       <summary
