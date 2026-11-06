@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ArrowDownToLine, Eye, Mail } from "@lucide/svelte";
+    import { ArrowDownToLine, Eye, Mail, Sparkles } from "@lucide/svelte";
     import IconMark from "$lib/components/IconMark.svelte";
     import { socialIcons } from "$lib/icons/portfolioIcons";
     import type { Profile } from "$lib/types/portfolio";
@@ -8,8 +8,10 @@
         profile,
         experienceText,
         openToWorkText,
+        onAskAi,
     }: {
         profile: Profile;
+        onAskAi: () => void;
         experienceText: string;
         openToWorkText?: string;
     } = $props();
@@ -26,6 +28,15 @@
                 <a class="font-semibold tracking-tight" href="#top"
                     >{profile.domain}</a
                 >
+                <button
+                    type="button"
+                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-[#27272a] px-2.5 py-1.5 text-sm font-semibold text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
+                    onclick={onAskAi}
+                    aria-haspopup="dialog"
+                >
+                    <Sparkles class="size-3.5" />
+                    Ask AI about me
+                </button>
             </div>
 
             <section

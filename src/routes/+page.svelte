@@ -1,5 +1,6 @@
 <script lang="ts">
-    import AgentAccessSection from "$lib/components/AgentAccessSection.svelte";
+    import { Sparkles } from "@lucide/svelte";
+    import AskAiDialog from "$lib/components/AskAiDialog.svelte";
     import ExperienceSection from "$lib/components/ExperienceSection.svelte";
     import HeroSidebar from "$lib/components/HeroSidebar.svelte";
     import ProjectsSection from "$lib/components/ProjectsSection.svelte";
@@ -9,6 +10,7 @@
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
+    let askAi: AskAiDialog;
 
     const canonicalUrl = $derived(`${data.site.url}/`);
     const socialImageUrl = $derived(`${data.site.url}${data.site.image.path}`);
@@ -244,6 +246,16 @@
             <a class="font-semibold tracking-tight" href="#top"
                 >{data.profile.name}</a
             >
+            <div class="flex items-center gap-2">
+            <button
+                type="button"
+                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-[#27272a] px-3 py-2 text-sm! font-bold text-[#e4e4e7] transition hover:border-[#52525b]"
+                onclick={() => askAi.open()}
+                aria-haspopup="dialog"
+            >
+                <Sparkles class="size-3.5" />
+                Ask AI
+            </button>
             <a
                 class="inline-flex px-3 py-2 items-center rounded-md bg-[#fafafa] px-2.5 text-sm! font-bold text-black transition hover:bg-[#e4e4e7]"
                 href="/resume.pdf"
@@ -252,6 +264,7 @@
             >
                 Resume
             </a>
+            </div>
         </div>
     </header>
 
@@ -262,6 +275,7 @@
         <HeroSidebar
             profile={data.profile}
             experienceText={data.experienceText}
+            onAskAi={() => askAi.open()}
             openToWorkText={data.site.features.openToWork
                 ? data.site.openToWorkText
                 : undefined}
@@ -274,7 +288,6 @@
                 <SelectedWorkSection work={data.selectedWork} />
                 <ExperienceSection experience={data.experience} />
                 <ProjectsSection projects={data.projects} />
-                <AgentAccessSection siteUrl={data.site.url} />
                 <SkillsSection skills={data.skillSummary} />
 
                 {#if data.writing.enabled}
@@ -283,4 +296,6 @@
             </div>
         </section>
     </main>
+
+    <AskAiDialog bind:this={askAi} siteUrl={data.site.url} name={data.profile.name} />
 </div>

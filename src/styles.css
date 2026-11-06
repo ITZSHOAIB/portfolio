@@ -21,6 +21,11 @@ html {
   background: #000;
 }
 
+/* Lock page scroll behind an open modal dialog. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
