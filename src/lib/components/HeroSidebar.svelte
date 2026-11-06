@@ -16,12 +16,12 @@
 </script>
 
 <aside
-    class="border-b border-[#27272a] bg-[#050505] lg:sticky lg:top-0 lg:h-dvh lg:overflow-y-auto lg:border-b-0 lg:border-r"
+    class="border-b border-[#27272a] bg-[#050505] lg:sticky lg:top-0 lg:h-dvh lg:overflow-y-auto [scrollbar-color:#27272a_transparent] [scrollbar-width:thin] lg:border-b-0 lg:border-r"
 >
     <div class="flex h-full flex-col justify-between">
         <div>
             <div
-                class="hidden min-h-16 items-center justify-between border-b border-[#27272a] px-8 lg:flex xl:px-12"
+                class="hidden min-h-16 items-center justify-between border-b border-[#27272a] px-8 lg:flex xl:px-12 short:min-h-12"
             >
                 <a class="font-semibold tracking-tight" href="#top"
                     >{profile.domain}</a
@@ -29,20 +29,20 @@
             </div>
 
             <section
-                class="px-4 py-12 sm:px-6 lg:px-8 lg:py-10 xl:px-12 xl:py-12"
+                class="px-4 py-12 sm:px-6 lg:px-8 lg:py-10 xl:px-12 xl:py-12 short:py-6"
                 aria-labelledby="intro-title"
             >
                 <h1
                     id="intro-title"
-                    class="text-5xl font-semibold leading-[0.92] tracking-tight sm:text-6xl xl:text-7xl 2xl:text-8xl"
+                    class="text-5xl font-semibold leading-[0.92] tracking-tight sm:text-6xl xl:text-7xl 2xl:text-8xl short:text-5xl"
                 >
                     {profile.name}
                 </h1>
                 <div
-                    class="mt-7 flex items-center gap-4 border-t border-[#27272a] pt-7"
+                    class="mt-7 flex items-center gap-4 border-t border-[#27272a] pt-7 short:mt-5 short:pt-5"
                 >
                     <img
-                        class="size-26 rounded-2xl object-cover"
+                        class="size-26 rounded-2xl object-cover short:size-20"
                         src="/images/sohab-profile.jpg"
                         alt={`Portrait of ${profile.name}`}
                     />
@@ -68,7 +68,7 @@
 
                 {#if openToWorkText}
                     <p
-                        class="mt-7 inline-flex items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] px-3 py-2 text-sm font-medium text-[#e4e4e7]"
+                        class="mt-7 short:mt-5 inline-flex items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] px-3 py-2 text-sm font-medium text-[#e4e4e7]"
                     >
                         <span
                             class="size-2 rounded-full bg-emerald-400"
@@ -95,52 +95,42 @@
                         rel="noopener noreferrer"
                     >
                         <Eye class="size-4" />
-                        View resume
+                        Resume
                     </a>
                     <a
-                        class="inline-flex items-center gap-2 rounded-md border border-[#27272a] px-3 py-2.5 text-sm! font-bold text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
+                        class="inline-flex items-center justify-center rounded-md border border-[#27272a] px-3 py-2.5 text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
                         href="/resume.pdf"
                         download
+                        aria-label="Download resume"
+                        title="Download resume"
                     >
                         <ArrowDownToLine class="size-4" />
-                        Download
                     </a>
                 </div>
 
-                <div class="mt-7 space-y-6 border-t border-[#27272a] pt-7">
-                    <div>
-                        <p
-                            class="text-xs font-bold uppercase tracking-[0.14em] text-[#d4d4d8]"
-                        >
-                            Focus
-                        </p>
-                        <p
-                            class="mt-3 text-lg font-semibold leading-7 tracking-tight text-[#fafafa] sm:text-xl"
-                        >
-                            {profile.focus}
-                        </p>
-                    </div>
-                    <div class="border-t border-[#27272a] pt-6">
-                        <p
-                            class="text-xs font-bold uppercase tracking-[0.14em] text-[#a1a1aa]"
-                        >
-                            Background
-                        </p>
-                        <div
-                            class="mt-3 space-y-3 text-sm leading-7 text-[#a1a1aa]"
-                        >
-                            <p>{profile.current}</p>
-                            <p>{profile.previous}</p>
-                        </div>
+                <div class="mt-7 border-t border-[#27272a] pt-7 short:mt-5 short:pt-5">
+                    <p
+                        class="text-xs font-bold uppercase tracking-[0.14em] text-[#d4d4d8]"
+                    >
+                        Focus
+                    </p>
+                    <p
+                        class="mt-3 text-lg font-semibold leading-7 tracking-tight text-[#fafafa] sm:text-xl"
+                    >
+                        {profile.focus}
+                    </p>
+                    <div class="mt-3 space-y-2 text-sm leading-6 text-[#a1a1aa]">
+                        <p>{profile.current}</p>
+                        <p>{profile.previous}</p>
                     </div>
                 </div>
 
                 <div
-                    class="mt-6 flex flex-wrap gap-1.5 border-t border-[#27272a] pt-6 sm:gap-2"
+                    class="mt-7 flex flex-wrap gap-2 border-t border-[#27272a] pt-6 short:mt-5 short:pt-5"
                 >
                     {#each profile.links as link}
                         <a
-                            class="inline-flex px-2.5 py-1.5 max-w-full min-w-0 items-center gap-1.5 rounded-md border border-[#27272a] bg-[#0a0a0a] text-sm! font-medium text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#111111]"
+                            class="inline-flex size-10 items-center justify-center rounded-md border border-[#27272a] bg-[#0a0a0a] transition hover:border-[#52525b] hover:bg-[#111111]"
                             href={link.href}
                             target={link.href.startsWith("http")
                                 ? "_blank"
@@ -148,7 +138,8 @@
                             rel={link.href.startsWith("http")
                                 ? "me noopener noreferrer"
                                 : undefined}
-                            aria-label={link.label}
+                            aria-label={`${link.label}: ${link.username}`}
+                            title={`${link.label}: ${link.username}`}
                         >
                             <IconMark
                                 icon={socialIcons[link.label]}
@@ -160,9 +151,8 @@
                                     ? "#0A66C2"
                                     : undefined}
                                 brandColor={link.label !== "LinkedIn"}
-                                class="size-3.5"
+                                class="size-4"
                             />
-                            <span class="truncate">{link.username}</span>
                         </a>
                     {/each}
                 </div>
