@@ -81,36 +81,38 @@
       </article>
     {/if}
 
-    <div class="grid gap-4 xl:grid-cols-3">
+    <div
+      class="divide-y divide-[#27272a] overflow-hidden rounded-lg border border-[#27272a] bg-[#0a0a0a]"
+    >
       {#each rest as item}
         <article
-          class="flex flex-col gap-4 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 sm:p-6"
+          class="grid gap-4 p-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6 sm:p-6"
         >
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
-              {item.context}
-            </p>
-            <h3 class="mt-2 text-lg font-semibold tracking-tight text-[#fafafa]">
-              {item.name}
-            </h3>
-          </div>
-
-          <dl class="flex flex-wrap gap-x-6 gap-y-3">
+          <dl>
             {#each item.metrics as metric}
               <div class="flex flex-col-reverse">
                 <dt class="text-xs leading-5 text-[#a1a1aa]">{metric.label}</dt>
-                <dd class="text-2xl font-semibold tracking-tight text-[#fafafa]">
+                <dd class="text-3xl font-semibold tracking-tight text-[#fafafa]">
                   {metric.value}
                 </dd>
               </div>
             {/each}
           </dl>
 
-          <p class="text-sm leading-6 text-[#a1a1aa]">{item.description}</p>
-
-          <div class="mt-auto flex flex-col gap-4 pt-1">
-            {@render tags(item.stack)}
-            {@render link(item)}
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h3 class="text-lg font-semibold tracking-tight text-[#fafafa]">
+                {item.name}
+              </h3>
+              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#71717a]">
+                {item.context}
+              </p>
+            </div>
+            <p class="mt-2 max-w-2xl text-sm leading-6 text-[#a1a1aa]">{item.description}</p>
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+              {@render tags(item.stack)}
+              {@render link(item)}
+            </div>
           </div>
         </article>
       {/each}
