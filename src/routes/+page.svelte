@@ -1,4 +1,5 @@
 <script lang="ts">
+    import AgentAccessSection from "$lib/components/AgentAccessSection.svelte";
     import ExperienceSection from "$lib/components/ExperienceSection.svelte";
     import HeroSidebar from "$lib/components/HeroSidebar.svelte";
     import ProjectsSection from "$lib/components/ProjectsSection.svelte";
@@ -273,6 +274,7 @@
                 <SelectedWorkSection work={data.selectedWork} />
                 <ExperienceSection experience={data.experience} />
                 <ProjectsSection projects={data.projects} />
+                <AgentAccessSection siteUrl={data.site.url} />
                 <SkillsSection skills={data.skillSummary} />
 
                 {#if data.writing.enabled}

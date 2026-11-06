@@ -6,6 +6,9 @@ import type {
   SkillGroup,
 } from "$lib/types/portfolio";
 
+// Start of professional experience; drives the "N+ years" figure everywhere.
+export const careerStartDate = new Date("2020-02-14T00:00:00Z");
+
 export const profile = {
   name: "Sohab Sk",
   domain: "sohab.dev",
