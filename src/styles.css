@@ -67,3 +67,111 @@ img {
 .prose-post pre code { border: 0; background: transparent; padding: 0; }
 .prose-post img { max-width: 100%; border-radius: 0.5rem; }
 .prose-post hr { border-color: #27272a; }
+
+/* "Ask AI" trigger: a slowly rotating gradient border and a twinkling icon. */
+@property --ask-ai-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.ask-ai {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    conic-gradient(
+        from var(--ask-ai-angle),
+        #3f3f46 0deg,
+        #a78bfa 60deg,
+        #38bdf8 120deg,
+        #3f3f46 180deg,
+        #c084fc 240deg,
+        #3f3f46 300deg
+      )
+      border-box;
+  animation:
+    ask-ai-spin 4s linear infinite,
+    ask-ai-glow 3s ease-in-out infinite;
+}
+
+/* A light sweep across the label every few seconds. */
+.ask-ai::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgb(196 181 253 / 0.18) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  animation: ask-ai-sweep 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ask-ai:hover,
+.ask-ai:focus-visible {
+  /* Drop the glow pulse so the stronger hover glow is not overridden. */
+  animation: ask-ai-spin 4s linear infinite;
+  box-shadow: 0 0 26px -2px rgb(167 139 250 / 0.6);
+}
+
+.ask-ai svg {
+  color: #c4b5fd;
+  animation: ask-ai-twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes ask-ai-spin {
+  to {
+    --ask-ai-angle: 360deg;
+  }
+}
+
+@keyframes ask-ai-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px -4px rgb(167 139 250 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 20px -2px rgb(56 189 248 / 0.4);
+  }
+}
+
+@keyframes ask-ai-sweep {
+  0%,
+  60% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes ask-ai-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(0.82) rotate(-15deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-ai,
+  .ask-ai svg,
+  .ask-ai::after {
+    animation: none;
+  }
+  .ask-ai {
+    --ask-ai-angle: 120deg;
+    box-shadow: 0 0 14px -4px rgb(167 139 250 / 0.4);
+  }
+}

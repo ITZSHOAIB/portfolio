@@ -30,7 +30,7 @@
                 >
                 <button
                     type="button"
-                    class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-[#27272a] px-2.5 py-1.5 text-sm font-semibold text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
+                    class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-semibold text-[#fafafa]"
                     onclick={onAskAi}
                     aria-haspopup="dialog"
                 >

@@ -249,7 +249,7 @@
             <div class="flex items-center gap-2">
             <button
                 type="button"
-                class="inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-[#27272a] px-3 py-2 text-sm! font-bold text-[#e4e4e7] transition hover:border-[#52525b]"
+                class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
                 onclick={() => askAi.open()}
                 aria-haspopup="dialog"
             >
