@@ -7,7 +7,7 @@
 
     const featuredProject = $derived(projects[0]);
     const primaryProjects = $derived(projects.slice(1, 3));
-    const secondaryProjects = $derived(projects.slice(3, 5));
+    const secondaryProjects = $derived(projects.slice(3));
 
     const getProjectHost = (href: string) => {
         try {

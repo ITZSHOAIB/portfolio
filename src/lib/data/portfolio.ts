@@ -104,6 +104,26 @@ export const githubProjects = [
     },
   },
   {
+    name: "Creator Skills",
+    description:
+      "Installable AI agent skills for YouTube creators, covering channel research, scripting, thumbnails, analytics, and creator-approved channel memory.",
+    href: "https://creator-skills.sohab.dev/",
+    language: "Agent skills",
+    updated: "Open source",
+    stars: "-",
+    topics: ["AI agents", "creator workflows", "YouTube"],
+  },
+  {
+    name: "Dev Skills",
+    description:
+      "Installable workflows for AI coding agents, including cold code reviews and guided pull request reviews with human decisions on findings.",
+    href: "https://github.com/ITZSHOAIB/dev-skills",
+    language: "Agent skills",
+    updated: "Open source",
+    stars: "-",
+    topics: ["AI agents", "code review", "developer tools"],
+  },
+  {
     name: "Cmuxup",
     description:
       "Terminal-first agentic workspace for cmux with one-command setup for lazygit, helix, delta, yazi, and AI coding agents.",
