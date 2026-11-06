@@ -76,9 +76,10 @@ img {
 }
 
 .ask-ai {
+  --ask-ai-fill: #0a0a0a;
   border: 1px solid transparent;
   background:
-    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    linear-gradient(var(--ask-ai-fill), var(--ask-ai-fill)) padding-box,
     conic-gradient(
         from var(--ask-ai-angle),
         #27272a 0deg,
@@ -89,10 +90,23 @@ img {
       )
       border-box;
   animation: ask-ai-spin 6s linear infinite;
+  transition: box-shadow 200ms ease;
 }
 
 .ask-ai svg {
   color: #c4b5fd;
+  transition: transform 300ms ease;
+}
+
+.ask-ai:hover,
+.ask-ai:focus-visible {
+  --ask-ai-fill: #141414;
+  box-shadow: 0 0 18px -6px rgb(167 139 250 / 0.5);
+}
+
+.ask-ai:hover svg,
+.ask-ai:focus-visible svg {
+  transform: rotate(-12deg) scale(1.1);
 }
 
 @keyframes ask-ai-spin {

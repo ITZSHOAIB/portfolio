@@ -33,7 +33,7 @@
     },
     {
       id: "interview",
-      label: "Interview questions",
+      label: "Interview prep",
       ask: `suggest five interview questions tailored to ${name}'s experience, with what a strong answer would cover.`,
     },
   ]);
@@ -149,13 +149,13 @@
 
     <fieldset class="mt-5">
       <legend class="sr-only">Question</legend>
-      <div class="flex flex-wrap gap-2">
+      <div class="grid grid-cols-2 gap-1 rounded-lg border border-[#27272a] bg-[#050505] p-1 sm:grid-cols-4">
         {#each questions as q}
           <label
-            class="cursor-pointer rounded-md border px-3 py-1.5 text-sm font-medium transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#52525b] {selected ===
+            class="cursor-pointer rounded-md px-2 py-2 text-center text-sm font-medium transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#52525b] {selected ===
             q.id
-              ? 'border-[#fafafa] bg-[#fafafa] text-black'
-              : 'border-[#27272a] text-[#d4d4d8] hover:border-[#52525b]'}"
+              ? 'bg-[#fafafa] text-black'
+              : 'text-[#a1a1aa] hover:bg-[#18181b] hover:text-[#fafafa]'}"
           >
             <input class="sr-only" type="radio" name="ask-ai-question" value={q.id} bind:group={selected} />
             {q.label}
