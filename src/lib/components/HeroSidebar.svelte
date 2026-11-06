@@ -35,7 +35,7 @@
                     aria-haspopup="dialog"
                 >
                     <Sparkles class="size-3.5" />
-                    Ask AI about me
+                    Ask AI
                 </button>
             </div>
 

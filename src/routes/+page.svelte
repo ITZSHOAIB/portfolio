@@ -246,7 +246,6 @@
             <a class="font-semibold tracking-tight" href="#top"
                 >{data.profile.name}</a
             >
-            <div class="flex items-center gap-2">
             <button
                 type="button"
                 class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
@@ -256,15 +255,6 @@
                 <Sparkles class="size-3.5" />
                 Ask AI
             </button>
-            <a
-                class="inline-flex px-3 py-2 items-center rounded-md bg-[#fafafa] px-2.5 text-sm! font-bold text-black transition hover:bg-[#e4e4e7]"
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                Resume
-            </a>
-            </div>
         </div>
     </header>
 
