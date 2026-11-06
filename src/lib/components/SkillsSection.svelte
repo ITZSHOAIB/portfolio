@@ -19,10 +19,10 @@
     />
 
     <div class="space-y-6">
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        <div class="flex flex-wrap gap-2">
             {#each skills.primary as skill}
                 <span
-                    class="inline-flex px-3 py-2 min-w-0 items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] text-sm font-medium whitespace-nowrap text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#111111]"
+                    class="inline-flex px-3 py-2 items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] text-sm font-medium whitespace-nowrap text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#111111]"
                 >
                     <IconMark
                         icon={skillIcons[skill]}
@@ -30,7 +30,7 @@
                         brandColor
                         class="size-4"
                     />
-                    <span class="truncate">{skill}</span>
+                    <span>{skill}</span>
                 </span>
             {/each}
         </div>

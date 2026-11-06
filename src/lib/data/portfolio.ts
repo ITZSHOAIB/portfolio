@@ -15,9 +15,9 @@ export const profile = {
   email: "sksohablocal@gmail.com",
   focus: "Reliable AI Agents & scalable software systems.",
   current:
-    "Currently architecting and building agentic AI systems, multi-agent workflows for learning authoring, evaluation harnesses, source-ingestion R&D, reusable agent frameworks, and platform architecture at Skillsoft / Codecademy.",
+    "Leading agentic AI product work at Skillsoft / Codecademy: multi-agent authoring, learning-by-building engines, and the reusable frameworks behind them.",
   previous:
-    "Previously built enterprise blockchain SaaS products at EY GDS with smart contracts, GraphQL/NestJS services, React, and Azure Kubernetes delivery.",
+    "Previously built enterprise blockchain SaaS at EY GDS.",
   links: [
     {
       label: "GitHub",
@@ -150,7 +150,7 @@ export const selectedWork = [
     name: "Agentor",
     context: "Skillsoft internal framework",
     description:
-      "Reusable framework for multi-agent workflows, MCP tools, guardrails, source ingestion, conversation state, and LLM evaluations. Cut agent scaffolding across teams and earned CTO recognition.",
+      "Reusable framework for multi-agent workflows, MCP tools, guardrails, conversation state, and LLM evaluations. Earned CTO recognition.",
     metrics: [{ value: "8+", label: "teams using it" }],
     stack: ["TypeScript", "MCP", "LLM evals", "Guardrails"],
   },
@@ -158,8 +158,8 @@ export const selectedWork = [
     name: "AI-native Builder pod",
     context: "Skillsoft",
     description:
-      "Technical lead of Skillsoft's first AI-native pod: three engineers owning product delivery end to end and shipping two products in under six months. The model was then adopted by other pods.",
-    metrics: [{ value: "2", label: "products in under 6 months" }, { value: "11", label: "more pods adopted the model" }],
+      "Technical lead of Skillsoft's first AI-native pod: three engineers owning delivery end to end, shipping two products in under six months.",
+    metrics: [{ value: "11", label: "pods adopted the model" }],
     stack: ["Claude Code", "Agentic engineering", "Technical leadership"],
   },
 ] satisfies SelectedWork[];

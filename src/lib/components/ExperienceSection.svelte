@@ -22,7 +22,7 @@
     {#each experience as item, index}
       <details class="group transition-colors open:bg-[#0d0d0d]" open={index === 0}>
         <summary
-          class="grid cursor-pointer list-none gap-5 p-5 outline-none transition hover:bg-[#111111] focus-visible:bg-[#111111] sm:p-6 md:grid-cols-[minmax(0,1fr)_11rem] [&::-webkit-details-marker]:hidden"
+          class="grid cursor-pointer list-none gap-5 p-5 outline-none transition hover:bg-[#111111] focus-visible:bg-[#111111] sm:p-6 md:grid-cols-[minmax(0,1fr)_auto] [&::-webkit-details-marker]:hidden"
         >
           <div class="min-w-0">
             <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="flex items-center justify-between gap-4 md:justify-end md:text-right">
-            <p class="text-sm font-medium text-[#a1a1aa]">
+            <p class="text-sm font-medium whitespace-nowrap text-[#a1a1aa]">
               {item.period}
             </p>
             <span

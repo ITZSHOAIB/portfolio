@@ -29,7 +29,7 @@
             </div>
 
             <section
-                class="px-4 py-12 sm:px-6 lg:px-8 lg:py-14 xl:px-12 xl:py-16"
+                class="px-4 py-12 sm:px-6 lg:px-8 lg:py-10 xl:px-12 xl:py-12"
                 aria-labelledby="intro-title"
             >
                 <h1
@@ -66,37 +66,9 @@
                     </div>
                 </div>
 
-                <div class="mt-8 space-y-7 border-t border-[#27272a] pt-8">
-                    <div>
-                        <p
-                            class="text-xs font-bold uppercase tracking-[0.14em] text-[#d4d4d8]"
-                        >
-                            Focus
-                        </p>
-                        <p
-                            class="mt-3 text-lg font-semibold leading-7 tracking-tight text-[#fafafa] sm:text-xl"
-                        >
-                            {profile.focus}
-                        </p>
-                    </div>
-                    <div class="border-t border-[#27272a] pt-6">
-                        <p
-                            class="text-xs font-bold uppercase tracking-[0.14em] text-[#a1a1aa]"
-                        >
-                            Background
-                        </p>
-                        <div
-                            class="mt-3 space-y-3 text-sm leading-7 text-[#a1a1aa]"
-                        >
-                            <p>{profile.current}</p>
-                            <p>{profile.previous}</p>
-                        </div>
-                    </div>
-                </div>
-
                 {#if openToWorkText}
                     <p
-                        class="mt-8 inline-flex items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] px-3 py-2 text-sm font-medium text-[#e4e4e7]"
+                        class="mt-7 inline-flex items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] px-3 py-2 text-sm font-medium text-[#e4e4e7]"
                     >
                         <span
                             class="size-2 rounded-full bg-emerald-400"
@@ -107,7 +79,7 @@
                 {/if}
 
                 <div
-                    class="mt-6 flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3"
+                    class="mt-4 flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3"
                 >
                     <a
                         class="inline-flex items-center gap-2 rounded-md bg-[#fafafa] px-3 py-2.5 text-sm! font-bold text-[#000000] transition hover:bg-[#e4e4e7]"
@@ -133,6 +105,34 @@
                         <ArrowDownToLine class="size-4" />
                         Download
                     </a>
+                </div>
+
+                <div class="mt-7 space-y-6 border-t border-[#27272a] pt-7">
+                    <div>
+                        <p
+                            class="text-xs font-bold uppercase tracking-[0.14em] text-[#d4d4d8]"
+                        >
+                            Focus
+                        </p>
+                        <p
+                            class="mt-3 text-lg font-semibold leading-7 tracking-tight text-[#fafafa] sm:text-xl"
+                        >
+                            {profile.focus}
+                        </p>
+                    </div>
+                    <div class="border-t border-[#27272a] pt-6">
+                        <p
+                            class="text-xs font-bold uppercase tracking-[0.14em] text-[#a1a1aa]"
+                        >
+                            Background
+                        </p>
+                        <div
+                            class="mt-3 space-y-3 text-sm leading-7 text-[#a1a1aa]"
+                        >
+                            <p>{profile.current}</p>
+                            <p>{profile.previous}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div
