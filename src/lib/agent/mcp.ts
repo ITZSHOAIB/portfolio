@@ -198,7 +198,7 @@ const resources = [
 function readResource(uri: string) {
   const name = uri.startsWith(resourceUri("")) ? uri.slice(resourceUri("").length) : "";
   if (name === "full") return fullMarkdown();
-  if (name in sections) return sections[name as SectionName]();
+  if (Object.hasOwn(sections, name)) return sections[name as SectionName]();
   return null;
 }
 

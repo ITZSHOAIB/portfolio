@@ -192,10 +192,16 @@ const knownTerms = Array.from(
 const escapeRegExp = (value: string) =>
   value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+// Technologies that are also ordinary English words ("react to feedback",
+// "the rest of the team") only match with their exact capitalization.
+const caseSensitiveTerms = new Set(["React", "Express", "REST", "Remix", "Gamut", "Jest", "Ingestion"]);
+
 export function keywordOverlap(posting: string) {
-  return knownTerms.filter((term) =>
-    new RegExp(`(^|[^a-z0-9])${escapeRegExp(term.toLowerCase())}($|[^a-z0-9])`).test(
-      posting.toLowerCase(),
-    ),
-  );
+  return knownTerms.filter((term) => {
+    const exact = caseSensitiveTerms.has(term);
+    return new RegExp(
+      `(^|[^A-Za-z0-9])${escapeRegExp(term)}($|[^A-Za-z0-9])`,
+      exact ? "" : "i",
+    ).test(posting);
+  });
 }
