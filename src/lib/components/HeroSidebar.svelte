@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ArrowDownToLine, Eye } from "@lucide/svelte";
+    import { ArrowDownToLine, Eye, Mail } from "@lucide/svelte";
     import IconMark from "$lib/components/IconMark.svelte";
     import { socialIcons } from "$lib/icons/portfolioIcons";
     import type { Profile } from "$lib/types/portfolio";
@@ -7,9 +7,11 @@
     let {
         profile,
         experienceText,
+        openToWorkText,
     }: {
         profile: Profile;
         experienceText: string;
+        openToWorkText?: string;
     } = $props();
 </script>
 
@@ -92,11 +94,30 @@
                     </div>
                 </div>
 
+                {#if openToWorkText}
+                    <p
+                        class="mt-8 inline-flex items-center gap-2 rounded-md border border-[#27272a] bg-[#0a0a0a] px-3 py-2 text-sm font-medium text-[#e4e4e7]"
+                    >
+                        <span
+                            class="size-2 rounded-full bg-emerald-400"
+                            aria-hidden="true"
+                        ></span>
+                        {openToWorkText}
+                    </p>
+                {/if}
+
                 <div
-                    class="mt-9 flex flex-wrap gap-2 sm:mt-10 sm:gap-2.5 xl:gap-3"
+                    class="mt-6 flex flex-wrap gap-2 sm:gap-2.5 xl:gap-3"
                 >
                     <a
                         class="inline-flex items-center gap-2 rounded-md bg-[#fafafa] px-3 py-2.5 text-sm! font-bold text-[#000000] transition hover:bg-[#e4e4e7]"
+                        href={`mailto:${profile.email}`}
+                    >
+                        <Mail class="size-4" />
+                        Get in touch
+                    </a>
+                    <a
+                        class="inline-flex items-center gap-2 rounded-md border border-[#27272a] px-3 py-2.5 text-sm! font-bold text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
                         href="/resume.pdf"
                         target="_blank"
                         rel="noopener noreferrer"

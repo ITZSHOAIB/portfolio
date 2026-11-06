@@ -47,7 +47,18 @@ export type ExperienceItem = {
   period: string;
   stack: string[];
   summary: string;
+  highlights: string[];
   links: Link[];
+};
+
+export type SelectedWork = {
+  name: string;
+  context: string;
+  description: string;
+  metrics: { value: string; label: string }[];
+  stack: string[];
+  href?: string;
+  hrefLabel?: string;
 };
 
 export type SkillGroup = {
@@ -59,8 +70,11 @@ export type SkillGroup = {
 export type WritingPost = {
   title: string;
   description: string;
-  slug?: string;
-  published?: string;
+  slug: string;
+  published: string;
+  updated?: string;
+  tags: string[];
+  readingMinutes: number;
 };
 
 export type SkillSummary = {

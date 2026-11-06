@@ -2,6 +2,7 @@ import type {
   ExperienceItem,
   GithubProject,
   Profile,
+  SelectedWork,
   SkillGroup,
 } from "$lib/types/portfolio";
 
@@ -53,14 +54,14 @@ export const githubProjects = [
       "Landing page for a file-based agents framework kit for composing local workflows, prompts, and tools into reusable AI agent projects.",
     href: "https://plico.sohab.dev",
     language: "TypeScript",
-    updated: "In development",
-    stars: 1,
+    updated: "Active",
+    stars: 2,
     topics: ["agent framework", "workflow kit", "developer tools"],
     image: {
-      src: "/images/plico.png",
+      src: "/images/plico.webp",
       alt: "Plico product interface preview",
-      width: 1467,
-      height: 1026,
+      width: 1100,
+      height: 769,
     },
   },
   {
@@ -73,14 +74,14 @@ export const githubProjects = [
     stars: 15,
     topics: ["rehype", "code tabs", "accessibility"],
     metrics: [
-      { value: "10k", label: "weekly downloads", icon: "downloads" },
+      { value: "11k", label: "weekly downloads", icon: "downloads" },
       { value: "15", label: "GitHub stars", icon: "stars" },
     ],
     image: {
-      src: "/images/rehype-code-group.png",
+      src: "/images/rehype-code-group.webp",
       alt: "Rehype Code Group landing page showing accessible code tabs for documentation",
-      width: 1343,
-      height: 1032,
+      width: 1100,
+      height: 845,
     },
   },
   {
@@ -93,10 +94,10 @@ export const githubProjects = [
     stars: "-",
     topics: ["ai", "web3", "smart contracts", "solidity"],
     image: {
-      src: "/images/chaingent.png",
+      src: "/images/chaingent.webp",
       alt: "Chaingent app interface preview",
-      width: 1467,
-      height: 1026,
+      width: 1100,
+      height: 769,
     },
   },
   {
@@ -106,7 +107,7 @@ export const githubProjects = [
     href: "https://github.com/ITZSHOAIB/cmuxup",
     language: "Shell",
     updated: "2026-07-01",
-    stars: 3,
+    stars: 4,
     topics: ["cmux", "agentic workspace", "lazygit", "helix"],
   },
   {
@@ -120,6 +121,48 @@ export const githubProjects = [
     topics: ["hash", "data integrity", "crypto hash"],
   },
 ] satisfies GithubProject[];
+
+export const selectedWork = [
+  {
+    name: "Next-generation agentic authoring for LX Design Studio",
+    context: "Skillsoft · customer beta",
+    description:
+      "Our team originated the idea and owned it end to end, across product direction, engineering, and architecture. I architected it from proof of concept to a production beta with 20+ enterprise customers: multi-agent content generation from uploaded documents, grounded by an in-house vectorless retrieval pipeline built on heuristic document trees and BM25 search.",
+    metrics: [
+      { value: "20+", label: "enterprise beta customers" },
+      { value: "Idea → beta", label: "product, tech, and architecture" },
+    ],
+    stack: ["LangGraph", "MCP", "Vectorless RAG", "TypeScript"],
+    href: "https://investor.skillsoft.com/news-events/press-releases/detail/463/skillsoft-lx-design-studio-reduces-custom-learning-content-development-from-weeks-to-days",
+    hrefLabel: "About LX Design Studio",
+  },
+  {
+    name: "Vibe Learning Platform",
+    context: "Codecademy",
+    description:
+      "LangGraph-based agentic engine that generates full-stack, learn-by-building projects, shipped within two months.",
+    metrics: [{ value: "10M+", label: "active learners" }],
+    stack: ["LangGraph", "Next.js", "TypeScript"],
+    href: "https://www.codecademy.com/resources/blog/why-the-future-of-learning-starts-with-building",
+    hrefLabel: "Read the announcement",
+  },
+  {
+    name: "Agentor",
+    context: "Skillsoft internal framework",
+    description:
+      "Reusable framework for multi-agent workflows, MCP tools, guardrails, source ingestion, conversation state, and LLM evaluations. Cut agent scaffolding across teams and earned CTO recognition.",
+    metrics: [{ value: "8+", label: "teams using it" }],
+    stack: ["TypeScript", "MCP", "LLM evals", "Guardrails"],
+  },
+  {
+    name: "AI-native Builder pod",
+    context: "Skillsoft",
+    description:
+      "Technical lead of Skillsoft's first AI-native pod: three engineers owning product delivery end to end and shipping two products in under six months. The model was then adopted by other pods.",
+    metrics: [{ value: "2", label: "products in under 6 months" }, { value: "11", label: "more pods adopted the model" }],
+    stack: ["Claude Code", "Agentic engineering", "Technical leadership"],
+  },
+] satisfies SelectedWork[];
 
 export const experience = [
   {
@@ -144,7 +187,16 @@ export const experience = [
       "RabbitMQ",
     ],
     summary:
-      "Architected and built agentic AI systems across Skillsoft and Codecademy, including Vibe Learning Platform for generated full-stack learning projects, Design Assistant V2 for multi-agent learning authoring workflows, reusable agent framework primitives, source-ingestion and evaluation workflows, and the frontend architecture of LX Design Studio. Also explored personalized course generation, MCP/Skills-based flows, model fine-tuning approaches, and internal IDE tooling while improving release automation for a shared monorepo.",
+      "Technical lead for AI-native product work across Skillsoft and Codecademy: agentic authoring, learning-by-building engines, and the shared frameworks behind them.",
+    highlights: [
+      "Originated (with my team) and architected next-generation agentic authoring for LX Design Studio, owning product direction, engineering, and architecture from idea to a production beta with 20+ enterprise customers.",
+      "Designed its in-house vectorless retrieval pipeline: a non-LLM ingestion step that converts arbitrary document formats into heuristic trees and exposes tree-aware agent tools with in-memory BM25 search, improving grounding and citation fidelity while cutting LLM input tokens on large documents.",
+      "Shipped Codecademy's Vibe Learning Platform to 10M+ active learners within two months by building a LangGraph-based agentic engine that generates full-stack, learn-by-building projects.",
+      "Created Agentor, a reusable framework for multi-agent workflows, MCP tools, guardrails, source ingestion, conversation state, and LLM evaluations; reduced agent scaffolding for 8+ teams and earned CTO recognition.",
+      "Served as technical lead for Skillsoft's first AI-native Builder pod, a three-engineer team that owned product delivery end to end and shipped two products in under six months; the model expanded to 11 additional pods.",
+      "Built the frontend foundation for LX Design Studio with Next.js, React, TypeScript, reusable routing and design-system patterns, and modular integration across a shared monorepo.",
+      "Built internal AI developer tooling and release automation, including ACE workflows for sharing reusable skills, subagents, and plugins across 15+ engineering teams.",
+    ],
     links: [
       {
         label: "AI Builder",
@@ -181,7 +233,12 @@ export const experience = [
       "MongoDB",
     ],
     summary:
-      "Built full-stack blockchain SaaS products for EY’s OpsChain ecosystem, spanning contract automation and ESG workflows on public Ethereum with privacy-focused zero-knowledge components. Work covered smart contracts, Starlight zApps, REST and GraphQL services, React interfaces, Dockerized services, Azure Kubernetes integration, security fixes, and test coverage across unit, smoke, and end-to-end layers.",
+      "Full-stack blockchain SaaS for EY's OpsChain ecosystem, from smart contracts to Kubernetes delivery.",
+    highlights: [
+      "Built full-stack blockchain SaaS products, EY OpsChain Contract Manager and OpsChain ESG, automating contract and sustainability workflows on Ethereum with zero-knowledge privacy components.",
+      "Developed REST and GraphQL microservices with NestJS and Node.js, containerized with Docker and deployed via Azure Kubernetes Service and API Management.",
+      "Implemented Starlight zApps and ERC-1155 smart contracts in Solidity, fixed information-security findings, and expanded unit, smoke, and end-to-end coverage with Jest and Supertest.",
+    ],
     links: [
       {
         label: "EY OpsChain Contract Manager",
@@ -212,7 +269,11 @@ export const experience = [
       "Python",
     ],
     summary:
-      "Built MERN-stack applications for Strategy and Transformation work, using React, Redux Toolkit, Node, Express, and MongoDB for product workflows, while also contributing to Java BDD automation frameworks with Selenium and Appium.",
+      "MERN-stack product work for Strategy and Transformation, plus Java test automation.",
+    highlights: [
+      "Built MERN-stack applications for Strategy and Transformation initiatives using React, Redux Toolkit, Node.js, Express, and MongoDB across core product workflows.",
+      "Contributed to Java BDD automation frameworks using Selenium and Appium, improving repeatable web and mobile regression testing.",
+    ],
     links: [
       {
         label: "TCS",
@@ -235,15 +296,9 @@ export const skillGroups = [
       "Remix",
       "Redux Toolkit",
       "Material UI",
-      "Styled Components",
       "shadcn/ui",
       "Radix UI",
       "Gamut",
-      "NextAuth",
-      "HTML",
-      "CSS",
-      "Flutter",
-      "Electron",
       "Webpack",
       "Rspack",
       "SWC",
@@ -264,13 +319,8 @@ export const skillGroups = [
     ],
     more: [
       "Express",
-      "Mongoose",
-      "Flask",
-      "Socket.IO",
-      "WebRTC",
       "Ruby",
       "REST",
-      "WebSockets",
     ],
   },
   {
@@ -286,14 +336,9 @@ export const skillGroups = [
     ],
     more: [
       "Cloudflare",
-      "Vercel",
-      "Netlify",
-      "Firebase",
-      "Heroku",
       "GitHub Actions",
       "Jenkins",
       "Kafka",
-      "BFF",
       "Apollo Federation",
       "Monorepo",
       "Domain Driven Development",
@@ -315,7 +360,7 @@ export const skillGroups = [
   },
   {
     title: "Languages & Testing",
-    featured: ["JavaScript", "TypeScript", "GoLang", "Ruby", "Jest", "Vitest"],
-    more: ["Java", "Python"],
+    featured: ["JavaScript", "TypeScript", "Python", "GoLang", "Ruby", "Jest", "Vitest"],
+    more: ["Java", "Playwright"],
   },
 ] satisfies SkillGroup[];

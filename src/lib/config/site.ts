@@ -7,7 +7,7 @@ export const site = {
   shortDescription:
     "Senior Software Engineer building reliable AI agents, multi-agent workflows, and scalable software systems.",
   publishedDate: "2026-07-03",
-  modifiedDate: "2026-07-07",
+  modifiedDate: "2026-11-06",
   language: "en",
   locale: "en_US",
   twitterHandle: "@0xSohab",
@@ -43,5 +43,10 @@ export const site = {
   ],
   features: {
     writing: false,
+    // Soft availability line in the hero. Turn off if the timing is wrong.
+    openToWork: true,
   },
+  openToWorkText: "Open to senior AI engineering roles. Remote.",
+  // Paste the Cloudflare Web Analytics beacon token to enable cookie-free analytics.
+  analyticsToken: "",
 };

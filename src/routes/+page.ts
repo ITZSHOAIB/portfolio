@@ -4,6 +4,7 @@ import {
   experience,
   githubProjects,
   profile,
+  selectedWork,
   skillGroups,
 } from "$lib/data/portfolio";
 import { formatExperience } from "$lib/utils/experience";
@@ -32,6 +33,7 @@ export const load: PageLoad = () => {
   return {
     profile,
     projects: githubProjects,
+    selectedWork,
     experience,
     skillSummary: {
       primary: primarySkillNames,

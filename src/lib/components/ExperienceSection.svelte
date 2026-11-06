@@ -15,7 +15,7 @@
   <SectionHeading
     eyebrow="Experience"
     title="Production systems, from AI workflows to web platforms."
-    description="A role-by-role view of the systems shipped, platforms touched, and engineering focus behind the work."
+    description="What shipped in each role, with the scale it reached."
   />
 
   <div class="divide-y divide-[#27272a] overflow-hidden rounded-lg border border-[#27272a] bg-[#0a0a0a]">
@@ -58,9 +58,21 @@
         </summary>
 
         <div class="border-t border-[#27272a] px-5 pb-6 pt-5 sm:px-6">
-          <p class="max-w-3xl text-sm leading-7 text-[#a1a1aa]">
+          <p class="max-w-3xl text-sm leading-7 text-[#d4d4d8]">
             {item.summary}
           </p>
+
+          <ul class="mt-4 max-w-3xl space-y-3">
+            {#each item.highlights as highlight}
+              <li class="flex gap-3 text-sm leading-7 text-[#a1a1aa]">
+                <span
+                  class="mt-3 size-1 shrink-0 rounded-full bg-[#71717a]"
+                  aria-hidden="true"
+                ></span>
+                <span>{highlight}</span>
+              </li>
+            {/each}
+          </ul>
 
           <div class="mt-5 flex flex-wrap gap-2 border-t border-[#27272a] pt-5">
             {#each item.stack as tag}
