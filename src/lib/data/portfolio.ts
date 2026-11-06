@@ -6,6 +6,9 @@ import type {
   SkillGroup,
 } from "$lib/types/portfolio";
 
+// Start of professional experience; drives the "N+ years" figure everywhere.
+export const careerStartDate = new Date("2020-02-14T00:00:00Z");
+
 export const profile = {
   name: "Sohab Sk",
   domain: "sohab.dev",
@@ -99,6 +102,26 @@ export const githubProjects = [
       width: 1100,
       height: 769,
     },
+  },
+  {
+    name: "Creator Skills",
+    description:
+      "Installable AI agent skills for YouTube creators, covering channel research, scripting, thumbnails, analytics, and creator-approved channel memory.",
+    href: "https://creator-skills.sohab.dev/",
+    language: "Agent skills",
+    updated: "Open source",
+    stars: "-",
+    topics: ["AI agents", "creator workflows", "YouTube"],
+  },
+  {
+    name: "Dev Skills",
+    description:
+      "Installable workflows for AI coding agents, including cold code reviews and guided pull request reviews with human decisions on findings.",
+    href: "https://github.com/ITZSHOAIB/dev-skills",
+    language: "Agent skills",
+    updated: "Open source",
+    stars: "-",
+    topics: ["AI agents", "code review", "developer tools"],
   },
   {
     name: "Cmuxup",

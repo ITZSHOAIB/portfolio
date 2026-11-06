@@ -1,6 +1,7 @@
 import { site } from "$lib/config/site";
 import { writingPosts } from "$lib/content/writing";
 import {
+  careerStartDate,
   experience,
   githubProjects,
   profile,
@@ -9,8 +10,6 @@ import {
 } from "$lib/data/portfolio";
 import { formatExperience } from "$lib/utils/experience";
 import type { PageLoad } from "./$types";
-
-const experienceStartDate = new Date("2020-02-14T00:00:00Z");
 
 const primarySkillNames = Array.from(
   new Set(skillGroups.flatMap((group) => group.featured)),
@@ -44,7 +43,7 @@ export const load: PageLoad = () => {
       enabled: site.features.writing && visibleWritingPosts.length > 0,
       posts: visibleWritingPosts,
     },
-    experienceText: formatExperience(experienceStartDate, new Date()),
+    experienceText: formatExperience(careerStartDate, new Date()),
     site,
   };
 };

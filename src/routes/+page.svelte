@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { Sparkles } from "@lucide/svelte";
+    import AskAiDialog from "$lib/components/AskAiDialog.svelte";
     import ExperienceSection from "$lib/components/ExperienceSection.svelte";
     import HeroSidebar from "$lib/components/HeroSidebar.svelte";
     import ProjectsSection from "$lib/components/ProjectsSection.svelte";
@@ -8,6 +10,7 @@
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
+    let askAi: AskAiDialog;
 
     const canonicalUrl = $derived(`${data.site.url}/`);
     const socialImageUrl = $derived(`${data.site.url}${data.site.image.path}`);
@@ -243,14 +246,15 @@
             <a class="font-semibold tracking-tight" href="#top"
                 >{data.profile.name}</a
             >
-            <a
-                class="inline-flex px-3 py-2 items-center rounded-md bg-[#fafafa] px-2.5 text-sm! font-bold text-black transition hover:bg-[#e4e4e7]"
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+            <button
+                type="button"
+                class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
+                onclick={() => askAi.open()}
+                aria-haspopup="dialog"
             >
-                Resume
-            </a>
+                <Sparkles class="size-3.5" />
+                Ask AI
+            </button>
         </div>
     </header>
 
@@ -261,6 +265,7 @@
         <HeroSidebar
             profile={data.profile}
             experienceText={data.experienceText}
+            onAskAi={() => askAi.open()}
             openToWorkText={data.site.features.openToWork
                 ? data.site.openToWorkText
                 : undefined}
@@ -281,4 +286,6 @@
             </div>
         </section>
     </main>
+
+    <AskAiDialog bind:this={askAi} siteUrl={data.site.url} name={data.profile.name} />
 </div>
