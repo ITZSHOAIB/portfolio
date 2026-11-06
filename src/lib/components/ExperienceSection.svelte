@@ -15,14 +15,14 @@
   <SectionHeading
     eyebrow="Experience"
     title="Production systems, from AI workflows to web platforms."
-    description="A role-by-role view of the systems shipped, platforms touched, and engineering focus behind the work."
+    description="What shipped in each role, with the scale it reached."
   />
 
   <div class="divide-y divide-[#27272a] overflow-hidden rounded-lg border border-[#27272a] bg-[#0a0a0a]">
     {#each experience as item, index}
       <details class="group transition-colors open:bg-[#0d0d0d]" open={index === 0}>
         <summary
-          class="grid cursor-pointer list-none gap-5 p-5 outline-none transition hover:bg-[#111111] focus-visible:bg-[#111111] sm:p-6 md:grid-cols-[minmax(0,1fr)_11rem] [&::-webkit-details-marker]:hidden"
+          class="grid cursor-pointer list-none gap-5 p-5 outline-none transition hover:bg-[#111111] focus-visible:bg-[#111111] sm:p-6 md:grid-cols-[minmax(0,1fr)_auto] [&::-webkit-details-marker]:hidden"
         >
           <div class="min-w-0">
             <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="flex items-center justify-between gap-4 md:justify-end md:text-right">
-            <p class="text-sm font-medium text-[#a1a1aa]">
+            <p class="text-sm font-medium whitespace-nowrap text-[#a1a1aa]">
               {item.period}
             </p>
             <span
@@ -58,9 +58,21 @@
         </summary>
 
         <div class="border-t border-[#27272a] px-5 pb-6 pt-5 sm:px-6">
-          <p class="max-w-3xl text-sm leading-7 text-[#a1a1aa]">
+          <p class="max-w-3xl text-sm leading-7 text-[#d4d4d8]">
             {item.summary}
           </p>
+
+          <ul class="mt-4 max-w-3xl space-y-3">
+            {#each item.highlights as highlight}
+              <li class="flex gap-3 text-sm leading-7 text-[#a1a1aa]">
+                <span
+                  class="mt-3 size-1 shrink-0 rounded-full bg-[#71717a]"
+                  aria-hidden="true"
+                ></span>
+                <span>{highlight}</span>
+              </li>
+            {/each}
+          </ul>
 
           <div class="mt-5 flex flex-wrap gap-2 border-t border-[#27272a] pt-5">
             {#each item.stack as tag}

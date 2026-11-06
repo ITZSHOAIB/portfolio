@@ -4,7 +4,11 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
   preprocess: vitePreprocess(),
   kit: {
-    adapter: adapter()
+    adapter: adapter(),
+    prerender: {
+      // /writing/[slug] has no entries until the first post is published.
+      handleUnseenRoutes: 'ignore'
+    }
   }
 };
 

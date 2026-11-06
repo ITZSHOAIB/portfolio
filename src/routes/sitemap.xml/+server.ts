@@ -1,4 +1,5 @@
 import { site } from "$lib/config/site";
+import { writingPosts } from "$lib/content/writing";
 import { githubProjects } from "$lib/data/portfolio";
 
 export const prerender = true;
@@ -29,6 +30,15 @@ const routes = [
     priority: "1.0",
     images: [site.image, site.profileImage],
   },
+  ...(site.features.writing
+    ? writingPosts.map((post) => ({
+        path: `/writing/${post.slug}`,
+        lastmod: post.updated ?? post.published,
+        changefreq: "yearly",
+        priority: "0.7",
+        images: [site.image],
+      }))
+    : []),
 ];
 
 export const GET = () => {

@@ -9,15 +9,15 @@
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/images/sohab-profile.jpg",
-      "sizes": "1082x1082",
-      "type": "image/jpeg",
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/sohab-profile.jpg",
-      "sizes": "1082x1082",
-      "type": "image/jpeg",
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ]

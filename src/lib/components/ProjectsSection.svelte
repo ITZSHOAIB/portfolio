@@ -276,6 +276,7 @@
                                 {project.updated}
                             </p>
                         </div>
+                        {#if typeof project.stars === "number"}
                         <div class="mt-0 lg:mt-5">
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.12em] text-[#71717a]"
@@ -288,6 +289,7 @@
                                 {project.stars}
                             </p>
                         </div>
+                        {/if}
                         <ArrowUpRight
                             class="mt-0 size-5 text-[#a1a1aa] transition group-hover:text-[#fafafa] lg:mt-5 lg:ml-auto"
                         />

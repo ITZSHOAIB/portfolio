@@ -2,6 +2,7 @@
     import ExperienceSection from "$lib/components/ExperienceSection.svelte";
     import HeroSidebar from "$lib/components/HeroSidebar.svelte";
     import ProjectsSection from "$lib/components/ProjectsSection.svelte";
+    import SelectedWorkSection from "$lib/components/SelectedWorkSection.svelte";
     import SkillsSection from "$lib/components/SkillsSection.svelte";
     import WritingSection from "$lib/components/WritingSection.svelte";
     import type { PageData } from "./$types";
@@ -183,13 +184,17 @@
     <meta name="apple-mobile-web-app-title" content={data.site.name} />
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonicalUrl} />
-    <link
-        rel="icon"
-        type={data.site.profileImage.type}
-        href={data.site.profileImage.path}
-    />
-    <link rel="apple-touch-icon" href={data.site.profileImage.path} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    {#if data.writing.enabled}
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            title={`${data.site.name} writing`}
+            href="/rss.xml"
+        />
+    {/if}
     <link rel="me" href={`mailto:${data.profile.email}`} />
     {#each data.profile.links.filter( (link) => link.href.startsWith("http") ) as link}
         <link rel="me" href={link.href} />
@@ -219,6 +224,13 @@
     <meta name="theme-color" content={data.site.themeColor} />
     <meta name="color-scheme" content="dark" />
     {@html jsonLdScript}
+    {#if data.site.analyticsToken}
+        <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: data.site.analyticsToken })}
+        ></script>
+    {/if}
 </svelte:head>
 
 <div class="min-h-screen bg-[#000000] text-[#fafafa]">
@@ -249,14 +261,18 @@
         <HeroSidebar
             profile={data.profile}
             experienceText={data.experienceText}
+            openToWorkText={data.site.features.openToWork
+                ? data.site.openToWorkText
+                : undefined}
         />
 
         <section class="min-w-0">
             <div
                 class="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-10 lg:py-10 xl:px-14"
             >
-                <ProjectsSection projects={data.projects} />
+                <SelectedWorkSection work={data.selectedWork} />
                 <ExperienceSection experience={data.experience} />
+                <ProjectsSection projects={data.projects} />
                 <SkillsSection skills={data.skillSummary} />
 
                 {#if data.writing.enabled}
