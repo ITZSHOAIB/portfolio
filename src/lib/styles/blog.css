@@ -69,3 +69,157 @@
   .blog-reveal > *,
   .blog-reveal .prose-post > * { animation: none; }
 }
+
+/* Callouts: GitHub-style `> [!TIP]` alerts. */
+.blog-page .prose-post .callout {
+  border: 1px solid #27272a;
+  border-left: 3px solid var(--callout, #52525b);
+  border-radius: 0.6rem;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--callout, #52525b) 9%, transparent), transparent 70%), #070707;
+  padding: 0.9rem 1.1rem;
+  color: #d4d4d8;
+}
+.blog-page .prose-post .callout > * + * { margin-top: 0.6rem; }
+.blog-page .prose-post .callout-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--callout, #a1a1aa);
+}
+.callout-note { --callout: #a1a1aa; }
+.callout-tip { --callout: #34d399; }
+.callout-important { --callout: #7dd3fc; }
+.callout-warning { --callout: #fcd34d; }
+.callout-caution { --callout: #f87171; }
+.callout-tldr { --callout: #c4b5fd; }
+
+/* ```prompt boxes: copyable, with "Open in" links. */
+.blog-page .prose-post .prompt-box {
+  overflow: hidden;
+  border: 1px solid #27272a;
+  border-radius: 0.6rem;
+  background: #070707;
+}
+.blog-page .prose-post .prompt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  border-bottom: 1px solid #27272a;
+  background: linear-gradient(90deg, rgba(196, 181, 253, 0.08), transparent 70%);
+  padding: 0.6rem 0.9rem;
+}
+.blog-page .prose-post .prompt-title { font-size: 0.85rem; font-weight: 600; color: #fafafa; }
+.blog-page .prose-post .prompt-actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.blog-page .prose-post .prompt-action,
+.post-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  border: 1px solid #27272a;
+  border-radius: 0.4rem;
+  background: #0d0d0d;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #d4d4d8;
+  text-decoration: none;
+  transition: border-color 150ms, color 150ms;
+}
+.blog-page .prose-post .prompt-action:hover,
+.post-action:hover { border-color: #52525b; color: #fafafa; }
+.blog-page .prose-post .prompt-text {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+}
+
+/* Interactive figures and captioned images. */
+.blog-page .prose-post .blog-figure,
+.blog-page .prose-post .media-figure { padding: 1.25rem; }
+.blog-page .prose-post .blog-figure figcaption,
+.blog-page .prose-post .media-figure figcaption {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #71717a;
+}
+.blog-page .prose-post .blog-figure { scroll-margin-top: 5rem; }
+.blog-page .prose-post video { width: 100%; border-radius: 0.5rem; }
+
+/* Post action bar under the title. */
+.post-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.post-action { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
+
+/* Floating "Ask" toolbar for selected text. */
+.ask-selection {
+  position: fixed;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  transform: translate(-50%, -100%);
+  border: 1px solid #3f3f46;
+  border-radius: 0.6rem;
+  background: rgba(10, 10, 10, 0.94);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  animation: ask-in 140ms ease-out;
+}
+.ask-selection-below { transform: translate(-50%, 0); }
+.ask-selection-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0 0.45rem;
+  color: #a1a1aa;
+}
+.ask-selection a,
+.ask-selection button {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.55rem;
+  color: #fafafa;
+  cursor: pointer;
+  transition: background-color 120ms;
+}
+.ask-selection a:hover,
+.ask-selection button:hover,
+.ask-selection a:focus-visible,
+.ask-selection button:focus-visible { background: #27272a; }
+@keyframes ask-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Author note at the end of a post. */
+.author-note {
+  display: flex;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  border: 1px solid #27272a;
+  border-radius: 0.75rem;
+  background: radial-gradient(24rem 8rem at 0% 0%, rgba(250, 250, 250, 0.05), transparent 70%), #070707;
+  padding: 1.1rem 1.2rem;
+}
+.author-link {
+  color: #d4d4d8;
+  text-decoration: underline;
+  text-decoration-color: #52525b;
+  text-underline-offset: 4px;
+}
+.author-link:hover { color: #fafafa; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-selection { animation: none; }
+}

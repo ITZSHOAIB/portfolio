@@ -9,6 +9,13 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { visit } from "unist-util-visit";
+import {
+  rehypeCallouts,
+  rehypeFigures,
+  rehypeMedia,
+  rehypePromptBlocks,
+  type RenderMode,
+} from "$lib/content/rehype-blog";
 
 export type TocItem = { id: string; text: string; depth: 2 | 3 };
 
@@ -40,7 +47,11 @@ function collectToc(toc: TocItem[]) {
   };
 }
 
-export async function renderMarkdown(markdown: string) {
+// `url` is the post's absolute URL; feeds link figures back to it.
+export async function renderMarkdown(
+  markdown: string,
+  { mode = "page", url = "" }: { mode?: RenderMode; url?: string } = {},
+) {
   const toc: TocItem[] = [];
 
   const file = await unified()
@@ -54,6 +65,10 @@ export async function renderMarkdown(markdown: string) {
       properties: { class: "heading-anchor", ariaLabel: "Link to this section" },
       content: { type: "text", value: "#" },
     })
+    .use(rehypeCallouts)
+    .use(rehypeFigures(mode, url))
+    .use(rehypePromptBlocks(mode))
+    .use(rehypeMedia)
     .use(rehypeCodeGroup, {})
     .use(rehypeShiki, { theme: "github-dark-default" })
     .use(rehypeStringify, { allowDangerousHtml: true })
