@@ -56,7 +56,7 @@ The site highlights work across agentic AI systems, multi-agent learning-authori
 │   ├── lib/
 │   │   ├── components/            # Portfolio sections and UI pieces
 │   │   ├── config/site.ts         # Site metadata and feature flags
-│   │   ├── content/writing.ts     # Optional writing source
+│   │   ├── content/               # Markdown pipeline, post queries, feeds
 │   │   ├── data/portfolio.ts      # Profile, project, skill, and experience data
 │   │   ├── icons/                 # Icon helpers
 │   │   ├── types/                 # Shared portfolio types
@@ -126,17 +126,27 @@ Most portfolio content is centralized in a small set of files:
 | --- | --- |
 | `src/lib/config/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, and feature flags. |
 | `src/lib/data/portfolio.ts` | Profile details, social links, selected projects, experience, and skills. |
-| `src/lib/content/writing.ts` | Placeholder for future writing or Markdown/MDX integration. |
+| `src/content/writing/*.md` | Blog posts, one markdown file each. |
+| `src/content/projects/*.md` | Project pages linked from the project cards. |
 | `static/resume.pdf` | Public resume linked from the site. |
 | `static/images/` | Profile photo and social preview image. |
 
-To enable the writing section later, add posts in `src/lib/content/writing.ts` and set:
+## Writing
 
-```ts
-features: {
-  writing: true,
-}
+Posts are markdown files in `src/content/writing/` with frontmatter:
+
+```md
+---
+title: Post title
+description: One-sentence summary used for cards, SEO, and feeds.
+published: 2026-11-10
+updated: 2026-11-12   # optional
+tags: [agents, sveltekit]
+draft: true           # optional, hides the post everywhere
+---
 ```
+
+Each published post gets a page at `/writing/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts and a generated social image at `/writing/<slug>/og.png`. The blog also serves `/writing`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/writing` is `noindex` and the home section stays hidden. Set `features.writing` to `false` in `src/lib/config/site.ts` to switch it all off.
 
 ## Deployment
 
