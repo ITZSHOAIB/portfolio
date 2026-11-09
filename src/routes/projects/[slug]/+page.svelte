@@ -37,7 +37,7 @@
   {@html jsonLdScript}
 </svelte:head>
 
-<div class="min-h-screen bg-[#000000] text-[#fafafa]">
+<div class="project-page min-h-screen bg-[#000000] text-[#fafafa]">
   <header class="border-b border-[#27272a]">
     <div class="mx-auto flex min-h-16 max-w-3xl items-center justify-between px-4">
       <a
@@ -60,8 +60,8 @@
   </header>
 
   <main class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-    <article>
-      <h1 class="text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+    <article class="reveal">
+      <h1 class="title-gradient text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
         {data.project.title}
       </h1>
       <p class="mt-4 text-lg leading-8 text-[#a1a1aa]">{data.project.description}</p>
