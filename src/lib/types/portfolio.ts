@@ -76,6 +76,8 @@ export type BlogPost = {
   published: string;
   updated?: string;
   tags: string[];
+  /** Names of githubProjects the post relates to. */
+  projects: string[];
   readingMinutes: number;
 };
 

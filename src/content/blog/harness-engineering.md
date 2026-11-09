@@ -3,11 +3,16 @@ title: Harness engineering: the part of an agent that isn't the model
 description: What people mean by an agent harness, what it is made of, and how to turn every repeated agent mistake into a permanent fix.
 published: 2026-11-10
 tags: [ai-agents, harness-engineering]
+projects: [Plico, Dev Skills]
 ---
 
 When a coding agent does something dumb, the reflex is to blame the model. Often the model is fine. The agent ran the wrong command because nothing told it the right one, or it declared victory because nothing checked its work. Those are problems with everything around the model, and that surrounding layer now has a name: the harness.
 
-This post covers what the word means, what a harness is made of, and a small habit that does most of the work.
+> [!TLDR] What you'll learn
+> - What a harness is: everything in an agent that isn't the model.
+> - The six parts a harness is made of.
+> - How to sort fixes into guides (before the agent acts) and sensors (after).
+> - The habit that improves a harness: turn each repeated mistake into a file.
 
 ## Two meanings of one word
 
@@ -17,20 +22,14 @@ This post covers what the word means, what a harness is made of, and a small hab
 
 **As a practice.** Mitchell Hashimoto describes a habit he calls harness engineering: "anytime you find an agent makes a mistake, you take the time to engineer a solution such that the agent never makes that mistake again." He also says he doesn't know if there's a broad industry-accepted term yet, and would switch if another one exists.
 
-The layer is what you have. The practice is how you improve it. The rest of this post covers both, in that order.
+> [!IMPORTANT]
+> The layer is what you have. The practice is how you improve it. The rest of this post covers both, in that order.
 
 ## What a harness is made of
 
-LangChain's list, which Addy Osmani repeats and extends, has six parts:
+LangChain's list, which Addy Osmani repeats and extends, has six parts. Select one to see what it covers:
 
-| Part | Examples |
-|---|---|
-| Instructions | System prompts, `AGENTS.md`, `CLAUDE.md`, skill files |
-| Tools | Tools, skills, MCP servers, and their descriptions |
-| Bundled infrastructure | Filesystem, sandbox, browser |
-| Orchestration | Subagent spawning, handoffs, model routing |
-| Hooks and middleware | Compaction, continuation, lint checks |
-| Observability | Logs, traces, cost and latency metering (Osmani's addition) |
+::figure harness-anatomy
 
 Two ideas in LangChain's post are worth keeping in your head.
 
@@ -44,6 +43,9 @@ Osmani puts it strongly: "A decent model with a great harness beats a great mode
 
 LangChain offers some evidence. It says its coding agent went from "Top 30 to Top 5 on Terminal Bench 2.0 by only changing the harness," and that a model scores differently in different harnesses. The post gives no scores, so treat this as the vendor's report.
 
+> [!NOTE] Reading the evidence
+> Both claims come from people who build harnesses, and neither publishes scores. Read them as informed opinion, not measurement.
+
 The same post also argues "harnesses should matter less over time", since models will absorb some of this work. Harness engineering stays useful, in the way prompt engineering did, but parts of it will go away.
 
 ## Guides and sensors
@@ -54,10 +56,7 @@ You need both. In her words, feedback alone gives an agent that "keeps repeating
 
 She adds a second axis. *Computational* controls (tests, linters, type checkers) are deterministic and fast, cheap enough to run on every change. *Inferential* controls (an LLM reviewer, an AI judge) add semantic judgement but are slower and less predictable.
 
-| | Guide (before) | Sensor (after) |
-|---|---|---|
-| **Computational** | Code mods, bootstrap scripts | Linters, structural tests, type checks |
-| **Inferential** | `AGENTS.md`, skills | AI code review, LLM as judge |
+::figure guides-sensors
 
 One detail from her article I like: a linter message written for the agent, with fix instructions in it, is what she calls "a positive kind of prompt injection."
 
@@ -70,15 +69,23 @@ Hashimoto names two forms the fix takes:
 
 Osmani turns this into a rule of thumb: every line in a good `AGENTS.md` should be traceable to a specific thing that went wrong. Keep the file short, and remove a rule once a more capable model makes it redundant. It's a ratchet, not a style guide.
 
-In Böckeler's terms, the first form is a guide and the second is often a sensor.
+In Böckeler's terms, the first form is a guide and the second is often a sensor. Put together, the habit is a loop:
+
+::figure ratchet-loop
+
+```prompt title="Turn a repeated mistake into a fix"
+You just made this mistake: <describe it>.
+
+Don't fix the code yet. First tell me whether it needs a guide (a line in AGENTS.md or a skill), a sensor (a test, lint rule or script that fails), or both. Then propose the smallest change to this repository that would stop it happening again, and the message the check should print when it fails.
+```
 
 ## What this looks like in my own repos
 
 I'll use two small examples, because the idea is clearer with real files.
 
-**Plico's `AGENTS.md`.** Plico is the agent app kit I'm building. Its `AGENTS.md` is a guide: it names the required project files, says to keep source files focused and under roughly 250 lines, and says to build before typecheck because packages resolve each other through `dist`. Its TDD rule (one failing behaviour test, then just enough code to pass) steers how the agent works. The verification section is where guide meets sensor: `pnpm check` runs lint, build, typecheck and test, and it is the CI gate, so the agent can find out it was wrong before a human reads the diff.
+**Plico's `AGENTS.md`.** [Plico](https://plico.sohab.dev) is the agent app kit I'm building. Its `AGENTS.md` is a guide: it names the required project files, says to keep source files focused and under roughly 250 lines, and says to build before typecheck because packages resolve each other through `dist`. Its TDD rule (one failing behaviour test, then just enough code to pass) steers how the agent works. The verification section is where guide meets sensor: `pnpm check` runs lint, build, typecheck and test, and it is the CI gate, so the agent can find out it was wrong before a human reads the diff.
 
-**The `pr` skill in dev-skills.** My `pr` skill started from Matt Pocock's. Walking through real pull requests showed gaps, so I added a `Closes #<issue>` line to the template and an Evidence fallback for changes with nothing to run. Both came from something that went wrong or was missing, which is the ratchet in miniature. The skill's `CREDITS.md` records the fork base, so the origin of each change stays traceable.
+**The `pr` skill in [dev-skills](/projects/dev-skills).** My `pr` skill started from Matt Pocock's. Walking through real pull requests showed gaps, so I added a `Closes #<issue>` line to the template and an Evidence fallback for changes with nothing to run. Both came from something that went wrong or was missing, which is the ratchet in miniature. The skill's `CREDITS.md` records the fork base, so the origin of each change stays traceable.
 
 Neither of these is impressive. That is the point: the harness is mostly small files that exist because something once went wrong.
 
@@ -92,6 +99,16 @@ If you want to start tomorrow:
 - Make failures talk. A tool or lint message should say what to do next, not just that something is wrong.
 - Keep `AGENTS.md` short and traceable to real failures. Prune rules as models improve.
 - Add observability early. If you can't see what the agent did, you can't tell which part of the harness failed.
+
+```prompt title="Audit your AGENTS.md with your agent"
+Read the AGENTS.md (or CLAUDE.md) in this repository. For each rule, tell me:
+
+1. Which repeated mistake it most likely prevents. Flag rules with no clear failure behind them.
+2. Whether it is only a guide, or should also have a sensor: a test, lint rule or script that fails when the rule is broken.
+3. Whether it could become a computational check instead of a sentence.
+
+Then suggest the three changes with the biggest payoff. Don't edit anything yet.
+```
 
 ## What nobody has solved yet
 

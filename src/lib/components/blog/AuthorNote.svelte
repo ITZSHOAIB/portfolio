@@ -1,0 +1,27 @@
+<script lang="ts">
+  import { site } from "$lib/config/site";
+  import { profile } from "$lib/data/portfolio";
+</script>
+
+<section class="author-note" aria-label="About the author">
+  <img
+    class="size-14 shrink-0 rounded-xl object-cover"
+    src={site.profileImage.path}
+    alt={site.profileImage.alt}
+    width="56"
+    height="56"
+    loading="lazy"
+  />
+  <div class="min-w-0">
+    <p class="font-semibold text-[#fafafa]">{profile.name}</p>
+    <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">
+      {profile.role} building {profile.focus.charAt(0).toLowerCase()}{profile.focus.slice(1)}
+      I write about what I learn shipping agents.
+    </p>
+    <p class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+      <a class="author-link" href="/">Portfolio</a>
+      <a class="author-link" href="/blog">More posts</a>
+      <a class="author-link" href="/rss.xml">RSS</a>
+    </p>
+  </div>
+</section>

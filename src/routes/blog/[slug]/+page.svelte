@@ -1,15 +1,34 @@
 <script lang="ts">
   import { ArrowLeft, ArrowRight } from "@lucide/svelte";
+  import AskSelection from "$lib/components/blog/AskSelection.svelte";
+  import AuthorNote from "$lib/components/blog/AuthorNote.svelte";
+  import BlogFigure from "$lib/components/blog/BlogFigure.svelte";
   import BlogShell from "$lib/components/blog/BlogShell.svelte";
+  import BuiltWith from "$lib/components/blog/BuiltWith.svelte";
+  import PostActions from "$lib/components/blog/PostActions.svelte";
   import PostCard from "$lib/components/blog/PostCard.svelte";
   import ReadingProgress from "$lib/components/blog/ReadingProgress.svelte";
   import Seo from "$lib/components/blog/Seo.svelte";
   import TableOfContents from "$lib/components/blog/TableOfContents.svelte";
   import { tagSlug } from "$lib/content/blog-queries";
+  import { copyText } from "$lib/utils/clipboard";
   import { formatDate } from "$lib/utils/date";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
+
+  let article: HTMLElement | undefined = $state();
+
+  // Copy buttons in ```prompt boxes are plain HTML from the markdown renderer.
+  async function onArticleClick(event: MouseEvent) {
+    const button = (event.target as Element).closest<HTMLButtonElement>("[data-prompt-copy]");
+    const prompt = button?.closest(".prompt-box")?.querySelector(".prompt-text")?.textContent;
+    if (!button || !prompt) return;
+    if (await copyText(prompt)) {
+      button.textContent = "Copied";
+      setTimeout(() => (button.textContent = "Copy"), 1600);
+    }
+  }
 
   const path = $derived(`/blog/${data.post.slug}`);
   const image = $derived(`${data.site.url}${path}/og.png`);
@@ -40,7 +59,12 @@
   {jsonLd}
 />
 
+<svelte:head>
+  <link rel="alternate" type="text/markdown" href={`${path}.md`} title="This post as markdown" />
+</svelte:head>
+
 <ReadingProgress />
+<AskSelection root={article} post={{ title: data.post.title, url: data.url }} />
 
 <BlogShell width="max-w-5xl">
   <div class="xl:grid xl:grid-cols-[minmax(0,48rem)_14rem] xl:gap-14">
@@ -71,11 +95,26 @@
         </ul>
       {/if}
 
+      <div class="mt-6"><PostActions title={data.post.title} markdownPath={`${path}.md`} markdownUrl={data.markdownUrl} /></div>
+
       <div class="mt-8 xl:hidden"><TableOfContents items={data.toc} variant="inline" /></div>
 
-      <div class="prose-post mt-10">
-        {@html data.html}
+      <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+      <div class="prose-post mt-10" bind:this={article} onclick={onArticleClick}>
+        {#each data.segments as segment}
+          {#if segment.type === "html"}
+            {@html segment.html}
+          {:else}
+            <BlogFigure id={segment.id} />
+          {/if}
+        {/each}
       </div>
+
+      {#if data.projects.length}
+        <BuiltWith projects={data.projects} />
+      {/if}
+
+      <AuthorNote />
 
       {#if data.newer || data.older}
         <nav class="mt-16 grid gap-3 sm:grid-cols-2" aria-label="More posts">
