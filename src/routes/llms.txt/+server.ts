@@ -13,7 +13,7 @@ export const GET = () => {
   const posts = site.features.blog ? blogPosts : [];
   const postLinks = posts.map(
     (post) =>
-      `- [${post.title}](${site.url}/blog/${post.slug}): ${post.description}`,
+      `- [${post.title}](${site.url}/blog/${post.slug}.md): ${post.description}`,
   );
   const blogSection = posts.length
     ? [
@@ -32,7 +32,7 @@ ${profileSummary()}
 
 ## Portfolio
 
-- [Full portfolio as Markdown](${site.url}/llms-full.txt): experience, selected work, projects, skills, and contact in one file
+- [Full portfolio as Markdown](${site.url}/llms-full.txt): experience, selected work, projects, skills, contact, and every blog post in one file
 - [Website](${site.url}): the human-readable version
 
 ${blogSection}

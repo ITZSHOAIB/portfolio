@@ -1,5 +1,6 @@
 import { site } from "$lib/config/site";
-import { blogPosts } from "$lib/content/blog";
+import { postMarkdown, postMarkdownUrl } from "$lib/content/agent-markdown";
+import { blogEntries, blogPosts } from "$lib/content/blog";
 import {
   careerStartDate,
   experience,
@@ -100,9 +101,20 @@ export function blogMarkdown() {
   return `# Blog\n\n${list(
     posts.map(
       (post) =>
-        `[${post.title}](${site.url}/blog/${post.slug}) (${post.published}): ${post.description}`,
+        `[${post.title}](${site.url}/blog/${post.slug}) (${post.published}, slug \`${post.slug}\`): ${post.description} Markdown: ${postMarkdownUrl(post.slug)}`,
     ),
   )}`;
+}
+
+const publishedEntries = () => (site.features.blog ? blogEntries : []);
+
+export function findPost(slug: string) {
+  return publishedEntries().find((entry) => entry.slug === slug);
+}
+
+// Every published post in full, for llms-full.txt.
+export function blogPostsMarkdown() {
+  return publishedEntries().map(postMarkdown).join("\n\n---\n\n");
 }
 
 export const sections = {
@@ -125,6 +137,26 @@ export function fullMarkdown() {
 
 // Small passages for keyword search, each tagged with the section it came from.
 type Passage = { section: SectionName; title: string; text: string };
+
+// Blog posts split into paragraphs, titled with the post and its section heading.
+function blogPassages(): Passage[] {
+  return publishedEntries().flatMap((entry) => {
+    let heading = "";
+    return entry.body.split(/\r?\n\s*\r?\n/).flatMap((block) => {
+      const text = block.trim();
+      const match = text.match(/^#{2,3}\s+(.*)$/);
+      if (match) heading = match[1];
+      if (!text || match || text.startsWith("::figure")) return [];
+      return [
+        {
+          section: "blog" as const,
+          title: `${entry.title}${heading ? ` > ${heading}` : ""} (${site.url}/blog/${entry.slug})`,
+          text,
+        },
+      ];
+    });
+  });
+}
 
 function passages(): Passage[] {
   return [
@@ -151,6 +183,7 @@ function passages(): Passage[] {
       title: group.title,
       text: [...group.featured, ...group.more].join(", "),
     })),
+    ...blogPassages(),
   ];
 }
 
