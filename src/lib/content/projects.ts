@@ -1,4 +1,4 @@
-import { parseFrontmatter } from "$lib/content/frontmatter";
+import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 
 // Project pages live in src/content/projects/<slug>.md with simple frontmatter:
 //
@@ -7,6 +7,9 @@ import { parseFrontmatter } from "$lib/content/frontmatter";
 //   description: One-sentence summary used for the page header and SEO.
 //   repo: https://github.com/owner/name
 //   updated: 2026-11-09
+//   eyebrow: Open source · Agent skills   (optional)
+//   install: npx skills add owner/name -g  (optional, shows a copy button)
+//   badges: MIT, No dependencies         (optional, comma separated)
 //   ---
 const files = import.meta.glob("/src/content/projects/*.md", {
   query: "?raw",
@@ -20,6 +23,9 @@ export type ProjectPage = {
   description: string;
   repo: string;
   updated: string;
+  eyebrow?: string;
+  install?: string;
+  badges: string[];
   body: string;
 };
 
@@ -40,6 +46,9 @@ export const projectPages: ProjectPage[] = Object.entries(files).map(
       description: data.description,
       repo: data.repo,
       updated: data.updated,
+      eyebrow: data.eyebrow,
+      install: data.install,
+      badges: parseTags(data.badges),
       body,
     };
   },
