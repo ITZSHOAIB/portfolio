@@ -246,15 +246,23 @@
             <a class="font-semibold tracking-tight" href="#top"
                 >{data.profile.name}</a
             >
-            <button
-                type="button"
-                class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
-                onclick={() => askAi.open()}
-                aria-haspopup="dialog"
-            >
-                <Sparkles class="size-3.5" />
-                Ask AI
-            </button>
+            <div class="flex items-center gap-3">
+                {#if data.writing.enabled}
+                    <a
+                        class="text-sm font-semibold text-[#d4d4d8] transition hover:text-[#fafafa]"
+                        href="/writing">Writing</a
+                    >
+                {/if}
+                <button
+                    type="button"
+                    class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
+                    onclick={() => askAi.open()}
+                    aria-haspopup="dialog"
+                >
+                    <Sparkles class="size-3.5" />
+                    Ask AI
+                </button>
+            </div>
         </div>
     </header>
 
@@ -266,6 +274,7 @@
             profile={data.profile}
             experienceText={data.experienceText}
             onAskAi={() => askAi.open()}
+            hasWriting={data.writing.enabled}
             openToWorkText={data.site.features.openToWork
                 ? data.site.openToWorkText
                 : undefined}

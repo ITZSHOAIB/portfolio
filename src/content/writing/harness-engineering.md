@@ -3,7 +3,6 @@ title: Harness engineering: the part of an agent that isn't the model
 description: What people mean by an agent harness, what it is made of, and how to turn every repeated agent mistake into a permanent fix.
 published: 2026-11-10
 tags: [ai-agents, harness-engineering]
-draft: true
 ---
 
 When a coding agent does something dumb, the reflex is to blame the model. Often the model is fine. The agent ran the wrong command because nothing told it the right one, or it declared victory because nothing checked its work. Those are problems with everything around the model, and that surrounding layer now has a name: the harness.
