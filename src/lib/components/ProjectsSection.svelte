@@ -9,6 +9,10 @@
     const primaryProjects = $derived(projects.slice(1, 3));
     const secondaryProjects = $derived(projects.slice(3));
 
+    const cardHref = (project: GithubProject) =>
+        project.page ? `/projects/${project.page}` : project.href;
+    const isInternal = (project: GithubProject) => Boolean(project.page);
+
     const getProjectHost = (href: string) => {
         try {
             return new URL(href).hostname.replace(/^www\./, "");
@@ -32,9 +36,9 @@
         {#if featuredProject}
             <a
                 class="group grid overflow-hidden rounded-lg border border-[#27272a] bg-[#0a0a0a] transition hover:border-[#52525b] hover:bg-[#111111] lg:grid-cols-[16rem_minmax(0,1fr)]"
-                href={featuredProject.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={cardHref(featuredProject)}
+                target={isInternal(featuredProject) ? undefined : "_blank"}
+                rel={isInternal(featuredProject) ? undefined : "noopener noreferrer"}
             >
                 {#if featuredProject.image}
                     <div
@@ -132,9 +136,9 @@
             {#if project.image}
                 <a
                     class="group grid overflow-hidden rounded-lg border border-[#27272a] bg-[#0a0a0a] transition hover:border-[#52525b] hover:bg-[#111111] lg:grid-cols-[16rem_minmax(0,1fr)]"
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={cardHref(project)}
+                    target={isInternal(project) ? undefined : "_blank"}
+                    rel={isInternal(project) ? undefined : "noopener noreferrer"}
                 >
                     <div
                         class="flex items-center border-b border-[#27272a] bg-[#050505] p-2.5 sm:p-3 lg:border-r lg:border-b-0"
@@ -229,9 +233,9 @@
             {:else}
                 <a
                     class="group grid gap-5 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111] sm:p-6 lg:grid-cols-[minmax(0,1fr)_10rem]"
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={cardHref(project)}
+                    target={isInternal(project) ? undefined : "_blank"}
+                    rel={isInternal(project) ? undefined : "noopener noreferrer"}
                 >
                     <div>
                         <div class="flex flex-wrap items-center gap-3">
@@ -302,9 +306,9 @@
             {#each secondaryProjects as project}
                 <a
                     class="group rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111]"
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={cardHref(project)}
+                    target={isInternal(project) ? undefined : "_blank"}
+                    rel={isInternal(project) ? undefined : "noopener noreferrer"}
                 >
                     <div>
                         <div class="flex items-start justify-between gap-4">

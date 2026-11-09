@@ -133,3 +133,7 @@ img {
     animation: none;
   }
 }
+
+.prose-post table { display: block; overflow-x: auto; width: 100%; border-collapse: collapse; font-size: 0.95rem; line-height: 1.6; }
+.prose-post th, .prose-post td { border: 1px solid #27272a; padding: 0.6rem 0.8rem; text-align: left; vertical-align: top; }
+.prose-post th { background: #0a0a0a; color: #fafafa; font-weight: 600; }
