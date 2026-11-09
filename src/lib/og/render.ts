@@ -1,30 +1,28 @@
 // Build-time only: renders a 1200x630 social card. Imported dynamically from
 // prerendered endpoints so the native resvg binding never reaches the worker bundle.
-import { readFile } from "node:fs/promises";
-import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+// Node built-ins are imported lazily: this module is bundled into the worker, where a
+// static `node:` import fails at deploy time even though the route never runs there.
 
 export type OgCard = { title: string; eyebrow: string; footer: string };
 
-const require = createRequire(import.meta.url);
-const fontDir = join(
-  dirname(require.resolve("@fontsource/inter/package.json")),
-  "files",
-);
+const fontDir = "node_modules/@fontsource/inter/files";
 
 let fonts: Promise<
   { name: string; data: Buffer; weight: 400 | 600 | 700; style: "normal" }[]
 > | null = null;
 
 const loadFonts = () =>
-  (fonts ??= Promise.all(
-    ([400, 600, 700] as const).map(async (weight) => ({
-      name: "Inter",
-      data: await readFile(join(fontDir, `inter-latin-${weight}-normal.woff`)),
-      weight,
-      style: "normal" as const,
-    })),
-  ));
+  (fonts ??= (async () => {
+    const { readFile } = await import("node:fs/promises");
+    return Promise.all(
+      ([400, 600, 700] as const).map(async (weight) => ({
+        name: "Inter",
+        data: await readFile(`${fontDir}/inter-latin-${weight}-normal.woff`),
+        weight,
+        style: "normal" as const,
+      })),
+    );
+  })());
 
 const box = (style: Record<string, string | number>, children: unknown) => ({
   type: "div",
