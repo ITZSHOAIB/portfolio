@@ -142,11 +142,37 @@ description: One-sentence summary used for cards, SEO, and feeds.
 published: 2026-11-10
 updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
+projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
 draft: true           # optional, hides the post everywhere
 ---
 ```
 
-Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
+Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts, an author note and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
+
+Posts are plain markdown with a few extensions. The source stays readable as markdown, so the `.md` copy, feeds and `llms-full.txt` keep working:
+
+````md
+> [!TIP] Optional title
+> Callouts use GitHub alert syntax: NOTE, TIP, IMPORTANT, WARNING, CAUTION, TLDR.
+
+::figure harness-anatomy
+
+```prompt title="Try it with your agent"
+A prompt readers can copy or open in Claude or ChatGPT.
+```
+
+![Alt text](/images/diagram.png "A titled image becomes a captioned figure")
+
+<video src="/videos/demo.mp4" controls muted playsinline></video>
+````
+
+A `::figure <id>` line renders an interactive Svelte component. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
+
+For readers who learn with AI:
+
+- **Select to ask.** Selecting text in a post shows a small toolbar that opens Claude or ChatGPT with the passage, the post title and its URL, or copies that prompt.
+- **Post actions.** Each post has Copy as Markdown, Open in Claude, Open in ChatGPT and a `.md` link.
+- **Markdown for agents.** `/blog/<slug>.md` serves each post as plain markdown. `llms.txt` links to it, `llms-full.txt` includes every post, and the `/mcp` server adds `list_blog_posts` and `read_blog_post`, with post paragraphs in `search_portfolio` results.
 
 ## Deployment
 
