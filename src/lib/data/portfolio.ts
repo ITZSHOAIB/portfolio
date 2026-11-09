@@ -116,8 +116,9 @@ export const githubProjects = [
   {
     name: "Dev Skills",
     description:
-      "Installable workflows for AI coding agents, including cold code reviews and guided pull request reviews with human decisions on findings.",
+      "Five agent skills for shipping code you can trust: cold reviews of code, docs and whole products, guided PR reviews, and PR bodies. A fresh agent does the legwork; you make the calls.",
     href: "https://github.com/ITZSHOAIB/dev-skills",
+    page: "dev-skills",
     language: "Agent skills",
     updated: "Open source",
     stars: "-",

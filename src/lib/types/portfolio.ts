@@ -24,6 +24,8 @@ export type GithubProject = {
   name: string;
   description: string;
   href: string;
+  /** Slug of a page in src/content/projects; the card links there instead of `href`. */
+  page?: string;
   language: string;
   updated: string;
   stars: number | string;
