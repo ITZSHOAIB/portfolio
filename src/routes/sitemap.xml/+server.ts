@@ -1,6 +1,7 @@
 import { site } from "$lib/config/site";
 import { writingPosts } from "$lib/content/writing";
 import { projectPages } from "$lib/content/projects";
+import { allTags } from "$lib/content/writing-queries";
 import { githubProjects } from "$lib/data/portfolio";
 
 export const prerender = true;
@@ -38,14 +39,35 @@ const routes = [
     priority: "0.7",
     images: [site.image],
   })),
-  ...(site.features.writing
-    ? writingPosts.map((post) => ({
-        path: `/writing/${post.slug}`,
-        lastmod: post.updated ?? post.published,
-        changefreq: "yearly",
-        priority: "0.7",
-        images: [site.image],
-      }))
+  ...(site.features.writing && writingPosts.length
+    ? [
+        {
+          path: "/writing",
+          lastmod: writingPosts[0].updated ?? writingPosts[0].published,
+          changefreq: "weekly",
+          priority: "0.8",
+          images: [site.image],
+        },
+        ...writingPosts.map((post) => ({
+          path: `/writing/${post.slug}`,
+          lastmod: post.updated ?? post.published,
+          changefreq: "yearly",
+          priority: "0.7",
+          images: [
+            {
+              path: `/writing/${post.slug}/og.png`,
+              alt: post.title,
+            },
+          ],
+        })),
+        ...allTags().map(({ slug }) => ({
+          path: `/tags/${slug}`,
+          lastmod: writingPosts[0].published,
+          changefreq: "weekly",
+          priority: "0.4",
+          images: [site.image],
+        })),
+      ]
     : []),
 ];
 

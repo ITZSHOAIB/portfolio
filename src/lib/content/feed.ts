@@ -1,0 +1,18 @@
+import { site } from "$lib/config/site";
+import { renderMarkdown } from "$lib/content/markdown";
+import { writingEntries } from "$lib/content/writing";
+
+// Feed readers show content out of context, so root-relative links must be absolute.
+const absolutize = (html: string) =>
+  html.replace(/(href|src)="\//g, `$1="${site.url}/`);
+
+export async function feedPosts() {
+  if (!site.features.writing) return [];
+  return Promise.all(
+    writingEntries.map(async ({ body, ...post }) => ({
+      ...post,
+      url: `${site.url}/writing/${post.slug}`,
+      html: absolutize((await renderMarkdown(body)).html),
+    })),
+  );
+}

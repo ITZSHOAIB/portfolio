@@ -10,9 +10,15 @@
   class="scroll-mt-24 border-b border-[#27272a] py-16 lg:py-18"
 >
   <div class="grid gap-5 lg:grid-cols-[14rem_1fr]">
-    <p class="text-sm font-bold uppercase tracking-[0.14em] text-[#a1a1aa]">
-      Writing
-    </p>
+    <div class="flex items-baseline justify-between gap-4 lg:block">
+      <p class="text-sm font-bold uppercase tracking-[0.14em] text-[#a1a1aa]">
+        Writing
+      </p>
+      <a
+        class="text-sm font-medium text-[#a1a1aa] transition hover:text-[#fafafa] lg:mt-3 lg:inline-block"
+        href="/writing">All posts →</a
+      >
+    </div>
     <div class="grid gap-4">
       {#each posts as post}
         <a
