@@ -1,5 +1,5 @@
 import { site } from "$lib/config/site";
-import { writingPosts } from "$lib/content/writing";
+import { blogPosts } from "$lib/content/blog";
 import {
   careerStartDate,
   experience,
@@ -94,13 +94,13 @@ export function contactMarkdown() {
   return `# Contact\n\nEmail: ${profile.email}\nWebsite: ${site.url}\n\n${links.join("\n")}`;
 }
 
-export function writingMarkdown() {
-  const posts = site.features.writing ? writingPosts : [];
-  if (!posts.length) return "# Writing\n\nNo posts published yet.";
-  return `# Writing\n\n${list(
+export function blogMarkdown() {
+  const posts = site.features.blog ? blogPosts : [];
+  if (!posts.length) return "# Blog\n\nNo posts published yet.";
+  return `# Blog\n\n${list(
     posts.map(
       (post) =>
-        `[${post.title}](${site.url}/writing/${post.slug}) (${post.published}): ${post.description}`,
+        `[${post.title}](${site.url}/blog/${post.slug}) (${post.published}): ${post.description}`,
     ),
   )}`;
 }
@@ -111,7 +111,7 @@ export const sections = {
   "selected-work": selectedWorkMarkdown,
   projects: projectsMarkdown,
   skills: skillsMarkdown,
-  writing: writingMarkdown,
+  blog: blogMarkdown,
   contact: contactMarkdown,
 } as const;
 

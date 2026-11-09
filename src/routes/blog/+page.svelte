@@ -10,30 +10,30 @@
   const jsonLd = $derived({
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: `${data.site.name}: writing`,
+    name: `${data.site.name}: blog`,
     description,
-    url: `${data.site.url}/writing`,
+    url: `${data.site.url}/blog`,
     author: { "@type": "Person", name: data.site.name, url: data.site.url },
     blogPost: data.posts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
-      url: `${data.site.url}/writing/${post.slug}`,
+      url: `${data.site.url}/blog/${post.slug}`,
       datePublished: post.published,
     })),
   });
 </script>
 
 <Seo
-  title={`Writing | ${data.site.name}`}
+  title={`Blog | ${data.site.name}`}
   {description}
-  path="/writing"
+  path="/blog"
   noindex={data.posts.length === 0}
   {jsonLd}
 />
 
 <BlogShell>
   <section class="blog-reveal">
-    <h1 class="blog-title text-3xl font-semibold tracking-tight sm:text-5xl">Writing</h1>
+    <h1 class="blog-title text-3xl font-semibold tracking-tight sm:text-5xl">Blog</h1>
     <p class="mt-4 text-lg leading-8 text-[#a1a1aa]">{description}</p>
 
     {#if data.tags.length}

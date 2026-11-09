@@ -8,14 +8,14 @@
         profile,
         experienceText,
         openToWorkText,
-        hasWriting = false,
+        hasBlog = false,
         onAskAi,
     }: {
         profile: Profile;
         onAskAi: () => void;
         experienceText: string;
         openToWorkText?: string;
-        hasWriting?: boolean;
+        hasBlog?: boolean;
     } = $props();
 </script>
 
@@ -119,13 +119,13 @@
                     >
                         <ArrowDownToLine class="size-4" />
                     </a>
-                    {#if hasWriting}
+                    {#if hasBlog}
                         <a
                             class="inline-flex items-center gap-2 rounded-md border border-[#27272a] px-3 py-2.5 text-sm! font-bold text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
-                            href="/writing"
+                            href="/blog"
                         >
                             <BookOpen class="size-4" />
-                            Writing
+                            Blog
                         </a>
                     {/if}
                 </div>

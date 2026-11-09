@@ -40,13 +40,13 @@
   <link
     rel="alternate"
     type="application/rss+xml"
-    title={`${site.name} writing`}
+    title={`${site.name} blog`}
     href="/rss.xml"
   />
   <link
     rel="alternate"
     type="application/feed+json"
-    title={`${site.name} writing`}
+    title={`${site.name} blog`}
     href="/feed.json"
   />
   <meta property="og:site_name" content={site.name} />

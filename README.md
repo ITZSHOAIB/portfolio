@@ -24,7 +24,7 @@ The site highlights work across agentic AI systems, multi-agent learning-authori
 ## What It Includes
 
 - **Modern SvelteKit app** using Svelte 5, Vite, TypeScript, and Tailwind CSS.
-- **Content-driven portfolio data** for profile, projects, experience, skills, and optional writing.
+- **Content-driven portfolio data** for profile, projects, experience, skills, and an optional blog.
 - **SEO and social sharing metadata** with Open Graph, Twitter card tags, canonical URLs, and JSON-LD structured data.
 - **Cloudflare Pages deployment path** using the SvelteKit Cloudflare adapter.
 - **Generated robots and sitemap routes** for crawler-friendly indexing.
@@ -126,14 +126,14 @@ Most portfolio content is centralized in a small set of files:
 | --- | --- |
 | `src/lib/config/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, and feature flags. |
 | `src/lib/data/portfolio.ts` | Profile details, social links, selected projects, experience, and skills. |
-| `src/content/writing/*.md` | Blog posts, one markdown file each. |
+| `src/content/blog/*.md` | Blog posts, one markdown file each. |
 | `src/content/projects/*.md` | Project pages linked from the project cards. |
 | `static/resume.pdf` | Public resume linked from the site. |
 | `static/images/` | Profile photo and social preview image. |
 
-## Writing
+## Blog
 
-Posts are markdown files in `src/content/writing/` with frontmatter:
+Posts are markdown files in `src/content/blog/` with frontmatter:
 
 ```md
 ---
@@ -146,7 +146,7 @@ draft: true           # optional, hides the post everywhere
 ---
 ```
 
-Each published post gets a page at `/writing/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts and a generated social image at `/writing/<slug>/og.png`. The blog also serves `/writing`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/writing` is `noindex` and the home section stays hidden. Set `features.writing` to `false` in `src/lib/config/site.ts` to switch it all off.
+Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
 
 ## Deployment
 

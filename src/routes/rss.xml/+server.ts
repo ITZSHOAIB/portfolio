@@ -35,8 +35,8 @@ ${post.tags.map((tag) => `      <category>${escapeXml(tag)}</category>`).join("\
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(site.name)}: writing</title>
-    <link>${site.url}/writing</link>
+    <title>${escapeXml(site.name)}: blog</title>
+    <link>${site.url}/blog</link>
     <atom:link href="${site.url}/rss.xml" rel="self" type="application/rss+xml" />
     <description>${escapeXml(site.shortDescription)}</description>
     <language>${site.language}</language>${lastBuild ? `\n    <lastBuildDate>${new Date(lastBuild).toUTCString()}</lastBuildDate>` : ""}

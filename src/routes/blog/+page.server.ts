@@ -1,12 +1,12 @@
 import { site } from "$lib/config/site";
-import { writingPosts } from "$lib/content/writing";
-import { allTags } from "$lib/content/writing-queries";
+import { blogPosts } from "$lib/content/blog";
+import { allTags } from "$lib/content/blog-queries";
 import type { PageServerLoad } from "./$types";
 
 export const prerender = true;
 
 export const load: PageServerLoad = () => ({
-  posts: writingPosts,
+  posts: blogPosts,
   tags: allTags(),
   site,
 });

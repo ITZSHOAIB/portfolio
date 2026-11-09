@@ -42,7 +42,7 @@ export const site = {
     "Blockchain",
   ],
   features: {
-    writing: true,
+    blog: true,
     // Soft availability line in the hero. Turn off if the timing is wrong.
     openToWork: true,
   },

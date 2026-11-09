@@ -1,17 +1,17 @@
 import { site } from "$lib/config/site";
 import { renderMarkdown } from "$lib/content/markdown";
-import { writingEntries } from "$lib/content/writing";
+import { blogEntries } from "$lib/content/blog";
 
 // Feed readers show content out of context, so root-relative links must be absolute.
 const absolutize = (html: string) =>
   html.replace(/(href|src)="\//g, `$1="${site.url}/`);
 
 export async function feedPosts() {
-  if (!site.features.writing) return [];
+  if (!site.features.blog) return [];
   return Promise.all(
-    writingEntries.map(async ({ body, ...post }) => ({
+    blogEntries.map(async ({ body, ...post }) => ({
       ...post,
-      url: `${site.url}/writing/${post.slug}`,
+      url: `${site.url}/blog/${post.slug}`,
       html: absolutize((await renderMarkdown(body)).html),
     })),
   );

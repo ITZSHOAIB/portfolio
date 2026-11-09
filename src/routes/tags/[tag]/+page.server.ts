@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { site } from "$lib/config/site";
-import { allTags, postsWithTag } from "$lib/content/writing-queries";
+import { allTags, postsWithTag } from "$lib/content/blog-queries";
 import type { EntryGenerator, PageServerLoad } from "./$types";
 
 export const prerender = true;

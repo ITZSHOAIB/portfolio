@@ -1,7 +1,7 @@
-import type { WritingPost } from "$lib/types/portfolio";
+import type { BlogPost } from "$lib/types/portfolio";
 import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 
-// Posts live in src/content/writing/<slug>.md with simple frontmatter:
+// Posts live in src/content/blog/<slug>.md with simple frontmatter:
 //
 //   ---
 //   title: Post title
@@ -11,24 +11,24 @@ import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 //   tags: [langgraph, agents]
 //   draft: true              (optional, hides the post everywhere)
 //   ---
-const files = import.meta.glob("/src/content/writing/*.md", {
+const files = import.meta.glob("/src/content/blog/*.md", {
   query: "?raw",
   import: "default",
   eager: true,
 }) as Record<string, string>;
 
-export type WritingEntry = WritingPost & { body: string };
+export type BlogEntry = BlogPost & { body: string };
 
 const WORDS_PER_MINUTE = 220;
 
-const entries: WritingEntry[] = Object.entries(files).flatMap(([path, raw]) => {
+const entries: BlogEntry[] = Object.entries(files).flatMap(([path, raw]) => {
   const { data, body } = parseFrontmatter(raw);
   const slug = path.split("/").pop()!.replace(/\.md$/, "");
 
   if (data.draft === "true") return [];
   if (!data.title || !data.description || !data.published) {
     throw new Error(
-      `Writing post "${slug}" needs title, description, and published in its frontmatter.`,
+      `Blog post "${slug}" needs title, description, and published in its frontmatter.`,
     );
   }
 
@@ -49,10 +49,10 @@ const entries: WritingEntry[] = Object.entries(files).flatMap(([path, raw]) => {
   ];
 });
 
-export const writingEntries = entries.sort((a, b) =>
+export const blogEntries = entries.sort((a, b) =>
   b.published.localeCompare(a.published),
 );
 
-export const writingPosts: WritingPost[] = writingEntries.map(
+export const blogPosts: BlogPost[] = blogEntries.map(
   ({ body: _body, ...post }) => post,
 );

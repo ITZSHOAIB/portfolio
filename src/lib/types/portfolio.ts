@@ -69,7 +69,7 @@ export type SkillGroup = {
   more: string[];
 };
 
-export type WritingPost = {
+export type BlogPost = {
   title: string;
   description: string;
   slug: string;

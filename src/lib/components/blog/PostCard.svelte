@@ -1,10 +1,10 @@
 <script lang="ts">
   import { ArrowUpRight } from "@lucide/svelte";
-  import { tagSlug } from "$lib/content/writing-queries";
-  import type { WritingPost } from "$lib/types/portfolio";
+  import { tagSlug } from "$lib/content/blog-queries";
+  import type { BlogPost } from "$lib/types/portfolio";
   import { formatDate } from "$lib/utils/date";
 
-  let { post }: { post: WritingPost } = $props();
+  let { post }: { post: BlogPost } = $props();
 </script>
 
 <article
@@ -16,7 +16,7 @@
   </p>
   <div class="mt-3 flex items-start justify-between gap-4">
     <h2 class="text-xl font-semibold leading-snug tracking-tight sm:text-2xl">
-      <a class="after:absolute after:inset-0" href={`/writing/${post.slug}`}>
+      <a class="after:absolute after:inset-0" href={`/blog/${post.slug}`}>
         {post.title}
       </a>
     </h2>

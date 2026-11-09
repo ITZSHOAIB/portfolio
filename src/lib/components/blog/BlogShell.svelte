@@ -21,7 +21,7 @@
         {site.name}
       </a>
       <nav class="flex items-center gap-5 text-sm font-medium text-[#a1a1aa]">
-        <a class="transition hover:text-[#fafafa]" href="/writing">Writing</a>
+        <a class="transition hover:text-[#fafafa]" href="/blog">Blog</a>
         <a
           class="inline-flex items-center gap-1.5 transition hover:text-[#fafafa]"
           href="/rss.xml"

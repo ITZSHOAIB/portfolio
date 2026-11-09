@@ -5,13 +5,13 @@
   import ReadingProgress from "$lib/components/blog/ReadingProgress.svelte";
   import Seo from "$lib/components/blog/Seo.svelte";
   import TableOfContents from "$lib/components/blog/TableOfContents.svelte";
-  import { tagSlug } from "$lib/content/writing-queries";
+  import { tagSlug } from "$lib/content/blog-queries";
   import { formatDate } from "$lib/utils/date";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
 
-  const path = $derived(`/writing/${data.post.slug}`);
+  const path = $derived(`/blog/${data.post.slug}`);
   const image = $derived(`${data.site.url}${path}/og.png`);
   const jsonLd = $derived({
     "@context": "https://schema.org",
@@ -82,7 +82,7 @@
           {#if data.newer}
             <a
               class="rounded-lg border border-[#27272a] bg-[#0a0a0a] p-4 transition hover:border-[#52525b]"
-              href={`/writing/${data.newer.slug}`}
+              href={`/blog/${data.newer.slug}`}
             >
               <span class="flex items-center gap-1.5 text-xs text-[#a1a1aa]">
                 <ArrowLeft class="size-3.5" /> Newer
@@ -93,7 +93,7 @@
           {#if data.older}
             <a
               class="rounded-lg border border-[#27272a] bg-[#0a0a0a] p-4 text-right transition hover:border-[#52525b] sm:col-start-2"
-              href={`/writing/${data.older.slug}`}
+              href={`/blog/${data.older.slug}`}
             >
               <span class="flex items-center justify-end gap-1.5 text-xs text-[#a1a1aa]">
                 Older <ArrowRight class="size-3.5" />
