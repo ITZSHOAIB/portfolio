@@ -12,7 +12,7 @@ export const githubProjects = [
     topics: ["agent framework", "workflow kit", "developer tools"],
     image: {
       src: "/images/plico.webp",
-      alt: "Plico product interface preview",
+      alt: "Plico homepage: Build AI agents from files",
       width: 1100,
       height: 769,
     },
