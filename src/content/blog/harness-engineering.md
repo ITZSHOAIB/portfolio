@@ -4,7 +4,7 @@ description: What an agent harness is, why it matters as much as the model, and 
 published: 2026-11-10
 tags: [ai-agents, harness-engineering]
 projects: [Plico, Dev Skills]
-cover: /images/blog/harness-engineering.svg
+cover: /images/blog/harness-engineering.jpg
 ---
 
 When a coding agent does something dumb, my first reflex is to blame the model. Usually the model is fine. It ran the wrong test command because nothing told it the right one. It said "done" because nothing checked. That isn't a model problem. It's a harness problem.

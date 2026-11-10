@@ -18,6 +18,7 @@ export const GET: RequestHandler = async ({ params }) => {
     title: post.title,
     eyebrow: post.tags.slice(0, 3).join(" · ") || "Blog",
     footer: `${site.name} · ${formatDate(post.published)}`,
+    cover: post.cover,
   });
 
   return new Response(new Uint8Array(png), {

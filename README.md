@@ -143,7 +143,7 @@ published: 2026-11-10
 updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
 projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
-cover: /images/blog/my-post.svg  # optional, thumbnail for the blog list card
+cover: /images/blog/my-post.jpg  # optional, a JPEG under static/: list thumbnail and social image
 draft: true           # optional, hides the post everywhere
 ---
 ```
@@ -169,7 +169,7 @@ A prompt readers can copy or open in Claude or ChatGPT.
 
 A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/components/blog/figures/autoplay.ts`). With reduced motion, it shows a static version instead. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
 
-A `cover` is a static thumbnail (14:9, such as a still of the post's own figure) shown on the `/blog` list card only, beside the text on wide screens and above it on phones. It is not used on the post page or in the social image, so a post without one looks the same minus the picture.
+A `cover` is a JPEG (about 16:9, dark, with room on the right) under `static/`. It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and the photo on the left of the post's social image (`/blog/<slug>/og.png`), with the title on the right. It is not shown on the post page. A post without one gets the plain text social card.
 
 For readers who learn with AI:
 

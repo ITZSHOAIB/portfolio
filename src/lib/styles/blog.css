@@ -85,6 +85,7 @@
   width: 100%;
   aspect-ratio: 14 / 9;
   object-fit: cover;
+  object-position: 20% 50%;
   border: 1px solid #1f1f23;
   border-radius: 0.6rem;
   background: #000000;

@@ -3,7 +3,9 @@
 // Node built-ins are imported lazily: this module is bundled into the worker, where a
 // static `node:` import fails at deploy time even though the route never runs there.
 
-export type OgCard = { title: string; eyebrow: string; footer: string };
+// `cover` is a path under static/ (for example /images/blog/x.jpg). With one, the card
+// becomes a photo on the left and the text on the right.
+export type OgCard = { title: string; eyebrow: string; footer: string; cover?: string };
 
 const fontDir = "node_modules/@fontsource/inter/files";
 
@@ -29,11 +31,21 @@ const box = (style: Record<string, string | number>, children: unknown) => ({
   props: { style: { display: "flex", flexDirection: "column", ...style }, children },
 });
 
-export async function renderOgPng({ title, eyebrow, footer }: OgCard) {
+const coverUri = async (cover: string) => {
+  const { readFile } = await import("node:fs/promises");
+  const data = await readFile(`static${cover}`);
+  return `url(data:image/jpeg;base64,${data.toString("base64")})`;
+};
+
+export async function renderOgPng({ title, eyebrow, footer, cover }: OgCard) {
   const { default: satori } = await import("satori");
   const { Resvg } = await import("@resvg/resvg-js");
 
-  const fontSize = title.length > 70 ? 54 : title.length > 40 ? 64 : 76;
+  const fontSize = cover ? 56 : title.length > 70 ? 54 : title.length > 40 ? 64 : 76;
+  const background = cover
+    ? `${await coverUri(cover)} 0 0 / cover`
+    : "radial-gradient(circle at 15% 0%, #1f1f23 0%, #09090b 55%, #000000 100%)";
+  const textColumn: Record<string, string | number> = cover ? { marginLeft: 448 } : {};
 
   const tree = box(
     {
@@ -45,17 +57,17 @@ export async function renderOgPng({ title, eyebrow, footer }: OgCard) {
       padding: 72,
       color: "#fafafa",
       fontFamily: "Inter",
-      background:
-        "radial-gradient(circle at 15% 0%, #1f1f23 0%, #09090b 55%, #000000 100%)",
+      background,
     },
     [
       box(
         {
-          fontSize: 26,
+          fontSize: cover ? 22 : 26,
           fontWeight: 600,
           letterSpacing: 4,
           textTransform: "uppercase",
-          color: "#a1a1aa",
+          color: "#7dd3fc",
+          ...textColumn,
         },
         eyebrow,
       ),
@@ -65,6 +77,7 @@ export async function renderOgPng({ title, eyebrow, footer }: OgCard) {
           fontWeight: 700,
           lineHeight: 1.1,
           letterSpacing: -2,
+          ...textColumn,
         },
         title,
       ),
@@ -74,6 +87,7 @@ export async function renderOgPng({ title, eyebrow, footer }: OgCard) {
           color: "#a1a1aa",
           borderTop: "2px solid #27272a",
           paddingTop: 28,
+          ...textColumn,
         },
         footer,
       ),
