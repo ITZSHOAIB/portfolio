@@ -1,6 +1,6 @@
 import type { SkillGroup } from "$lib/types/portfolio";
 
-export const skillGroups = [
+export const skillGroups: SkillGroup[] = [
   {
     title: "AI Agent Frameworks",
     featured: ["LangGraph", "LangChain", "MCP", "RAG", "VectorDB", "Ingestion"],
@@ -80,4 +80,4 @@ export const skillGroups = [
     featured: ["JavaScript", "TypeScript", "Python", "GoLang", "Ruby", "Jest", "Vitest"],
     more: ["Java", "Playwright"],
   },
-] satisfies SkillGroup[];
+];

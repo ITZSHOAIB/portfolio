@@ -2,7 +2,7 @@
   let { paused = false }: { paused?: boolean } = $props();
   import { Activity, FileText, Server, Webhook, Workflow, Wrench } from "@lucide/svelte";
   import { onMount } from "svelte";
-  import { autoplay } from "./autoplay";
+  import { autoplay } from "$lib/utils/autoplay";
 
   // The parts list comes from LangChain's "Anatomy of an Agent Harness";
   // observability is Addy Osmani's addition. The "why" lines are my own framing.

@@ -14,11 +14,12 @@
     isFiltering,
     type PostFilter,
   } from "$lib/content/blog-filter";
+  import { copy } from "$content/copy";
   import type { PageData } from "./$types";
 
   let { data }: { data: PageData } = $props();
 
-  const description = $derived(`Notes on AI agents, multi-agent workflows, and scalable software systems by ${data.site.name}.`);
+  const description = $derived(`${copy.blogDescription} by ${data.site.name}.`);
   const jsonLd = $derived({
     "@context": "https://schema.org",
     "@type": "Blog",

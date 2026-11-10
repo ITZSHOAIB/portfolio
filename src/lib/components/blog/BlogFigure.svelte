@@ -1,8 +1,7 @@
 <script lang="ts">
   import { Pause, Play } from "@lucide/svelte";
   import { onMount } from "svelte";
-  import { figureComponents } from "$lib/components/blog/figures";
-  import { figures } from "$lib/content/figures";
+  import { figureComponents, figures } from "$content/figures";
 
   let { id }: { id: string } = $props();
 

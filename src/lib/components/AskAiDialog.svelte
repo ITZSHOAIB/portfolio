@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { ArrowUpRight, Check, ChevronDown, Copy, Sparkles, X } from "@lucide/svelte";
   import { siClaude, siGooglegemini } from "simple-icons";
+  import { copy as siteCopy } from "$content/copy";
   import { openAiPath } from "$lib/ai/links";
 
   let {
@@ -18,28 +19,9 @@
   const mcpUrl = $derived(`${siteUrl}/mcp`);
   const command = $derived(`claude mcp add --transport http ${handle} ${mcpUrl}`);
 
-  const questions = $derived([
-    {
-      id: "summary",
-      label: "Quick summary",
-      ask: `summarize who ${name} is, the most notable work shipped, and the strongest areas.`,
-    },
-    {
-      id: "ai",
-      label: "AI work",
-      ask: `list the AI products ${name} has shipped to production, the role played in each, and the scale.`,
-    },
-    {
-      id: "fit",
-      label: "Fit for a role",
-      ask: `assess how ${name}'s experience fits the job posting below. Cover strong matches and gaps.`,
-    },
-    {
-      id: "interview",
-      label: "Interview prep",
-      ask: `suggest five interview questions tailored to ${name}'s experience, with what a strong answer would cover.`,
-    },
-  ]);
+  const questions = $derived(
+    siteCopy.askAiQuestions.map((q) => ({ ...q, ask: q.ask.replaceAll("{name}", name) })),
+  );
 
   // Claude and ChatGPT accept a prefilled prompt in the URL. Gemini does not,
   // so its button copies the prompt first and the visitor pastes it.

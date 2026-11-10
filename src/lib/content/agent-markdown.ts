@@ -1,6 +1,7 @@
 import { site } from "$content/site";
 import type { BlogEntry } from "$lib/content/blog";
-import { FIGURE_LINE, figures } from "$lib/content/figures";
+import { figures } from "$content/figures";
+import { FIGURE_LINE } from "$lib/content/figures";
 
 // Plain-markdown view of a post for agents: /blog/<slug>.md, llms-full.txt
 // and the MCP server. String work only, because the MCP server imports this

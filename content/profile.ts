@@ -3,7 +3,7 @@ import type { Profile } from "$lib/types/portfolio";
 // Start of professional experience; drives the "N+ years" figure everywhere.
 export const careerStartDate = new Date("2020-02-14T00:00:00Z");
 
-export const profile = {
+export const profile: Profile = {
   name: "Sohab Sk",
   givenName: "Sohab",
   familyName: "Sk",
@@ -15,6 +15,7 @@ export const profile = {
   focus: "Reliable AI Agents & scalable software systems.",
   current:
     "Leading agentic AI product work at Skillsoft / Codecademy: multi-agent authoring, learning-by-building engines, and the reusable frameworks behind them.",
+  writing: "I write about what I learn shipping agents.",
   previous:
     "Previously built enterprise blockchain SaaS at EY GDS.",
   links: [
@@ -44,4 +45,4 @@ export const profile = {
       href: "mailto:sksohablocal@gmail.com",
     },
   ],
-} satisfies Profile;
+};

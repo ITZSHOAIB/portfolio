@@ -1,3 +1,4 @@
+import { copy } from "$content/copy";
 import { site } from "$content/site";
 import { postMarkdown, postMarkdownUrl } from "$lib/content/agent-markdown";
 import { blogEntries, blogPosts } from "$lib/content/blog";
@@ -213,9 +214,7 @@ const knownTerms = Array.from(
     ...skillGroups.flatMap((group) => [...group.featured, ...group.more]),
     ...experience.flatMap((item) => item.stack),
     ...selectedWork.flatMap((item) => item.stack),
-    "Claude Code",
-    "LLM evaluations",
-    "Multi-agent",
+    ...copy.matchTerms,
   ]),
 );
 

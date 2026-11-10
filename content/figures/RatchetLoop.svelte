@@ -2,7 +2,7 @@
   import { ChevronRight } from "@lucide/svelte";
   let { paused = false }: { paused?: boolean } = $props();
   import { onMount } from "svelte";
-  import { autoplay } from "./autoplay";
+  import { autoplay } from "$lib/utils/autoplay";
 
   const steps = [
     {

@@ -56,10 +56,13 @@ The site highlights work across agentic AI systems, multi-agent learning-authori
 │   ├── github-projects.ts         # Project cards
 │   ├── experience.ts              # Experience timeline
 │   ├── skills.ts                  # Skill groups
+│   ├── copy.ts                    # Section headlines, blog blurb, Ask AI prompts
+│   ├── figures/                   # Post figures: components plus their captions
 │   ├── posts/                     # Blog posts, one Markdown file each
 │   ├── projects/                  # Project pages linked from the cards
 │   └── public/                    # Served from the site root: images, resume, icons
-├── scripts/                       # check-content, new:post, new:project and their tests
+├── scripts/                       # check-content, new:post, new:project, make-template and their tests
+├── template/                      # Starter content and overlay files used by make-template
 ├── src/
 │   ├── lib/
 │   │   ├── components/            # Portfolio sections and UI pieces
@@ -134,6 +137,8 @@ Most portfolio content is centralized in a small set of files:
 | `content/profile.ts` | Name, role, location, email, social links, and career start date. |
 | `content/selected-work.ts`, `content/github-projects.ts` | The selected work and project cards. |
 | `content/experience.ts`, `content/skills.ts` | Experience timeline and skill groups. |
+| `content/copy.ts` | Section headlines and descriptions, the `/blog` blurb, and the prompts in the Ask AI dialog. |
+| `content/figures/` | Interactive figures for posts: each component, its caption and its text description. |
 | `content/posts/*.md` | Blog posts, one markdown file each. |
 | `content/projects/*.md` | Project pages linked from the project cards. |
 | `content/public/` | Files served from the site root: `resume.pdf`, `images/` (profile photo, social preview, covers), icons, and the web manifest. |
@@ -194,7 +199,7 @@ A prompt readers can copy or open in Claude or ChatGPT.
 <video src="/videos/demo.mp4" controls muted playsinline></video>
 ````
 
-A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/components/blog/figures/autoplay.ts`). With reduced motion, it shows a static version instead. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
+A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/utils/autoplay.ts`). With reduced motion, it shows a static version instead. Register its component, caption and text description in `content/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
 
 A `cover` is a finished 1200x630 JPEG under `content/public/`, with the title already on it (large enough to read as a small thumbnail). It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and it is served as the post's social image (`/blog/<slug>/og.png`) as is. It is not shown on the post page. A post without one gets the plain text social card.
 
@@ -238,3 +243,18 @@ This is a personal portfolio project. Unless a license is added later, all right
 Built by [Sohab Sk](https://sohab.dev) · [GitHub](https://github.com/ITZSHOAIB) · [LinkedIn](https://www.linkedin.com/in/IITZSHOAIB)
 
 </div>
+
+## Template
+
+This repo is the source of the `agent-ready-portfolio` template: the same app, with a placeholder person instead of the owner's content. `pnpm make-template --out <dir>` writes it for review; nothing is pushed.
+
+```sh
+pnpm make-template --out ../agent-ready-portfolio          # new folder (must be empty or missing)
+pnpm make-template --out ../agent-ready-portfolio --force  # replace a previous output, keeping .git
+```
+
+- App code is copied from this repo's tracked and unignored files. `content/`, `template/`, the generator and this README are left out.
+- `template/starter/content/` is the placeholder content (Alex Rivera, a "Hello world" post that documents authoring, one sample project, one example figure). `template/overlay/` holds files that replace root files, such as the template README.
+- Placeholder images, icons and the resume PDF are generated as shapes (no fonts, no binaries in git).
+- `content/.starter.json` lists the starter values and files. `pnpm check-content` reports any that are still unchanged, so an agent knows setup is not finished. `pnpm verify` runs `check-content --ignore-starter`, so a fresh template still builds.
+- Personal data must stay in `content/`. A test generates the template and fails if the owner's names or topics appear anywhere in it.

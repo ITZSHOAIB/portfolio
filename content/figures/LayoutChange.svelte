@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { autoplay } from "./autoplay";
+  import { autoplay } from "$lib/utils/autoplay";
 
   let { paused = false }: { paused?: boolean } = $props();
 

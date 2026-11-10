@@ -31,8 +31,9 @@
     "check-content": "node scripts/check-content.ts",
     "new:post": "node scripts/new-post.ts",
     "new:project": "node scripts/new-project.ts",
+    "make-template": "node scripts/make-template.ts",
     "test": "node --no-warnings --test \"scripts/test/*.test.ts\"",
-    "verify": "pnpm check && pnpm test && pnpm check-content && pnpm build"
+    "verify": "pnpm check && pnpm test && pnpm check-content --ignore-starter && pnpm build"
   },
   "devDependencies": {
     "@fontsource/inter": "^5.3.0",

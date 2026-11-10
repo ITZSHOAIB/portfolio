@@ -16,7 +16,7 @@
     <p class="font-semibold text-[#fafafa]">{profile.name}</p>
     <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">
       {profile.role} building {profile.focus.charAt(0).toLowerCase()}{profile.focus.slice(1)}
-      I write about what I learn shipping agents.
+      {profile.writing}
     </p>
     <p class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm">
       <a class="author-link" href="/">Portfolio</a>

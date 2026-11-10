@@ -1,7 +1,7 @@
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { fingerprint } from "./fingerprint.ts";
 import type { Problem } from "./problems.ts";
 
 // content/.starter.json is written by the template generator. It lists the starter
@@ -35,8 +35,7 @@ export async function checkStarter(root: string): Promise<Problem[]> {
 
   for (const entry of manifest.files) {
     if (!existsSync(join(root, entry.path))) continue;
-    const text = readFileSync(join(root, entry.path), "utf8").replace(/\r\n/g, "\n");
-    if (createHash("sha256").update(text).digest("hex") === entry.sha256) {
+    if (fingerprint(entry.path, readFileSync(join(root, entry.path))) === entry.sha256) {
       problems.push({
         file: entry.path,
         message: "is still the starter file. Edit it for your own site or delete it.",

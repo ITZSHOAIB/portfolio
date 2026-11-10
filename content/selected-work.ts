@@ -1,6 +1,6 @@
 import type { SelectedWork } from "$lib/types/portfolio";
 
-export const selectedWork = [
+export const selectedWork: SelectedWork[] = [
   {
     name: "Next-generation agentic authoring for LX Design Studio",
     context: "Skillsoft · customer beta",
@@ -40,4 +40,4 @@ export const selectedWork = [
     metrics: [{ value: "11", label: "pods adopted the model" }],
     stack: ["Claude Code", "Agentic engineering", "Technical leadership"],
   },
-] satisfies SelectedWork[];
+];

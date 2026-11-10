@@ -1,5 +1,6 @@
 <script lang="ts">
     import IconMark from "$lib/components/IconMark.svelte";
+    import { copy } from "$content/copy";
     import SectionHeading from "$lib/components/SectionHeading.svelte";
     import { skillIcons } from "$lib/icons/portfolioIcons";
     import type { SkillSummary } from "$lib/types/portfolio";
@@ -13,8 +14,8 @@
 >
     <SectionHeading
         eyebrow="Skills"
-        title="Focused stack, compact toolbox."
-        description="AI systems, product platforms, backend services, delivery, testing, and blockchain work in one tighter view."
+        title={copy.skills.title}
+        description={copy.skills.description}
         compact
     />
 
