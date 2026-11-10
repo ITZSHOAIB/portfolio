@@ -1,7 +1,7 @@
 import { site } from "$lib/config/site";
-import { writingPosts } from "$lib/content/writing";
+import { blogPosts } from "$lib/content/blog";
 import { projectPages } from "$lib/content/projects";
-import { allTags } from "$lib/content/writing-queries";
+import { allTags, postsWithTag } from "$lib/content/blog-queries";
 import { githubProjects } from "$lib/data/portfolio";
 
 export const prerender = true;
@@ -39,30 +39,33 @@ const routes = [
     priority: "0.7",
     images: [site.image],
   })),
-  ...(site.features.writing && writingPosts.length
+  ...(site.features.blog && blogPosts.length
     ? [
         {
-          path: "/writing",
-          lastmod: writingPosts[0].updated ?? writingPosts[0].published,
+          path: "/blog",
+          lastmod: blogPosts[0].updated ?? blogPosts[0].published,
           changefreq: "weekly",
           priority: "0.8",
           images: [site.image],
         },
-        ...writingPosts.map((post) => ({
-          path: `/writing/${post.slug}`,
+        ...blogPosts.map((post) => ({
+          path: `/blog/${post.slug}`,
           lastmod: post.updated ?? post.published,
           changefreq: "yearly",
           priority: "0.7",
           images: [
             {
-              path: `/writing/${post.slug}/og.png`,
+              path: `/blog/${post.slug}/og.png`,
               alt: post.title,
             },
           ],
         })),
-        ...allTags().map(({ slug }) => ({
+        // Single-post tag pages are noindex (they repeat /blog), so skip them here.
+        ...allTags()
+          .filter(({ count }) => count > 1)
+          .map(({ slug }) => ({
           path: `/tags/${slug}`,
-          lastmod: writingPosts[0].published,
+          lastmod: postsWithTag(slug)[0].updated ?? postsWithTag(slug)[0].published,
           changefreq: "weekly",
           priority: "0.4",
           images: [site.image],

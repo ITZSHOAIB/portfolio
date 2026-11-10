@@ -18,12 +18,9 @@
   });
 </script>
 
+<!-- Decorative: scroll position is already available to assistive tech. -->
 <div
-  class="fixed inset-x-0 top-0 z-40 h-0.5 origin-left bg-[#fafafa]/80"
+  class="fixed inset-x-0 top-0 z-40 h-0.5 origin-left bg-[#7dd3fc]"
   style={`transform: scaleX(${progress})`}
-  role="progressbar"
-  aria-label="Reading progress"
-  aria-valuemin="0"
-  aria-valuemax="100"
-  aria-valuenow={Math.round(progress * 100)}
+  aria-hidden="true"
 ></div>

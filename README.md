@@ -24,7 +24,7 @@ The site highlights work across agentic AI systems, multi-agent learning-authori
 ## What It Includes
 
 - **Modern SvelteKit app** using Svelte 5, Vite, TypeScript, and Tailwind CSS.
-- **Content-driven portfolio data** for profile, projects, experience, skills, and optional writing.
+- **Content-driven portfolio data** for profile, projects, experience, skills, and an optional blog.
 - **SEO and social sharing metadata** with Open Graph, Twitter card tags, canonical URLs, and JSON-LD structured data.
 - **Cloudflare Pages deployment path** using the SvelteKit Cloudflare adapter.
 - **Generated robots and sitemap routes** for crawler-friendly indexing.
@@ -126,14 +126,14 @@ Most portfolio content is centralized in a small set of files:
 | --- | --- |
 | `src/lib/config/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, and feature flags. |
 | `src/lib/data/portfolio.ts` | Profile details, social links, selected projects, experience, and skills. |
-| `src/content/writing/*.md` | Blog posts, one markdown file each. |
+| `src/content/blog/*.md` | Blog posts, one markdown file each. |
 | `src/content/projects/*.md` | Project pages linked from the project cards. |
 | `static/resume.pdf` | Public resume linked from the site. |
 | `static/images/` | Profile photo and social preview image. |
 
-## Writing
+## Blog
 
-Posts are markdown files in `src/content/writing/` with frontmatter:
+Posts are markdown files in `src/content/blog/` with frontmatter:
 
 ```md
 ---
@@ -142,11 +142,40 @@ description: One-sentence summary used for cards, SEO, and feeds.
 published: 2026-11-10
 updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
+projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
+cover: /images/blog/my-post.jpg  # optional, a JPEG under static/: list thumbnail and social image
 draft: true           # optional, hides the post everywhere
 ---
 ```
 
-Each published post gets a page at `/writing/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts and a generated social image at `/writing/<slug>/og.png`. The blog also serves `/writing`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/writing` is `noindex` and the home section stays hidden. Set `features.writing` to `false` in `src/lib/config/site.ts` to switch it all off.
+Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts, an author note and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
+
+Posts are plain markdown with a few extensions. The source stays readable as markdown, so the `.md` copy, feeds and `llms-full.txt` keep working:
+
+````md
+> [!TIP] Optional title
+> Callouts use GitHub alert syntax: NOTE, TIP, IMPORTANT, WARNING, CAUTION, TLDR.
+
+::figure harness-anatomy
+
+```prompt title="Try it with your agent"
+A prompt readers can copy or open in Claude or ChatGPT.
+```
+
+![Alt text](/images/diagram.png "A titled image becomes a captioned figure")
+
+<video src="/videos/demo.mp4" controls muted playsinline></video>
+````
+
+A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/components/blog/figures/autoplay.ts`). With reduced motion, it shows a static version instead. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
+
+A `cover` is a finished 1200x630 JPEG under `static/`, with the title already on it (large enough to read as a small thumbnail). It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and it is served as the post's social image (`/blog/<slug>/og.png`) as is. It is not shown on the post page. A post without one gets the plain text social card.
+
+For readers who learn with AI:
+
+- **Select to ask.** Selecting text in a post shows a small toolbar that opens Claude or ChatGPT with the passage, the post title and its URL, or copies that prompt.
+- **Post actions.** Under the title, a "Read with" row opens the post in Claude or ChatGPT, or copies it as markdown.
+- **Markdown for agents.** `/blog/<slug>.md` serves each post as plain markdown. `llms.txt` links to it, `llms-full.txt` includes every post, and the `/mcp` server adds `list_blog_posts` and `read_blog_post`, with post paragraphs in `search_portfolio` results.
 
 ## Deployment
 

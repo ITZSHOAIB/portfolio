@@ -1,29 +1,29 @@
 <script lang="ts">
   import { ArrowUpRight, FileText } from "@lucide/svelte";
-  import type { WritingPost } from "$lib/types/portfolio";
+  import type { BlogPost } from "$lib/types/portfolio";
 
-  let { posts }: { posts: WritingPost[] } = $props();
+  let { posts }: { posts: BlogPost[] } = $props();
 </script>
 
 <section
-  id="writing"
+  id="blog"
   class="scroll-mt-24 border-b border-[#27272a] py-16 lg:py-18"
 >
   <div class="grid gap-5 lg:grid-cols-[14rem_1fr]">
     <div class="flex items-baseline justify-between gap-4 lg:block">
       <p class="text-sm font-bold uppercase tracking-[0.14em] text-[#a1a1aa]">
-        Writing
+        Blog
       </p>
       <a
         class="text-sm font-medium text-[#a1a1aa] transition hover:text-[#fafafa] lg:mt-3 lg:inline-block"
-        href="/writing">All posts →</a
+        href="/blog">All posts →</a
       >
     </div>
     <div class="grid gap-4">
       {#each posts as post}
         <a
           class="group rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111]"
-          href={`/writing/${post.slug}`}
+          href={`/blog/${post.slug}`}
         >
           <div
             class="mb-5 inline-flex items-center gap-2 rounded-md border border-[#27272a] bg-[#111111] px-3 py-2 text-sm font-semibold text-[#e4e4e7]"

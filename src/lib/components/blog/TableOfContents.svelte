@@ -31,8 +31,9 @@
       <li class={item.depth === 3 ? "pl-4" : ""}>
         <a
           class={`block leading-snug transition hover:text-[#fafafa] ${
-            active === item.id ? "text-[#fafafa]" : "text-[#71717a]"
+            active === item.id ? "text-[#fafafa]" : "text-[#8a8a93]"
           }`}
+          aria-current={active === item.id ? "location" : undefined}
           href={`#${item.id}`}>{item.text}</a
         >
       </li>
