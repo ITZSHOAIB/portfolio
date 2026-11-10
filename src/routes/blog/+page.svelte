@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Rss } from "@lucide/svelte";
   import { onMount } from "svelte";
   import BlogFilters from "$lib/components/blog/BlogFilters.svelte";
   import BlogShell from "$lib/components/blog/BlogShell.svelte";
+  import FeedLinks from "$lib/components/blog/FeedLinks.svelte";
   import FeaturedPost from "$lib/components/blog/FeaturedPost.svelte";
   import PostCard from "$lib/components/blog/PostCard.svelte";
   import Seo from "$lib/components/blog/Seo.svelte";
@@ -78,12 +78,7 @@
   <section class="blog-reveal">
     <h1 class="blog-title text-3xl font-semibold tracking-tight sm:text-5xl">Blog</h1>
     <p class="mt-4 max-w-3xl text-lg leading-8 text-[#a1a1aa]">{description}</p>
-    <p class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[#a1a1aa]">
-      <a class="inline-flex items-center gap-1.5 font-medium text-[#d4d4d8] transition hover:text-[#fafafa]" href="/rss.xml">
-        <Rss class="size-3.5" aria-hidden="true" /> Subscribe via RSS
-      </a>
-      <a class="font-medium text-[#d4d4d8] transition hover:text-[#fafafa]" href="/feed.json">JSON Feed</a>
-    </p>
+    <FeedLinks origin={data.site.url} />
 
     {#if ready && data.posts.length > 1}
       <BlogFilters bind:filter tags={data.tags} {projects} shown={matches.length} total={data.posts.length} />
