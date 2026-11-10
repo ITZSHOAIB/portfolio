@@ -59,6 +59,7 @@ The site highlights work across agentic AI systems, multi-agent learning-authori
 │   ├── posts/                     # Blog posts, one Markdown file each
 │   ├── projects/                  # Project pages linked from the cards
 │   └── public/                    # Served from the site root: images, resume, icons
+├── scripts/                       # check-content, new:post, new:project and their tests
 ├── src/
 │   ├── lib/
 │   │   ├── components/            # Portfolio sections and UI pieces
@@ -138,6 +139,19 @@ Most portfolio content is centralized in a small set of files:
 | `content/public/` | Files served from the site root: `resume.pdf`, `images/` (profile photo, social preview, covers), icons, and the web manifest. |
 
 Code outside `content/` holds no personal data. `$content` is an alias for the folder.
+
+### Content commands
+
+All three are noninteractive, so scripts and coding agents can run them.
+
+| Command | What it does |
+| --- | --- |
+| `pnpm check-content` | Validates `content/`: required fields, image files that exist, full URLs, posts that reference real projects, cards that link to real pages. Exits `1` with one line per problem, each saying what to fix. `--json` prints the problems as data. |
+| `pnpm new:post "Title" [--description ...] [--tags a,b] [--projects Name] [--cover /images/x.jpg] [--published 2026-01-31] [--publish]` | Creates `content/posts/<slug>.md`. Without `--publish` it is a hidden draft; `--publish` needs `--description`. Never overwrites. |
+| `pnpm new:project "Name" --repo <url> --description "..." [--updated 2026-01-31]` | Creates `content/projects/<slug>.md`, the page a project card links to. Never overwrites. |
+| `pnpm test` | Runs the script tests (`node --test`, no extra dependencies). |
+
+`pnpm verify` runs type checks, the script tests, `check-content` and the build. These scripts need Node 22.18 or newer (they run TypeScript directly).
 
 ## Blog
 
