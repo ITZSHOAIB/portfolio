@@ -70,6 +70,21 @@
   .blog-reveal .prose-post > * { animation: none; }
 }
 
+/* Thumbnail on the blog list card only. Full width above the text on phones,
+   a fixed column beside it from the sm breakpoint up. */
+.post-card-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 14 / 9;
+  object-fit: cover;
+  border: 1px solid #1f1f23;
+  border-radius: 0.6rem;
+  background: #000000;
+}
+@media (min-width: 640px) {
+  .post-card-cover { width: 12.5rem; flex-shrink: 0; }
+}
+
 /* Callouts: GitHub-style `> [!TIP]` alerts, a soft tinted card with an icon. */
 .blog-page .prose-post .callout {
   border: 1px solid color-mix(in srgb, var(--callout, #52525b) 22%, #18181b);

@@ -78,6 +78,8 @@ export type BlogPost = {
   tags: string[];
   /** Names of githubProjects the post relates to. */
   projects: string[];
+  /** Thumbnail path under static/, shown on the blog list card only. */
+  cover?: string;
   readingMinutes: number;
 };
 
