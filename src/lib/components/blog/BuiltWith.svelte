@@ -20,8 +20,11 @@
         rel={project.page ? undefined : "noopener noreferrer"}
       >
         <span class="flex items-center justify-between gap-3 font-semibold">
-          {project.name}
-          <ArrowUpRight class="size-4 text-[#a1a1aa] transition group-hover:text-[#fafafa]" />
+          <span>{project.name}{#if !project.page}<span class="sr-only"> (opens in a new tab)</span>{/if}</span>
+          <ArrowUpRight
+            class="size-4 text-[#a1a1aa] transition duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#fafafa]"
+            aria-hidden="true"
+          />
         </span>
         <span class="mt-1.5 block text-sm leading-6 text-[#a1a1aa]">{project.description}</span>
       </a>

@@ -24,14 +24,14 @@
 </script>
 
 <Seo
-  title={`Blog | ${data.site.name}`}
+  title="Blog"
   {description}
   path="/blog"
   noindex={data.posts.length === 0}
   {jsonLd}
 />
 
-<BlogShell>
+<BlogShell page="blog">
   <section class="blog-reveal">
     <h1 class="blog-title text-3xl font-semibold tracking-tight sm:text-5xl">Blog</h1>
     <p class="mt-4 text-lg leading-8 text-[#a1a1aa]">{description}</p>

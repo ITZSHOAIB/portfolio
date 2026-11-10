@@ -7,31 +7,38 @@
     $props();
 
   let copied = $state(false);
+  let failed = $state(false);
   const prompt = $derived(postPrompt({ title, markdownUrl }));
 
   async function copyMarkdown() {
-    const response = await fetch(markdownPath);
-    if (!response.ok) return;
-    copied = await copyText(await response.text());
-    setTimeout(() => (copied = false), 1600);
+    failed = false;
+    try {
+      const response = await fetch(markdownPath);
+      copied = response.ok && (await copyText(await response.text()));
+      failed = !copied;
+    } catch {
+      failed = true;
+    }
+    setTimeout(() => (copied = failed = false), 2000);
   }
 </script>
 
-<div class="post-actions" aria-label="Read this post with AI">
-  <span class="post-actions-label">Read with</span>
+<div class="post-actions" role="group" aria-label="Read this post with AI">
+  <span class="post-actions-label" aria-hidden="true">Read with</span>
   {#each aiTargets as target}
     <a
       class="post-action"
       href={chatUrl(target.id, prompt)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Open in ${target.label}`}
+      aria-label={`Open post in ${target.label} (new tab)`}
     >
       <svg viewBox="0 0 24 24" class="size-3.5" aria-hidden="true"><path fill="currentColor" d={target.path} /></svg>
       {target.label}
     </a>
   {/each}
-  <button type="button" class="post-action" onclick={copyMarkdown} title="Copy this post as markdown">
-    {#if copied}<Check class="size-3.5" /> Copied{:else}<Copy class="size-3.5" /> Markdown{/if}
+  <button type="button" class="post-action" onclick={copyMarkdown} aria-label="Copy this post as markdown">
+    {#if copied}<Check class="size-3.5" aria-hidden="true" /> Copied{:else if failed}Copy failed{:else}<Copy class="size-3.5" aria-hidden="true" /> Markdown{/if}
   </button>
+  <span class="sr-only" role="status">{copied ? "Post copied as markdown" : failed ? "Could not copy" : ""}</span>
 </div>

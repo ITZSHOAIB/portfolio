@@ -18,6 +18,7 @@
   let { data }: { data: PageData } = $props();
 
   let article: HTMLElement | undefined = $state();
+  let announcement = $state("");
 
   // Copy buttons in ```prompt boxes are plain HTML from the markdown renderer.
   async function onArticleClick(event: MouseEvent) {
@@ -26,36 +27,58 @@
     if (!button || !prompt) return;
     if (await copyText(prompt)) {
       button.textContent = "Copied";
-      setTimeout(() => (button.textContent = "Copy"), 1600);
+      announcement = "Prompt copied to clipboard";
+      setTimeout(() => {
+        button.textContent = "Copy";
+        announcement = "";
+      }, 1600);
     }
   }
 
   const path = $derived(`/blog/${data.post.slug}`);
   const image = $derived(`${data.site.url}${path}/og.png`);
-  const jsonLd = $derived({
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: data.post.title,
-    description: data.post.description,
-    datePublished: data.post.published,
-    dateModified: data.post.updated ?? data.post.published,
-    url: `${data.site.url}${path}`,
-    mainEntityOfPage: `${data.site.url}${path}`,
-    image,
-    keywords: data.post.tags,
-    author: { "@type": "Person", name: data.site.name, url: data.site.url },
-    publisher: { "@type": "Person", name: data.site.name, url: data.site.url },
-  });
+  const pageUrl = $derived(`${data.site.url}${path}`);
+  const jsonLd = $derived([
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": `${pageUrl}#post`,
+      headline: data.post.title,
+      description: data.post.description,
+      datePublished: data.post.published,
+      dateModified: data.post.updated ?? data.post.published,
+      url: pageUrl,
+      mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+      image: { "@type": "ImageObject", url: image, width: 1200, height: 630 },
+      keywords: data.post.tags.join(", "),
+      inLanguage: data.site.language,
+      timeRequired: `PT${data.post.readingMinutes}M`,
+      isPartOf: { "@type": "Blog", "@id": `${data.site.url}/blog`, name: `${data.site.name}: blog` },
+      author: { "@type": "Person", name: data.site.name, url: data.site.url },
+      publisher: { "@type": "Person", name: data.site.name, url: data.site.url },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: data.site.name, item: data.site.url },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${data.site.url}/blog` },
+        { "@type": "ListItem", position: 3, name: data.post.title, item: pageUrl },
+      ],
+    },
+  ]);
 </script>
 
 <Seo
-  title={`${data.post.title} | ${data.site.name}`}
+  title={data.post.title}
   description={data.post.description}
   {path}
   {image}
+  imageAlt={data.post.title}
   type="article"
   published={data.post.published}
   updated={data.post.updated}
+  tags={data.post.tags}
   {jsonLd}
 />
 
@@ -64,6 +87,7 @@
 </svelte:head>
 
 <ReadingProgress />
+<p class="sr-only" role="status">{announcement}</p>
 <AskSelection root={article} post={{ title: data.post.title, url: data.url }} />
 
 <BlogShell width="max-w-5xl">
@@ -148,7 +172,7 @@
           <h2 class="mb-4 text-lg font-semibold">Related posts</h2>
           <div class="grid gap-4">
             {#each data.related as post}
-              <PostCard {post} />
+              <PostCard {post} level={3} />
             {/each}
           </div>
         </section>

@@ -4,7 +4,7 @@
   import type { BlogPost } from "$lib/types/portfolio";
   import { formatDate } from "$lib/utils/date";
 
-  let { post }: { post: BlogPost } = $props();
+  let { post, level = 2 }: { post: BlogPost; level?: 2 | 3 } = $props();
 </script>
 
 <article
@@ -26,13 +26,17 @@
       · {post.readingMinutes} min read
     </p>
     <div class="mt-3 flex items-start justify-between gap-4">
-      <h2 class="text-xl font-semibold leading-snug tracking-tight sm:text-2xl">
+      <svelte:element
+        this={`h${level}`}
+        class="text-xl font-semibold leading-snug tracking-tight sm:text-2xl"
+      >
         <a class="after:absolute after:inset-0" href={`/blog/${post.slug}`}>
           {post.title}
         </a>
-      </h2>
+      </svelte:element>
       <ArrowUpRight
-        class="size-5 shrink-0 text-[#a1a1aa] transition group-hover:text-[#fafafa]"
+        class="size-5 shrink-0 text-[#a1a1aa] transition duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[#fafafa]"
+        aria-hidden="true"
       />
     </div>
     <p class="mt-3 max-w-2xl text-sm leading-7 text-[#a1a1aa]">{post.description}</p>

@@ -80,12 +80,12 @@
     class="ask-selection"
     class:ask-selection-below={placeBelow}
     style={`top: ${position.top}px; left: ${position.left}px`}
-    role="toolbar"
+    role="group"
     aria-label="Ask an AI about the selected text"
     tabindex="-1"
     onpointerdown={(event) => event.preventDefault()}
   >
-    <span class="ask-selection-label"><Sparkles class="size-3.5" /> Ask</span>
+    <span class="ask-selection-label"><Sparkles class="size-3.5" aria-hidden="true" /> Ask</span>
     {#each aiTargets as target}
       <a href={chatUrl(target.id, prompt)} target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" class="size-3.5" aria-hidden="true"><path fill="currentColor" d={target.path} /></svg>

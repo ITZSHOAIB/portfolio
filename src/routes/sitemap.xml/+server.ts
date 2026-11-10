@@ -1,7 +1,7 @@
 import { site } from "$lib/config/site";
 import { blogPosts } from "$lib/content/blog";
 import { projectPages } from "$lib/content/projects";
-import { allTags } from "$lib/content/blog-queries";
+import { allTags, postsWithTag } from "$lib/content/blog-queries";
 import { githubProjects } from "$lib/data/portfolio";
 
 export const prerender = true;
@@ -60,9 +60,12 @@ const routes = [
             },
           ],
         })),
-        ...allTags().map(({ slug }) => ({
+        // Single-post tag pages are noindex (they repeat /blog), so skip them here.
+        ...allTags()
+          .filter(({ count }) => count > 1)
+          .map(({ slug }) => ({
           path: `/tags/${slug}`,
-          lastmod: blogPosts[0].published,
+          lastmod: postsWithTag(slug)[0].updated ?? postsWithTag(slug)[0].published,
           changefreq: "weekly",
           priority: "0.4",
           images: [site.image],

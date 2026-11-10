@@ -1,4 +1,5 @@
 <script lang="ts">
+  let { paused = false }: { paused?: boolean } = $props();
   import { Activity, FileText, Server, Webhook, Workflow, Wrench } from "@lucide/svelte";
   import { onMount } from "svelte";
   import { autoplay } from "./autoplay";
@@ -51,7 +52,7 @@
   const part = $derived(parts[active]);
 
   onMount(() => {
-    const stop = autoplay(root, STEP_MS, () => (active = (active + 1) % parts.length));
+    const stop = autoplay(root, STEP_MS, () => (active = (active + 1) % parts.length), () => paused);
     still = !stop;
     return stop ?? undefined;
   });
@@ -94,7 +95,7 @@
             <part.icon class="size-4 text-[#7dd3fc]" aria-hidden="true" />{part.label}
           </p>
           <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">{part.why}</p>
-          <p class="mt-1 text-sm leading-6 text-[#71717a]">{part.examples}</p>
+          <p class="mt-1 text-sm leading-6 text-[#8a8a93]">{part.examples}</p>
         </div>
         <span class="anatomy-progress" aria-hidden="true"></span>
       {/key}
@@ -120,7 +121,7 @@
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #71717a;
+    color: #8a8a93;
   }
   .anatomy-row {
     display: grid;
@@ -250,7 +251,7 @@
     color: #a1a1aa;
   }
   .anatomy-list strong { color: #fafafa; }
-  .anatomy-list span { color: #71717a; }
+  .anatomy-list span { color: #8a8a93; }
   @media (prefers-reduced-motion: reduce) {
     .anatomy-core-glow,
     .anatomy-part::before { animation: none !important; }

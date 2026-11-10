@@ -12,9 +12,10 @@
 </script>
 
 <Seo
-  title={`${data.tag} | Blog | ${data.site.name}`}
+  title={`${data.tag} posts`}
   {description}
   path={`/tags/${data.slug}`}
+  noindex={data.posts.length < 2}
 />
 
 <BlogShell>

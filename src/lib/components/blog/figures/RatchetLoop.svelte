@@ -1,4 +1,5 @@
 <script lang="ts">
+  let { paused = false }: { paused?: boolean } = $props();
   import { onMount } from "svelte";
   import { autoplay } from "./autoplay";
 
@@ -46,7 +47,7 @@
   let root: HTMLDivElement;
 
   onMount(() => {
-    const stop = autoplay(root, STEP_MS, () => (ticks += 1));
+    const stop = autoplay(root, STEP_MS, () => (ticks += 1), () => paused);
     still = !stop;
     return stop ?? undefined;
   });
@@ -66,7 +67,7 @@
       <path
         d="M -6 -5 L 4 0 L -6 5"
         fill="none"
-        stroke="#71717a"
+        stroke="#8a8a93"
         stroke-width="1.5"
         transform={`translate(${arrow.x} ${arrow.y}) rotate(${arrow.rotate - 90})`}
       />
@@ -128,7 +129,7 @@
     transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
   }
   .ratchet-dot { filter: drop-shadow(0 0 6px rgba(250, 250, 250, 0.8)); }
-  .ratchet-center { fill: #71717a; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .ratchet-center { fill: #8a8a93; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
   .ratchet-center-sub { fill: #fafafa; font-size: 17px; font-weight: 600; }
   .ratchet-steps {
     display: flex;

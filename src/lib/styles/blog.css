@@ -1,24 +1,32 @@
 /* Blog pages: article typography extras, code highlighting, and subtle motion. */
 
-.blog-page {
-  background:
-    radial-gradient(50rem 22rem at 50% -6rem, rgba(250, 250, 250, 0.06), transparent 70%),
-    #000000;
+.blog-page { background: #000000; }
+.blog-page ::selection { background: rgba(125, 211, 252, 0.28); color: #ffffff; }
+.blog-title { text-wrap: balance; letter-spacing: -0.02em; }
+.blog-page .prose-post p,
+.blog-page .prose-post li { text-wrap: pretty; }
+.blog-page :focus-visible { outline: 2px solid #7dd3fc; outline-offset: 3px; border-radius: 0.25rem; }
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 60;
+  border-radius: 0.5rem;
+  background: #fafafa;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #000000;
+  transition: top 150ms;
 }
-.blog-title {
-  padding-bottom: 0.12em;
-  background: linear-gradient(180deg, #ffffff 40%, #d4d4d8 110%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+.skip-link:focus { top: 1rem; }
 
 /* Headings and anchors */
 .blog-page .prose-post h2,
 .blog-page .prose-post h3 { scroll-margin-top: 5rem; }
 .blog-page .prose-post .heading-anchor {
   margin-left: 0.5rem;
-  color: #52525b;
+  color: #8a8a93;
   text-decoration: none;
   opacity: 0;
   transition: opacity 150ms;
@@ -29,7 +37,7 @@
 
 /* Shiki output: keep the site's own surface, let the token colors through. */
 .blog-page .prose-post pre.shiki {
-  background: linear-gradient(180deg, #0d0d0d, #0a0a0a) !important;
+  background: #0a0a0a !important;
 }
 .blog-page .prose-post pre.shiki code { font-size: 0.875rem; }
 
@@ -129,7 +137,7 @@
   justify-content: space-between;
   gap: 0.5rem 1rem;
   border-bottom: 1px solid #27272a;
-  background: linear-gradient(90deg, rgba(196, 181, 253, 0.08), transparent 70%);
+  background: #0d0d0d;
   padding: 0.6rem 0.9rem;
 }
 .blog-page .prose-post .prompt-title { font-size: 0.85rem; font-weight: 600; color: #fafafa; }
@@ -143,7 +151,8 @@
   border: 1px solid #27272a;
   border-radius: 0.4rem;
   background: #0d0d0d;
-  padding: 0.25rem 0.6rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.7rem;
   font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.4;
@@ -176,15 +185,35 @@
   margin-top: 1rem;
   font-size: 0.85rem;
   line-height: 1.6;
-  color: #71717a;
+  color: #8a8a93;
 }
-.blog-page .prose-post .blog-figure { scroll-margin-top: 5rem; }
+.blog-page .prose-post .blog-figure { position: relative; scroll-margin-top: 5rem; }
+.figure-pause {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #27272a;
+  border-radius: 999px;
+  background: #0a0a0a;
+  color: #a1a1aa;
+  cursor: pointer;
+  transition: border-color 150ms, color 150ms;
+}
+.figure-pause:hover { border-color: #52525b; color: #fafafa; }
+/* Pausing freezes CSS animations too, not just the timer. */
+.blog-figure.is-paused *,
+.blog-figure.is-paused *::before,
+.blog-figure.is-paused *::after { animation-play-state: paused !important; }
 .blog-page .prose-post video { width: 100%; border-radius: 0.5rem; }
 
 /* Post action bar under the title. */
 .post-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
-.post-actions-label { margin-right: 0.15rem; font-size: 0.8rem; color: #71717a; }
-.post-action { border-radius: 999px; padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+.post-actions-label { margin-right: 0.15rem; font-size: 0.8rem; color: #8a8a93; }
+.post-action { min-height: 2rem; display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 999px; padding: 0.3rem 0.8rem; font-size: 0.8rem; }
 
 /* Floating "Ask" toolbar for selected text. */
 .ask-selection {
@@ -239,7 +268,7 @@
   margin-top: 3.5rem;
   border: 1px solid #27272a;
   border-radius: 0.75rem;
-  background: radial-gradient(24rem 8rem at 0% 0%, rgba(250, 250, 250, 0.05), transparent 70%), #070707;
+  background: #070707;
   padding: 1.1rem 1.2rem;
 }
 .author-link {
