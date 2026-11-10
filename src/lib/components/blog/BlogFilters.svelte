@@ -25,7 +25,7 @@
 
   const chip =
     "rounded-md border px-2.5 py-1 text-xs font-semibold transition hover:border-[#52525b]";
-  const on = "border-[#7dd3fc] bg-[#7dd3fc]/10 text-[#7dd3fc]";
+  const on = "border-accent bg-accent/10 text-accent";
   const off = "border-[#27272a] bg-[#111111] text-[#d4d4d8]";
 </script>
 
@@ -56,7 +56,7 @@
     <SlidersHorizontal class="size-4" aria-hidden="true" />
     Filters
     {#if activeCount}
-      <span class="rounded-full bg-[#7dd3fc] px-1.5 text-xs font-semibold text-[#000000]">{activeCount}</span>
+      <span class="rounded-full bg-accent px-1.5 text-xs font-semibold text-[#000000]">{activeCount}</span>
     {/if}
   </button>
   </div>

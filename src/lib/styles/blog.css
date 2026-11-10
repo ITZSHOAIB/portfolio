@@ -1,11 +1,11 @@
 /* Blog pages: article typography extras, code highlighting, and subtle motion. */
 
 .blog-page { background: #000000; }
-.blog-page ::selection { background: rgba(125, 211, 252, 0.28); color: #ffffff; }
+.blog-page ::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); color: #ffffff; }
 .blog-title { text-wrap: balance; letter-spacing: -0.02em; }
 .blog-page .prose-post p,
 .blog-page .prose-post li { text-wrap: pretty; }
-.blog-page :focus-visible { outline: 2px solid #7dd3fc; outline-offset: 3px; border-radius: 0.25rem; }
+.blog-page :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 0.25rem; }
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -119,7 +119,7 @@
 }
 .callout-note { --callout: #a1a1aa; }
 .callout-tip { --callout: #34d399; }
-.callout-important { --callout: #7dd3fc; }
+.callout-important { --callout: var(--accent); }
 .callout-warning { --callout: #fcd34d; }
 .callout-caution { --callout: #f87171; }
 .callout-tldr { --callout: #c4b5fd; }

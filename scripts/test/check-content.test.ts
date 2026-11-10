@@ -56,6 +56,16 @@ test("a project card pointing at a missing page fails", () => {
   assert.match(out, /github-projects\.ts: Tool.*content\/projects\/tool\.md/);
 });
 
+test("accent must be a six-digit hex colour, and may be left out", () => {
+  const withAccent = (accent: string) =>
+    validSite("https://alex.example").replace("name:", `accent: "${accent}", name:`);
+  const bad = check(makeRoot({ "content/site.ts": withAccent("blue") }));
+  assert.equal(bad.code, 1);
+  assert.match(bad.out, /site\.ts: accent "blue" is not a colour/);
+  assert.equal(check(makeRoot({ "content/site.ts": withAccent("#7dd3fc") })).code, 0);
+  assert.equal(check(makeRoot()).code, 0);
+});
+
 test("relative profile links and a bad site url fail", () => {
   const { code, out } = check(
     makeRoot({

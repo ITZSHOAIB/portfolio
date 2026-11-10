@@ -133,7 +133,7 @@ Most portfolio content is centralized in a small set of files:
 
 | File | Purpose |
 | --- | --- |
-| `content/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, and feature flags (`blog`, `askAi`, `mcp`, `openToWork`). |
+| `content/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, the `accent` highlight colour (a 6-digit hex; active filters, reading progress, focus rings, the Important callout), and feature flags (`blog`, `askAi`, `mcp`, `openToWork`). |
 | `content/profile.ts` | Name, role, location, email, social links, and career start date. |
 | `content/selected-work.ts`, `content/github-projects.ts` | The selected work and project cards. |
 | `content/experience.ts`, `content/skills.ts` | Experience timeline and skill groups. |

@@ -19,6 +19,9 @@ export const site = {
   // Your X/Twitter handle, with the @.
   twitterHandle: "@alexrivera",
   themeColor: "#000000",
+  // Highlight colour (active filters, reading progress, focus rings, the Important callout).
+  // A 6-digit hex such as #7dd3fc. Pick one that is readable on a black background.
+  accent: "#7dd3fc",
   // Social preview image, 1200x630 or similar. The file lives in content/public/images/.
   image: {
     path: "/images/og-image.png",

@@ -115,7 +115,7 @@
         <div class="rounded-lg border border-[#27272a] bg-[#0a0a0a] p-6 text-[#a1a1aa]">
           {#if filtering}
             No posts match.
-            <button type="button" class="font-medium text-[#7dd3fc] underline underline-offset-4" onclick={() => (filter = { ...emptyFilter })}>Clear the filters</button>
+            <button type="button" class="font-medium text-accent underline underline-offset-4" onclick={() => (filter = { ...emptyFilter })}>Clear the filters</button>
           {:else}
             No posts yet.
           {/if}
