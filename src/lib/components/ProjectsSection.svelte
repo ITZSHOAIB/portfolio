@@ -174,11 +174,13 @@
                                     >
                                         {project.language}
                                     </span>
+                                    {#if project.updated}
                                     <span
                                         class="rounded-md border border-[#3f3f46] bg-[#151515] px-2 py-1 text-xs font-semibold text-[#d4d4d8]"
                                     >
                                         {project.updated}
                                     </span>
+                                    {/if}
                                 </div>
 
                                 <p
@@ -269,6 +271,7 @@
                     <div
                         class="flex items-start justify-between gap-4 lg:block lg:text-right"
                     >
+                        {#if project.updated}
                         <div>
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.12em] text-[#71717a]"
@@ -281,6 +284,7 @@
                                 {project.updated}
                             </p>
                         </div>
+                        {/if}
                         {#if typeof project.stars === "number"}
                         <div class="mt-0 lg:mt-5">
                             <p
@@ -336,9 +340,11 @@
                         >
                             {project.language}
                         </span>
+                        {#if project.updated}
                         <span class="text-xs font-semibold text-[#a1a1aa]">
                             {project.updated}
                         </span>
+                        {/if}
                     </div>
                 </a>
             {/each}

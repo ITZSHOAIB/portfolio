@@ -24,7 +24,6 @@ const VALUES = [
 
 // Files that must be edited, replaced or deleted.
 const FILES = [
-  "content/copy.ts",
   "content/experience.ts",
   "content/skills.ts",
   "content/selected-work.ts",

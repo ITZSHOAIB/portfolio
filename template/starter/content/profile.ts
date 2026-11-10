@@ -11,10 +11,13 @@ export const profile: Profile = {
   domain: "alex-rivera.example",
   role: "Software Engineer",
   company: "Northwind Labs",
+  // Optional. Shown in the hero and the MCP summary; delete the line to hide it.
   location: "Lisbon, remote",
   email: "alex@alex-rivera.example",
   // One line under your name; also used by the author note under posts.
   focus: "Developer tools & reliable backends.",
+  // The "about me" text, in three parts: `current` (what you do now), `previous` (what you did
+  // before) and `writing` (below). The site description in site.ts is the short version.
   current:
     "Building the internal platform at Northwind Labs: deploy pipelines, service templates, and the tooling that keeps them boring.",
   // Ends the author note under each post.

@@ -14,7 +14,8 @@ export type Profile = {
   domain: string;
   role: string;
   company: string;
-  location: string;
+  /** Shown in the hero and the MCP summary; leave out to hide it. */
+  location?: string;
   email: string;
   focus: string;
   current: string;
@@ -31,8 +32,10 @@ export type GithubProject = {
   /** Slug of a page in content/projects; the card links there instead of `href`. */
   page?: string;
   language: string;
-  updated: string;
-  stars: number | string;
+  /** A date (2026-01-31) or a short label such as "Active"; leave out to hide it. */
+  updated?: string;
+  /** Leave out if you do not want a star count. */
+  stars?: number | string;
   topics: string[];
   metrics?: {
     value: string;

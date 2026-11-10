@@ -18,7 +18,7 @@ const years = () => formatExperience(careerStartDate, new Date());
 const list = (items: string[]) => items.map((item) => `- ${item}`).join("\n");
 
 export function profileSummary() {
-  return `${profile.role} at ${profile.company}. ${years()} years of professional experience. Based in ${profile.location}.
+  return `${profile.role} at ${profile.company}. ${years()} years of professional experience.${profile.location ? ` Based in ${profile.location}.` : ""}
 
 Focus: ${profile.focus}
 

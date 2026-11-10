@@ -108,7 +108,19 @@ test("an untouched starter file must be edited or deleted", () => {
     makeRoot({ "content/.starter.json": manifest, "content/posts/starter.md": text }),
   );
   assert.equal(code, 1);
-  assert.match(out, /content\/posts\/starter\.md: is still the starter file/);
+  assert.match(out, /content\/posts\/starter\.md: is still the example page/);
+});
+
+test("--allow-placeholders accepts an untouched asset but not an untouched data file", () => {
+  const png = "placeholder-bytes";
+  const sha256 = createHash("sha256").update(png).digest("hex");
+  const manifest = JSON.stringify({ values: [], files: [{ path: "content/public/images/me.jpg", sha256 }] });
+  const root = makeRoot({ "content/.starter.json": manifest, "content/public/images/me.jpg": png });
+  const strict = check(root);
+  assert.equal(strict.code, 1);
+  assert.match(strict.out, /me\.jpg: is still the placeholder file.*--allow-placeholders/);
+  const allowed = check(root, "--allow-placeholders");
+  assert.equal(allowed.code, 0, allowed.out);
 });
 
 test("--json prints problems as data", () => {
