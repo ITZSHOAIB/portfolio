@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { autoplay } from "./autoplay";
 
   const steps = [
     {
@@ -41,24 +42,17 @@
   // Steps taken so far. It only grows, so the dot always travels clockwise.
   let ticks = $state(0);
   const active = $derived(ticks % steps.length);
-  let playing = $state(false);
+  let still = $state(false);
+  let root: HTMLDivElement;
 
   onMount(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    playing = true;
-    const timer = setInterval(() => {
-      if (playing) ticks += 1;
-    }, STEP_MS);
-    return () => clearInterval(timer);
+    const stop = autoplay(root, STEP_MS, () => (ticks += 1));
+    still = !stop;
+    return stop ?? undefined;
   });
-
-  function choose(index: number) {
-    playing = false;
-    ticks += (index - active + steps.length) % steps.length;
-  }
 </script>
 
-<div class="ratchet">
+<div class="ratchet" bind:this={root}>
   <svg viewBox="0 0 400 400" class="ratchet-svg" aria-hidden="true">
     <defs>
       <radialGradient id="ratchet-glow">
@@ -81,6 +75,7 @@
       <circle cx={point.x} cy={point.y} r="13" fill={active === i ? "#7dd3fc" : "#18181b"} stroke={active === i ? "#7dd3fc" : "#3f3f46"} class="ratchet-node" />
       <text x={point.x} y={point.y + 4} text-anchor="middle" class="ratchet-node-num" fill={active === i ? "#000000" : "#d4d4d8"}>{i + 1}</text>
     {/each}
+    {#if !still}
     <g class="ratchet-orbit" style={`transform: rotate(${ticks * 90 - 22}deg)`}>
       <circle class="ratchet-dot" r="4.5" cx={C} cy={C - R} fill="#fafafa" />
     </g>
@@ -90,29 +85,30 @@
     <text x={C} y={C + 16} text-anchor="middle" class="ratchet-center-sub">
       {steps[active].label}
     </text>
+    {/if}
   </svg>
 
   <ol class="ratchet-steps">
     {#each steps as step, i}
       <li style={`--x: ${(points[i].x / 400) * 100}%; --y: ${(points[i].y / 400) * 100}%`}>
-        <button
-          type="button"
-          class="ratchet-step"
-          aria-pressed={active === i}
-          onclick={() => choose(i)}
-        >
+        <span class="ratchet-step" class:active={!still && active === i}>
           <span class="ratchet-num">{i + 1}</span>
           {step.label}
-        </button>
+        </span>
       </li>
     {/each}
   </ol>
 
-  <p class="ratchet-detail" aria-live="polite">{steps[active].detail}</p>
-  {#if !playing}
-    <button type="button" class="ratchet-play" onclick={() => (playing = true)}>
-      Play the loop
-    </button>
+  {#if still}
+    <ol class="ratchet-list">
+      {#each steps as step, i}
+        <li><strong>{i + 1}. {step.label}.</strong> {step.detail}</li>
+      {/each}
+    </ol>
+  {:else}
+    <div class="ratchet-detail">
+      {#key active}<p class="ratchet-detail-text">{steps[active].detail}</p>{/key}
+    </div>
   {/if}
 </div>
 
@@ -168,7 +164,6 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    cursor: pointer;
     white-space: nowrap;
     border: 1px solid #27272a;
     border-radius: 999px;
@@ -179,7 +174,7 @@
     color: #d4d4d8;
     transition: border-color 200ms, background-color 200ms, color 200ms;
   }
-  .ratchet-step[aria-pressed="true"] {
+  .ratchet-step.active {
     border-color: #7dd3fc;
     background: #0b1a22;
     color: #fafafa;
@@ -193,7 +188,7 @@
     background: #27272a;
     font-size: 0.7rem;
   }
-  .ratchet-step[aria-pressed="true"] .ratchet-num { background: #7dd3fc; color: #000000; }
+  .ratchet-step.active .ratchet-num { background: #7dd3fc; color: #000000; }
   .ratchet-detail {
     min-height: 3.5rem;
     margin-top: 0.75rem;
@@ -203,18 +198,27 @@
     line-height: 1.65;
     color: #d4d4d8;
   }
-  .ratchet-play {
-    margin-top: 0.5rem;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #a1a1aa;
-    text-decoration: underline;
-    text-underline-offset: 4px;
+  .ratchet-detail-text { animation: detail-in 300ms ease-out; }
+  @keyframes detail-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
   }
+  .ratchet-list {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.75rem 0 0;
+    border-top: 1px solid #27272a;
+    padding: 0.9rem 0 0;
+    list-style: none;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #a1a1aa;
+  }
+  .ratchet-list strong { color: #fafafa; }
   .ratchet-node { transition: fill 200ms, stroke 200ms; }
   .ratchet-node-num { font-size: 12px; font-weight: 700; }
   @media (prefers-reduced-motion: reduce) {
     .ratchet-orbit, .ratchet-step, .ratchet-node { transition: none; }
+    .ratchet-detail-text { animation: none; }
   }
 </style>
