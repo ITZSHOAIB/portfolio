@@ -27,8 +27,12 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "verify": "pnpm check && pnpm build"
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && tsc -p scripts",
+    "check-content": "node scripts/check-content.ts",
+    "new:post": "node scripts/new-post.ts",
+    "new:project": "node scripts/new-project.ts",
+    "test": "node --no-warnings --test \"scripts/test/*.test.ts\"",
+    "verify": "pnpm check && pnpm test && pnpm check-content && pnpm build"
   },
   "devDependencies": {
     "@fontsource/inter": "^5.3.0",
