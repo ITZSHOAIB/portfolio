@@ -5,7 +5,8 @@ import { fingerprint } from "./fingerprint.ts";
 import type { Problem } from "./problems.ts";
 
 // content/.starter.json is written by the template generator. It lists the starter
-// values and files that setup must change. This repo has none, so nothing is reported.
+// values and files that setup must change. Only generated templates have one; without it
+// (this repo) nothing is reported.
 type Manifest = {
   values: { module: string; export: string; path: string; value: string }[];
   files: { path: string; sha256: string }[];

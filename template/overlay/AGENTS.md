@@ -1,8 +1,8 @@
 # Setting up this portfolio (runbook for coding agents)
 
-This repo is a SvelteKit portfolio that deploys to Cloudflare Pages. Everything about the owner lives in `content/`. Requires Node 24 and pnpm (run `corepack enable` if pnpm is missing). Your job: turn the placeholder person (Alex Rivera) into the real owner, then hand the human the few steps only they can do.
+This repo is a SvelteKit portfolio that deploys to Cloudflare Pages. Everything about the owner lives in `content/`. Requires Node 24 and pnpm (run `corepack enable` if pnpm is missing). Node 22.18+ works but prints an engine warning; mention it to the human. Your job: turn the placeholder person (Alex Rivera) into the real owner, then hand the human the few steps only they can do.
 
-You are done when `pnpm check-content` prints `check-content: ok` and `pnpm verify` ends with a successful build. Do not stop earlier, and do not edit code under `src/` to get there.
+You are done when `pnpm check-content` prints `check-content: ok` (or `pnpm check-content --allow-placeholders` does, when the human has no photo, social image or resume yet; see below) and `pnpm verify` ends with a successful build. `pnpm verify` skips the starter check so a fresh template can build, so it does not prove setup is finished: always run `check-content` yourself. Do not stop earlier, and do not edit code under `src/` to get there.
 
 If the human has no photo, social image or resume yet, run `pnpm check-content --allow-placeholders` instead. It accepts those three placeholder files and still checks everything else. Say clearly in your report that the placeholders are still there and the human must replace them. Never fake the check by editing the placeholder files.
 
@@ -20,7 +20,19 @@ Collect these before editing. Do not invent any of them.
 - A square photo (at least 512x512) and a resume PDF. If they have none yet, keep the placeholders and say so.
 - Where they are based (or leave it out), and which features to keep: `blog`, `askAi`, `mcp`, `openToWork` (see `content/site.ts`).
 
-If the human does not answer a question, use these defaults and list them in your report: `blog` off unless they have posts, `openToWork` off, `askAi` and `mcp` on, `analyticsToken` empty, no location. Optional fields (`location`, a project's `stars` and `updated`) are deleted rather than filled with made-up values.
+If the human does not answer a question, use these defaults and list them in your report: `blog` off unless they have posts, `openToWork` off, `askAi` and `mcp` on, `analyticsToken` empty, no location. Optional fields (`location`, a project card's `stars` and `updated`) are deleted rather than filled with made-up values. For required text the human did not give you, write the shortest honest value from facts you have, and list it in your report so they can improve it:
+
+| Field | If you have nothing |
+| --- | --- |
+| `profile.focus` | A fragment from their role and skills, e.g. "accessible user interfaces" (it is spliced into a sentence) |
+| `profile.current`, `profile.previous` | One sentence from the role and work history they gave you |
+| `profile.writing` | Something short and true, e.g. "I have not published any posts yet." (hidden with the blog) |
+| `site.twitterHandle` | `""` |
+| `site.openToWorkText` | `""` when `openToWork` is off |
+| Experience `highlights`, selected-work `metrics`, `stack` | `[]` |
+| `careerStartDate` | The first day of the year they gave you |
+
+Dates are written in the files with CRLF line endings on Windows; make multi-line edits with a tool that preserves them.
 
 The "about me" lives in `content/profile.ts` (`current`, `previous`, `writing`) and the short description in `content/site.ts`.
 
