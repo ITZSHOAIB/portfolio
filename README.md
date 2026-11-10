@@ -144,11 +144,14 @@ updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
 projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
 cover: /images/blog/my-post.jpg  # optional, a JPEG under static/: list thumbnail and social image
+aliases: [old-slug]   # optional, former slugs; /blog/old-slug redirects to this post
 draft: true           # optional, hides the post everywhere
 ---
 ```
 
 Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts, an author note and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
+
+The URL comes from the file name, so renaming a post would break its old link and lose its search ranking. Rename it and list the old name under `aliases`: the build writes a `_redirects` file (`src/routes/_redirects/+server.ts`) that Cloudflare Pages reads, giving `/blog/old-slug` and `/blog/old-slug.md` a permanent 301 to the new URL. The build fails if an alias matches an existing post or is claimed twice. The redirects only run on Cloudflare Pages, not in `pnpm preview`.
 
 Posts are listed newest first; two posts on the same day are ordered by the time in `published` (date-only counts as midnight), then by title. The `/blog` page opens with the latest post as a featured card, then the rest grouped by year. With JavaScript it adds a search box and topic and project filter chips (the state lives in `?q=`, `?tag=` and `?project=`, so a filtered list can be linked), and without it the plain topic links and every post still work. It also links the RSS and JSON feeds, with a button that copies the RSS URL to paste into a feed reader.
 
