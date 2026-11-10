@@ -254,7 +254,7 @@ pnpm make-template --out ../agent-ready-portfolio --force  # replace a previous 
 ```
 
 - App code is copied from this repo's tracked and unignored files. `content/`, `template/`, the generator and this README are left out.
-- `template/starter/content/` is the placeholder content (Alex Rivera, a "Hello world" post that documents authoring, one sample project, one example figure). `template/overlay/` holds files that replace root files, such as the template README.
+- `template/starter/content/` is the placeholder content (Alex Rivera, a "Hello world" post that documents authoring, one sample project, one example figure). `template/overlay/` holds files that replace or add root files: the template's `README.md`, `AGENTS.md` (setup runbook for coding agents), `CLAUDE.md`, `SETUP.md`, `DEPLOYMENT.md` and the MIT `LICENSE` (code only; the original site's posts, photos, resume and images are excluded). A test checks that the runbook names only commands the template has.
 - Placeholder images, icons and the resume PDF are generated as shapes (no fonts, no binaries in git).
 - `content/.starter.json` lists the starter values and files. `pnpm check-content` reports any that are still unchanged, so an agent knows setup is not finished. `pnpm verify` runs `check-content --ignore-starter`, so a fresh template still builds.
 - Personal data must stay in `content/`. A test generates the template and fails if the owner's names or topics appear anywhere in it.
