@@ -1,4 +1,4 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { renderMarkdown } from "$lib/content/markdown";
 import { blogEntries } from "$lib/content/blog";
 

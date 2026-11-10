@@ -1,8 +1,8 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { blogPosts } from "$lib/content/blog";
 import { projectPages } from "$lib/content/projects";
 import { allTags, postsWithTag } from "$lib/content/blog-queries";
-import { githubProjects } from "$lib/data/portfolio";
+import { githubProjects } from "$content/github-projects";
 
 export const prerender = true;
 

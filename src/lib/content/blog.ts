@@ -1,7 +1,7 @@
 import type { BlogPost } from "$lib/types/portfolio";
 import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 
-// Posts live in src/content/blog/<slug>.md with simple frontmatter:
+// Posts live in content/posts/<slug>.md with simple frontmatter:
 //
 //   ---
 //   title: Post title
@@ -10,11 +10,11 @@ import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 //   updated: 2026-11-08      (optional)
 //   tags: [langgraph, agents]
 //   projects: [Plico]        (optional, names from githubProjects shown as cards)
-//   cover: /images/blog/x.svg (optional, thumbnail under static/ for the blog list card)
+//   cover: /images/blog/x.svg (optional, thumbnail under content/public/ for the blog list card)
 //   aliases: [old-slug]      (optional, former slugs; they redirect to this post)
 //   draft: true              (optional, hides the post everywhere)
 //   ---
-const files = import.meta.glob("/src/content/blog/*.md", {
+const files = import.meta.glob("/content/posts/*.md", {
   query: "?raw",
   import: "default",
   eager: true,

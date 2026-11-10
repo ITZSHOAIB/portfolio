@@ -1,4 +1,4 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import {
   experienceMarkdown,
   fullMarkdown,
@@ -15,7 +15,7 @@ import {
   type SectionName,
 } from "$lib/agent/knowledge";
 import { postMarkdown } from "$lib/content/agent-markdown";
-import { profile } from "$lib/data/portfolio";
+import { profile } from "$content/profile";
 
 // A minimal, stateless, read-only MCP server over Streamable HTTP.
 // Every response is plain JSON (no SSE stream, no session id), which the
@@ -135,7 +135,7 @@ const tools: Tool[] = [
       properties: {
         query: {
           type: "string",
-          description: "Keywords, for example 'LangGraph evaluations' or 'Kubernetes'.",
+          description: "Keywords, for example 'evaluations' or 'Kubernetes'.",
         },
         limit: {
           type: "integer",
@@ -208,7 +208,7 @@ ${selectedWorkMarkdown()}`);
   },
 ];
 
-const resourceUri = (name: string) => `sohab://portfolio/${name}`;
+const resourceUri = (name: string) => `${site.handle}://portfolio/${name}`;
 
 const resources = [
   ...Object.keys(sections).map((name) => ({
@@ -257,7 +257,7 @@ function handle(message: JsonRpcMessage): unknown {
         protocolVersion,
         capabilities: { tools: {}, resources: {} },
         serverInfo: {
-          name: "sohab-portfolio",
+          name: `${site.handle}-portfolio`,
           title: `${profile.name} portfolio`,
           version: "1.0.0",
           websiteUrl: site.url,

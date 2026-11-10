@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./static/images/og-image.png" alt="Sohab Sk portfolio preview" width="860" />
+<img src="./content/public/images/og-image.png" alt="Sohab Sk portfolio preview" width="860" />
 
 ### A fast, dark, SEO-friendly personal portfolio for AI agents, scalable systems, and selected engineering work.
 
@@ -9,7 +9,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.x-06b6d4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Cloudflare Pages](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-f38020?style=for-the-badge&logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com/)
 
-[Live Site](https://sohab.dev) · [Deployment Notes](./DEPLOYMENT.md) · [Resume](./static/resume.pdf)
+[Live Site](https://sohab.dev) · [Deployment Notes](./DEPLOYMENT.md) · [Resume](./content/public/resume.pdf)
 
 </div>
 
@@ -49,15 +49,20 @@ The site highlights work across agentic AI systems, multi-agent learning-authori
 .
 ├── .github/workflows/ci.yml       # GitHub Actions check and build workflow
 ├── DEPLOYMENT.md                  # Cloudflare Pages deployment instructions
-├── static/
-│   ├── images/                    # Profile and social preview assets
-│   └── resume.pdf                 # Public resume
+├── content/                       # Everything personal; the code reads only from here
+│   ├── site.ts                    # Site metadata and feature flags
+│   ├── profile.ts                 # Name, role, links
+│   ├── selected-work.ts           # Selected work cards
+│   ├── github-projects.ts         # Project cards
+│   ├── experience.ts              # Experience timeline
+│   ├── skills.ts                  # Skill groups
+│   ├── posts/                     # Blog posts, one Markdown file each
+│   ├── projects/                  # Project pages linked from the cards
+│   └── public/                    # Served from the site root: images, resume, icons
 ├── src/
 │   ├── lib/
 │   │   ├── components/            # Portfolio sections and UI pieces
-│   │   ├── config/site.ts         # Site metadata and feature flags
 │   │   ├── content/               # Markdown pipeline, post queries, feeds
-│   │   ├── data/portfolio.ts      # Profile, project, skill, and experience data
 │   │   ├── icons/                 # Icon helpers
 │   │   ├── types/                 # Shared portfolio types
 │   │   └── utils/                 # Formatting utilities
@@ -124,16 +129,19 @@ Most portfolio content is centralized in a small set of files:
 
 | File | Purpose |
 | --- | --- |
-| `src/lib/config/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, and feature flags. |
-| `src/lib/data/portfolio.ts` | Profile details, social links, selected projects, experience, and skills. |
-| `src/content/blog/*.md` | Blog posts, one markdown file each. |
-| `src/content/projects/*.md` | Project pages linked from the project cards. |
-| `static/resume.pdf` | Public resume linked from the site. |
-| `static/images/` | Profile photo and social preview image. |
+| `content/site.ts` | Site URL, title, description, Open Graph image metadata, keywords, and feature flags (`blog`, `askAi`, `mcp`, `openToWork`). |
+| `content/profile.ts` | Name, role, location, email, social links, and career start date. |
+| `content/selected-work.ts`, `content/github-projects.ts` | The selected work and project cards. |
+| `content/experience.ts`, `content/skills.ts` | Experience timeline and skill groups. |
+| `content/posts/*.md` | Blog posts, one markdown file each. |
+| `content/projects/*.md` | Project pages linked from the project cards. |
+| `content/public/` | Files served from the site root: `resume.pdf`, `images/` (profile photo, social preview, covers), icons, and the web manifest. |
+
+Code outside `content/` holds no personal data. `$content` is an alias for the folder.
 
 ## Blog
 
-Posts are markdown files in `src/content/blog/` with frontmatter:
+Posts are markdown files in `content/posts/` with frontmatter:
 
 ```md
 ---
@@ -143,13 +151,13 @@ published: 2026-11-10   # or 2026-11-10T14:30 to order posts published the same 
 updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
 projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
-cover: /images/blog/my-post.jpg  # optional, a JPEG under static/: list thumbnail and social image
+cover: /images/blog/my-post.jpg  # optional, a JPEG under content/public/: list thumbnail and social image
 aliases: [old-slug]   # optional, former slugs; /blog/old-slug redirects to this post
 draft: true           # optional, hides the post everywhere
 ---
 ```
 
-Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts, an author note and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
+Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts, an author note and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `content/site.ts` to switch it all off. `features.askAi` hides the Ask AI button and dialog, and `features.mcp` removes the `/mcp` endpoint and its mention in `llms.txt`.
 
 The URL comes from the file name, so renaming a post would break its old link and lose its search ranking. Rename it and list the old name under `aliases`: the build writes a `_redirects` file (`src/routes/_redirects/+server.ts`) that Cloudflare Pages reads, giving `/blog/old-slug` and `/blog/old-slug.md` a permanent 301 to the new URL. The build fails if an alias matches an existing post or is claimed twice. The redirects only run on Cloudflare Pages, not in `pnpm preview`.
 
@@ -174,7 +182,7 @@ A prompt readers can copy or open in Claude or ChatGPT.
 
 A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/components/blog/figures/autoplay.ts`). With reduced motion, it shows a static version instead. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
 
-A `cover` is a finished 1200x630 JPEG under `static/`, with the title already on it (large enough to read as a small thumbnail). It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and it is served as the post's social image (`/blog/<slug>/og.png`) as is. It is not shown on the post page. A post without one gets the plain text social card.
+A `cover` is a finished 1200x630 JPEG under `content/public/`, with the title already on it (large enough to read as a small thumbnail). It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and it is served as the post's social image (`/blog/<slug>/og.png`) as is. It is not shown on the post page. A post without one gets the plain text social card.
 
 For readers who learn with AI:
 

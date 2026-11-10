@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { blogPosts } from "$lib/content/blog";
 import { formatDate } from "$lib/utils/date";
 import type { EntryGenerator, RequestHandler } from "./$types";

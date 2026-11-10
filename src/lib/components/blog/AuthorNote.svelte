@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { site } from "$lib/config/site";
-  import { profile } from "$lib/data/portfolio";
+  import { site } from "$content/site";
+  import { profile } from "$content/profile";
 </script>
 
 <section class="author-note" aria-label="About the author">

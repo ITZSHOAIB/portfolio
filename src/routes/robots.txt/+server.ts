@@ -1,4 +1,4 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 
 export const prerender = true;
 

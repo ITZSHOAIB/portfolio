@@ -1,6 +1,8 @@
 export const site = {
   url: "https://sohab.dev",
   name: "Sohab Sk",
+  // Short lowercase id: names the MCP server, its resource URIs and the `claude mcp add` command.
+  handle: "sohab",
   title: "Sohab Sk - Senior Software Engineer",
   description:
     "Sohab Sk - A Senior Software Engineer building agentic AI systems, multi-agent learning-authoring workflows, reusable agent frameworks, and scalable web platforms.",
@@ -43,6 +45,10 @@ export const site = {
   ],
   features: {
     blog: true,
+    // "Ask AI" button and dialog: prefilled chat links about the owner.
+    askAi: true,
+    // Read-only MCP server at /mcp. Needs a host that runs functions (Cloudflare Pages does).
+    mcp: true,
     // Soft availability line in the hero. Turn off if the timing is wrong.
     openToWork: true,
   },

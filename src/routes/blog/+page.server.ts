@@ -1,4 +1,4 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { blogPosts } from "$lib/content/blog";
 import { allTags } from "$lib/content/blog-queries";
 import type { PageServerLoad } from "./$types";

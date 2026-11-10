@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ArrowLeft, Rss } from "@lucide/svelte";
   import type { Snippet } from "svelte";
-  import { site } from "$lib/config/site";
+  import { site } from "$content/site";
   import "$lib/styles/blog.css";
 
   let {

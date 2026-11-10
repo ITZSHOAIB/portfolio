@@ -1,4 +1,4 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { feedPosts } from "$lib/content/feed";
 
 export const prerender = true;
