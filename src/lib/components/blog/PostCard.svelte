@@ -24,9 +24,6 @@
       class="size-5 shrink-0 text-[#a1a1aa] transition group-hover:text-[#fafafa]"
     />
   </div>
-  {#if post.cover}
-    <img class="post-card-cover mt-4" src={post.cover} alt="" width="1200" height="630" loading="lazy" />
-  {/if}
   <p class="mt-3 max-w-2xl text-sm leading-7 text-[#a1a1aa]">{post.description}</p>
   {#if post.tags.length}
     <ul class="relative mt-4 flex flex-wrap gap-2">

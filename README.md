@@ -143,7 +143,6 @@ published: 2026-11-10
 updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
 projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
-cover: /images/blog/my-post.svg  # optional, cover art under static/
 draft: true           # optional, hides the post everywhere
 ---
 ```
@@ -168,8 +167,6 @@ A prompt readers can copy or open in Claude or ChatGPT.
 ````
 
 A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/components/blog/figures/autoplay.ts`). With reduced motion, it shows a static version instead. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
-
-A `cover` is 1200x630 art with its subject on the right. It appears as a slim banner above the post, a strip on the post's card, and behind the title in the generated social image, which keeps the title to the left half. SVG covers can animate with CSS; the social image uses their first frame.
 
 For readers who learn with AI:
 
