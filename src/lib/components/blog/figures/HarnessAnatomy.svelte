@@ -1,9 +1,12 @@
 <script lang="ts">
+  import { Activity, FileText, Server, Webhook, Workflow, Wrench } from "@lucide/svelte";
+
   // The parts list comes from LangChain's "Anatomy of an Agent Harness";
   // observability is Addy Osmani's addition. The "why" lines are my own framing.
   const parts = [
     {
       id: "instructions",
+      icon: FileText,
       label: "Instructions",
       examples: "System prompts, AGENTS.md, CLAUDE.md, skill files",
       why: "Tell the agent what to do and how this codebase works.",
@@ -11,6 +14,7 @@
     },
     {
       id: "tools",
+      icon: Wrench,
       label: "Tools",
       examples: "Tools, skills, MCP servers, and their descriptions",
       why: "What the agent can act with. Tool descriptions are text the model reads, so they steer it too.",
@@ -18,6 +22,7 @@
     },
     {
       id: "infrastructure",
+      icon: Server,
       label: "Infrastructure",
       examples: "Filesystem, sandbox, browser",
       why: "Where work happens, and where it survives beyond one context window.",
@@ -25,6 +30,7 @@
     },
     {
       id: "orchestration",
+      icon: Workflow,
       label: "Orchestration",
       examples: "Subagent spawning, handoffs, model routing",
       why: "How work is split across agents and models.",
@@ -32,6 +38,7 @@
     },
     {
       id: "hooks",
+      icon: Webhook,
       label: "Hooks",
       examples: "Compaction, continuation, lint checks",
       why: "Deterministic steps that run whether or not the model remembers them.",
@@ -39,6 +46,7 @@
     },
     {
       id: "observability",
+      icon: Activity,
       label: "Observability",
       examples: "Logs, traces, cost and latency metering",
       why: "How you find out which part of the harness failed.",
@@ -58,7 +66,8 @@
     onclick={() => (selected = p.id)}
     onmouseenter={() => (selected = p.id)}
   >
-    {p.label}
+    <p.icon class="size-4" aria-hidden="true" />
+    <span>{p.label}</span>
   </button>
 {/snippet}
 
@@ -78,10 +87,15 @@
   </div>
 
   <div class="anatomy-detail" aria-live="polite">
-    <p class="text-base font-semibold text-[#fafafa]">{part.label}</p>
-    <p class="mt-1 text-sm leading-6 text-[#d4d4d8]">{part.examples}</p>
-    <p class="mt-2 text-sm leading-6 text-[#a1a1aa]">{part.why}</p>
-    <p class="mt-2 text-xs text-[#71717a]">Listed by {part.source}</p>
+    {#key part.id}
+      <div class="anatomy-detail-body">
+        <p class="flex items-center gap-2 text-base font-semibold text-[#fafafa]">
+          <part.icon class="size-4 text-[#7dd3fc]" aria-hidden="true" />{part.label}
+        </p>
+        <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">{part.why}</p>
+        <p class="mt-1 text-sm leading-6 text-[#71717a]">{part.examples} · via {part.source}</p>
+      </div>
+    {/key}
   </div>
 </div>
 
@@ -112,11 +126,15 @@
   }
   .anatomy-part {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
     cursor: pointer;
     border: 1px solid #27272a;
     border-radius: 0.5rem;
     background: #0a0a0a;
-    padding: 0.6rem 0.25rem;
+    padding: 0.65rem 0.25rem;
     font-size: 0.8rem;
     font-weight: 600;
     line-height: 1.2;
@@ -143,6 +161,37 @@
   .anatomy-part-top::after { top: 100%; }
   .anatomy-part-bottom::after { bottom: 100%; transform: rotate(180deg); }
   .anatomy-part[aria-pressed="true"]::after { background: linear-gradient(#7dd3fc, transparent); }
+  /* A pulse runs from the selected part into the model. */
+  .anatomy-part::before {
+    content: "";
+    position: absolute;
+    left: calc(50% - 2px);
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #7dd3fc;
+    box-shadow: 0 0 8px #7dd3fc;
+    opacity: 0;
+  }
+  .anatomy-part-top::before { top: 100%; }
+  .anatomy-part-bottom::before { bottom: 100%; }
+  .anatomy-part-top[aria-pressed="true"]::before { animation: pulse-down 1.6s ease-in infinite; }
+  .anatomy-part-bottom[aria-pressed="true"]::before { animation: pulse-up 1.6s ease-in infinite; }
+  @keyframes pulse-down {
+    0% { opacity: 0; transform: translateY(0); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(1.2rem); }
+  }
+  @keyframes pulse-up {
+    0% { opacity: 0; transform: translateY(0); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-1.2rem); }
+  }
+  .anatomy-detail-body { animation: detail-in 220ms ease-out; }
+  @keyframes detail-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
   .anatomy-core {
     position: relative;
     justify-self: center;
@@ -169,12 +218,14 @@
   }
   .anatomy-detail {
     margin-top: 1rem;
-    min-height: 8.5rem;
+    min-height: 6.5rem;
     border-top: 1px solid #27272a;
     padding-top: 1rem;
   }
   @media (prefers-reduced-motion: reduce) {
-    .anatomy-core-glow { animation: none; }
+    .anatomy-core-glow,
+    .anatomy-part::before,
+    .anatomy-detail-body { animation: none !important; }
     .anatomy-part { transition: none; }
   }
 </style>

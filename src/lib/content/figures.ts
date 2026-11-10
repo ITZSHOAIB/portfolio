@@ -9,15 +9,9 @@ export type FigureMeta = { caption: string; description: string };
 
 export const figures: Record<string, FigureMeta> = {
   "harness-anatomy": {
-    caption: "Agent = Model + Harness. Select a part to see what it covers.",
+    caption: "The six parts of a harness, after LangChain and Addy Osmani.",
     description:
       "A model sits in the middle of a harness made of six parts: instructions (system prompts, AGENTS.md, CLAUDE.md, skill files), tools (tools, skills, MCP servers and their descriptions), bundled infrastructure (filesystem, sandbox, browser), orchestration (subagent spawning, handoffs, model routing), hooks and middleware (compaction, continuation, lint checks) and observability (logs, traces, cost and latency metering). The first five come from LangChain; observability is Addy Osmani's addition.",
-  },
-  "guides-sensors": {
-    caption:
-      "Guides act before the agent does, sensors after. Pick a mistake to see which controls would catch it.",
-    description:
-      "A two-by-two grid. Columns: guides (feedforward, before the agent acts) and sensors (feedback, after it acts). Rows: computational (deterministic and fast, such as code mods, bootstrap scripts, linters, structural tests and type checks) and inferential (semantic, slower and less predictable, such as AGENTS.md, skills, AI code review and LLM as judge). The grid follows Birgitta Böckeler's article. The example mistakes are the author's own illustration: a wrong test command is caught by an AGENTS.md line or a script; a module-boundary violation by a structural test; style drift by conventions in AGENTS.md plus a linter; solving the wrong problem is only partly caught by AI review, and still needs a human.",
   },
   "ratchet-loop": {
     caption: "The ratchet: every repeated mistake ends as a file, and the file runs every time.",

@@ -1,130 +1,63 @@
 ---
 title: Harness engineering: the part of an agent that isn't the model
-description: What people mean by an agent harness, what it is made of, and how to turn every repeated agent mistake into a permanent fix.
+description: What an agent harness is, why it matters as much as the model, and the small habit that keeps improving it.
 published: 2026-11-10
 tags: [ai-agents, harness-engineering]
 projects: [Plico, Dev Skills]
 ---
 
-When a coding agent does something dumb, the reflex is to blame the model. Often the model is fine. The agent ran the wrong command because nothing told it the right one, or it declared victory because nothing checked its work. Those are problems with everything around the model, and that surrounding layer now has a name: the harness.
+When a coding agent does something dumb, my first reflex is to blame the model. Usually the model is fine. It ran the wrong test command because nothing told it the right one. It said "done" because nothing checked. That isn't a model problem. It's a harness problem.
 
-> [!TLDR] What you'll learn
-> - What a harness is: everything in an agent that isn't the model.
-> - The six parts a harness is made of.
-> - How to sort fixes into guides (before the agent acts) and sensors (after).
-> - The habit that improves a harness: turn each repeated mistake into a file.
+## Agent = Model + Harness
 
-## Two meanings of one word
+That's Vivek Trivedy's definition at LangChain, and it's the shortest one I know. The harness is "every piece of code, configuration, and execution logic that isn't the model itself." If it isn't the model, it's the harness.
 
-"Harness engineering" is about nine months old and is used in two ways that are easy to mix up.
-
-**As a layer.** Vivek Trivedy at LangChain gives the shortest definition: "Agent = Model + Harness." A harness, in his words, is "every piece of code, configuration, and execution logic that isn't the model itself." If you're not the model, you're the harness.
-
-**As a practice.** Mitchell Hashimoto describes a habit he calls harness engineering: "anytime you find an agent makes a mistake, you take the time to engineer a solution such that the agent never makes that mistake again." He also says he doesn't know if there's a broad industry-accepted term yet, and would switch if another one exists.
-
-> [!IMPORTANT]
-> The layer is what you have. The practice is how you improve it. The rest of this post covers both, in that order.
-
-## What a harness is made of
-
-LangChain's list, which Addy Osmani repeats and extends, has six parts. Select one to see what it covers:
+Tap a part to see what's in one:
 
 ::figure harness-anatomy
 
-Two ideas in LangChain's post are worth keeping in your head.
-
-First, **context rot**: reasoning degrades as the context window fills. Much of a harness exists to fight it, through compaction, writing large tool outputs to files instead of keeping them in context, and skills that load only when needed.
-
-Second, **durable state**. The filesystem and git give an agent somewhere to put work that outlives one context window. Anthropic's post on long-running agents builds on this: a first session sets up an init script, a progress log and an initial commit, and later sessions pick up from them.
-
-## Does the harness matter more than the model?
-
-Osmani puts it strongly: "A decent model with a great harness beats a great model with a bad harness." He calls it his own observation and gives no benchmark for it, so read it as a claim from experience.
-
-LangChain offers some evidence. It says its coding agent went from "Top 30 to Top 5 on Terminal Bench 2.0 by only changing the harness," and that a model scores differently in different harnesses. The post gives no scores, so treat this as the vendor's report.
-
-> [!NOTE] Reading the evidence
-> Both claims come from people who build harnesses, and neither publishes scores. Read them as informed opinion, not measurement.
-
-The same post also argues "harnesses should matter less over time", since models will absorb some of this work. Harness engineering stays useful, in the way prompt engineering did, but parts of it will go away.
+Does it matter more than the model? Addy Osmani thinks so: "A decent model with a great harness beats a great model with a bad harness." LangChain says it moved its coding agent from Top 30 to Top 5 on Terminal Bench 2.0 by changing only the harness. Neither publishes scores, so read that as experience rather than measurement. It matches mine, though.
 
 ## Guides and sensors
 
-Birgitta Böckeler's article on martinfowler.com gives the most practical way to sort controls. A **guide** is feedforward: it anticipates the agent's behaviour and steers it before it acts. A **sensor** is feedback: it observes after the agent acts and helps it correct itself.
+Birgitta Böckeler has the most useful way to sort the parts. A **guide** steers the agent before it acts, like an `AGENTS.md` line or a skill. A **sensor** catches it afterwards, like a test, a linter or an AI reviewer.
 
-You need both. In her words, feedback alone gives an agent that "keeps repeating the same mistakes." Feedforward alone gives one that "encodes rules but never finds out whether they worked."
+You want both. With only sensors, the agent "keeps repeating the same mistakes." With only guides, it "encodes rules but never finds out whether they worked."
 
-She adds a second axis. *Computational* controls (tests, linters, type checkers) are deterministic and fast, cheap enough to run on every change. *Inferential* controls (an LLM reviewer, an AI judge) add semantic judgement but are slower and less predictable.
+My favourite detail from her article: a lint message written for the agent, with the fix in it, is "a positive kind of prompt injection."
 
-::figure guides-sensors
+## The ratchet
 
-One detail from her article I like: a linter message written for the agent, with fix instructions in it, is what she calls "a positive kind of prompt injection."
+Mitchell Hashimoto turned this into a habit, and that habit is where the name comes from: "anytime you find an agent makes a mistake, you take the time to engineer a solution such that the agent never makes that mistake again."
 
-## The practice: a ratchet
-
-Hashimoto names two forms the fix takes:
-
-1. **Better implicit prompting.** For simple things, like the agent repeatedly running the wrong commands or finding the wrong APIs, update `AGENTS.md`. He points to a file in Ghostty where each line is based on a bad agent behaviour, and says it "almost completely resolved them all."
-2. **Actual, programmed tools.** Scripts to take screenshots, run filtered tests, and so on, usually paired with an `AGENTS.md` line so the agent knows the tool exists.
-
-Osmani turns this into a rule of thumb: every line in a good `AGENTS.md` should be traceable to a specific thing that went wrong. Keep the file short, and remove a rule once a more capable model makes it redundant. It's a ratchet, not a style guide.
-
-In Böckeler's terms, the first form is a guide and the second is often a sensor. Put together, the habit is a loop:
+The fix is either a line in `AGENTS.md`, for simple things like wrong commands, or a real tool, like a script that runs filtered tests. Each one tightens the harness a notch, and it doesn't slip back.
 
 ::figure ratchet-loop
 
-```prompt title="Turn a repeated mistake into a fix"
-You just made this mistake: <describe it>.
+Osmani's rule of thumb follows from it: every line in a good `AGENTS.md` should trace back to something that went wrong. If you can't name the mistake a rule prevents, it probably doesn't belong.
 
-Don't fix the code yet. First tell me whether it needs a guide (a line in AGENTS.md or a skill), a sensor (a test, lint rule or script that fails), or both. Then propose the smallest change to this repository that would stop it happening again, and the message the check should print when it fails.
+## In my own repos
+
+[Plico](https://plico.sohab.dev), the agent app kit I'm building, has an `AGENTS.md` that tells the agent to build before typechecking, because the packages resolve each other through `dist`. That's the guide. `pnpm check` runs lint, build, typecheck and tests, so the agent finds out it was wrong before I read the diff. That's the sensor.
+
+My `pr` skill in [dev-skills](/projects/dev-skills) grew the same way. Real pull requests showed gaps, so it gained a `Closes #<issue>` line and a fallback for changes with nothing to demo. Small and boring, which is the point: a harness is mostly small files that exist because something once went wrong.
+
+## Try it tomorrow
+
+- Write down every mistake you see twice. Fix it in a file, not in the chat.
+- Ask whether the agent didn't know (add a guide) or nothing told it it was wrong (add a sensor).
+- Prefer a check you can run. A failing test beats a sentence in a prompt.
+- Make failures say what to do next.
+
+```prompt title="Audit your AGENTS.md"
+Read the AGENTS.md (or CLAUDE.md) in this repository. For each rule, tell me which repeated mistake it prevents, and whether a test, lint rule or script could enforce it instead. Flag rules with no clear mistake behind them. Suggest the three most useful changes, but don't edit anything yet.
 ```
 
-## What this looks like in my own repos
-
-I'll use two small examples, because the idea is clearer with real files.
-
-**Plico's `AGENTS.md`.** [Plico](https://plico.sohab.dev) is the agent app kit I'm building. Its `AGENTS.md` is a guide: it names the required project files, says to keep source files focused and under roughly 250 lines, and says to build before typecheck because packages resolve each other through `dist`. Its TDD rule (one failing behaviour test, then just enough code to pass) steers how the agent works. The verification section is where guide meets sensor: `pnpm check` runs lint, build, typecheck and test, and it is the CI gate, so the agent can find out it was wrong before a human reads the diff.
-
-**The `pr` skill in [dev-skills](/projects/dev-skills).** My `pr` skill started from Matt Pocock's. Walking through real pull requests showed gaps, so I added a `Closes #<issue>` line to the template and an Evidence fallback for changes with nothing to run. Both came from something that went wrong or was missing, which is the ratchet in miniature. The skill's `CREDITS.md` records the fork base, so the origin of each change stays traceable.
-
-Neither of these is impressive. That is the point: the harness is mostly small files that exist because something once went wrong.
-
-## A checklist
-
-If you want to start tomorrow:
-
-- Keep a list of agent mistakes you see more than once. Don't fix them in the chat; fix them in a file.
-- For each, ask: is this a **guide** (the agent didn't know) or a **sensor** (nothing told it that it was wrong)? Often it needs both.
-- Prefer a **computational** check when you can write one. A failing test beats a sentence in a prompt.
-- Make failures talk. A tool or lint message should say what to do next, not just that something is wrong.
-- Keep `AGENTS.md` short and traceable to real failures. Prune rules as models improve.
-- Add observability early. If you can't see what the agent did, you can't tell which part of the harness failed.
-
-```prompt title="Audit your AGENTS.md with your agent"
-Read the AGENTS.md (or CLAUDE.md) in this repository. For each rule, tell me:
-
-1. Which repeated mistake it most likely prevents. Flag rules with no clear failure behind them.
-2. Whether it is only a guide, or should also have a sensor: a test, lint rule or script that fails when the rule is broken.
-3. Whether it could become a computational check instead of a sentence.
-
-Then suggest the three changes with the biggest payoff. Don't edit anything yet.
-```
-
-## What nobody has solved yet
-
-Böckeler is candid about the open questions, and they are worth repeating:
-
-- Checking *behaviour* is still weak. A green suite of AI-written tests puts "a lot of faith into the AI-generated tests, that's not good enough yet."
-- As the harness grows, guides and sensors can contradict each other.
-- "If sensors never fire, is that a sign of high quality or inadequate detection mechanisms?"
-- There is no equivalent of code coverage for a harness yet.
-
-I'd add one more from LangChain: agents that read their own traces to fix harness-level failures are listed as an open problem. Today a human still has to notice the mistake and decide where the fix goes.
+Some of this isn't solved yet. Böckeler points out that a harness has nothing like code coverage, and that when sensors never fire, you can't tell good code from weak detection. Someone still has to notice the mistake. For now, that's you.
 
 ## Sources
 
-- Mitchell Hashimoto, [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey), Step 5: Engineer the Harness (5 February 2026).
-- Vivek Trivedy, [The Anatomy of an Agent Harness](https://www.langchain.com/blog/the-anatomy-of-an-agent-harness), LangChain (10 March 2026).
-- Birgitta Böckeler, [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html), martinfowler.com (2 April 2026).
-- Addy Osmani, [Agent Harness Engineering](https://addyosmani.com/blog/agent-harness-engineering/) (19 April 2026).
-- Anthropic, [Effective harnesses for long-running agents](https://anthropic.com/engineering/effective-harnesses-for-long-running-agents). I describe it from its search summary and have not quoted it.
+- Mitchell Hashimoto, [My AI Adoption Journey](https://mitchellh.com/writing/my-ai-adoption-journey) (February 2026)
+- Vivek Trivedy, [The Anatomy of an Agent Harness](https://www.langchain.com/blog/the-anatomy-of-an-agent-harness), LangChain (March 2026)
+- Birgitta Böckeler, [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html), martinfowler.com (April 2026)
+- Addy Osmani, [Agent Harness Engineering](https://addyosmani.com/blog/agent-harness-engineering/) (April 2026)
