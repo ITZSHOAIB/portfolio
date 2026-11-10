@@ -4,19 +4,23 @@
   import type { BlogPost } from "$lib/types/portfolio";
   import { formatDate } from "$lib/utils/date";
 
-  let { post, level = 2 }: { post: BlogPost; level?: 2 | 3 } = $props();
+  let {
+    post,
+    level = 2,
+    stacked = false,
+  }: { post: BlogPost; level?: 2 | 3; stacked?: boolean } = $props();
 </script>
 
 <article
-  class="post-card group relative flex flex-col gap-4 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111] sm:flex-row sm:items-start sm:gap-6 sm:p-6"
+  class={`post-card group relative flex flex-col gap-4 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111] sm:p-6 ${stacked ? "post-card--stacked" : "sm:flex-row sm:items-center sm:gap-8"}`}
 >
   {#if post.cover}
     <img
-      class="post-card-cover sm:order-2"
+      class={`post-card-cover ${stacked ? "" : "sm:order-2"}`}
       src={post.cover}
       alt=""
-      width="420"
-      height="270"
+      width="1200"
+      height="630"
       loading="lazy"
     />
   {/if}

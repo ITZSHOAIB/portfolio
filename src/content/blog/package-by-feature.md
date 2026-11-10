@@ -1,7 +1,7 @@
 ---
 title: Package by feature, when an agent writes the code
 description: Why I put features at the top of the folder tree now that agents change my code more than I do, and the rules that keep it from rotting.
-published: 2026-11-10
+published: 2026-11-10T12:00
 cover: /images/blog/package-by-feature.jpg
 tags: [ai-agents, architecture]
 projects: [Plico, Dev Skills]
