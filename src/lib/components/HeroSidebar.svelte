@@ -76,9 +76,11 @@
                         <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">
                             {profile.company}
                         </p>
-                        <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">
-                            {profile.location}
-                        </p>
+                        {#if profile.location}
+                            <p class="mt-1 text-sm leading-6 text-[#a1a1aa]">
+                                {profile.location}
+                            </p>
+                        {/if}
                     </div>
                 </div>
 

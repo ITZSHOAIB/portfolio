@@ -108,13 +108,13 @@ function checkProjectPages(root: string, problems: Problem[]) {
   for (const name of markdownFiles(root, "content/projects")) {
     const file = `content/projects/${name}`;
     const { data } = parseFrontmatter(readFileSync(join(root, file), "utf8"));
-    for (const key of ["title", "description", "repo", "updated"]) {
+    for (const key of ["title", "description", "repo"]) {
       if (!data[key]) problems.push({ file, field: key, message: "is missing. Add it to the frontmatter." });
     }
   }
 }
 
-export async function checkContent(root: string, { ignoreStarter = false } = {}): Promise<Problem[]> {
+export async function checkContent(root: string, { ignoreStarter = false, allowPlaceholders = false } = {}): Promise<Problem[]> {
   const problems: Problem[] = [];
   const site = await load(root, "site", problems);
   const profile = await load(root, "profile", problems);
@@ -130,5 +130,5 @@ export async function checkContent(root: string, { ignoreStarter = false } = {})
   checkPosts(root, cards, problems);
   checkProjectPages(root, problems);
 
-  return ignoreStarter ? problems : [...problems, ...(await checkStarter(root))];
+  return ignoreStarter ? problems : [...problems, ...(await checkStarter(root, { allowPlaceholders }))];
 }

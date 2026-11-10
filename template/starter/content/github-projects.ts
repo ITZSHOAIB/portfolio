@@ -10,6 +10,7 @@ export const githubProjects: GithubProject[] = [
     href: "https://github.com/alexrivera/sample-project",
     page: "sample-project",
     language: "TypeScript",
+    // Both optional: a date or a label like "Active", and a star count. Delete a line to hide it.
     updated: "2026-11-10",
     stars: 12,
     topics: ["cli", "search", "notes"],

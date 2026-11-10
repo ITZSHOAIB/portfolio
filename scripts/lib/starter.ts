@@ -5,7 +5,8 @@ import { fingerprint } from "./fingerprint.ts";
 import type { Problem } from "./problems.ts";
 
 // content/.starter.json is written by the template generator. It lists the starter
-// values and files that setup must change. This repo has none, so nothing is reported.
+// values and files that setup must change. Only generated templates have one; without it
+// (this repo) nothing is reported.
 type Manifest = {
   values: { module: string; export: string; path: string; value: string }[];
   files: { path: string; sha256: string }[];
@@ -16,7 +17,16 @@ const dig = (data: unknown, path: string) =>
     .split(".")
     .reduce<unknown>((node, key) => (node as Record<string, unknown> | undefined)?.[key], data);
 
-export async function checkStarter(root: string): Promise<Problem[]> {
+const isAsset = (path: string) => path.startsWith("content/public/");
+
+const fileMessage = (path: string) =>
+  isAsset(path)
+    ? "is still the placeholder file. Replace it with your own, or pass --allow-placeholders if you do not have one yet."
+    : path.endsWith(".md")
+      ? "is still the example page. Delete it or replace it with your own."
+      : "still holds the example entries. Replace them with your own, or empty the list if you have none.";
+
+export async function checkStarter(root: string, { allowPlaceholders = false } = {}): Promise<Problem[]> {
   const manifestPath = join(root, "content/.starter.json");
   if (!existsSync(manifestPath)) return [];
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as Manifest;
@@ -36,10 +46,8 @@ export async function checkStarter(root: string): Promise<Problem[]> {
   for (const entry of manifest.files) {
     if (!existsSync(join(root, entry.path))) continue;
     if (fingerprint(entry.path, readFileSync(join(root, entry.path))) === entry.sha256) {
-      problems.push({
-        file: entry.path,
-        message: "is still the starter file. Edit it for your own site or delete it.",
-      });
+      if (allowPlaceholders && isAsset(entry.path)) continue;
+      problems.push({ file: entry.path, message: fileMessage(entry.path) });
     }
   }
   return problems;

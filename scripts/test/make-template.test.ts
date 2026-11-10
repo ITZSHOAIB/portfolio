@@ -49,13 +49,20 @@ test("the agent runbook names only commands the template has", () => {
   assert.match(readFileSync(join(out, "LICENSE"), "utf8"), /MIT License[\s\S]*not\s+licensed\s+for\s+reuse/);
 });
 
-test("every check-content problem on a fresh template is an untouched starter value", () => {
+test("every check-content problem on a fresh template is an untouched starter value or file", () => {
   const { code, out: json } = run("check-content.ts", ["--root", out, "--json"]);
   assert.equal(code, 1);
   const problems = JSON.parse(json) as { file: string; message: string }[];
   assert.ok(problems.length > 5);
-  for (const problem of problems) assert.match(problem.message, /still the starter/, `${problem.file}: ${problem.message}`);
+  for (const problem of problems) assert.match(problem.message, /still (the|holds)/, `${problem.file}: ${problem.message}`);
   assert.ok(problems.some((problem) => problem.file === "content/profile.ts" && /profile\.name/.test(problem.message)));
+});
+
+test("--allow-placeholders leaves only the content problems, never an asset", () => {
+  const { out: json } = run("check-content.ts", ["--root", out, "--json", "--allow-placeholders"]);
+  const problems = JSON.parse(json) as { file: string }[];
+  assert.ok(problems.length > 0);
+  assert.deepEqual(problems.filter((problem) => problem.file.startsWith("content/public/")), []);
 });
 
 test("--ignore-starter lets a fresh template pass, for the build", () => {

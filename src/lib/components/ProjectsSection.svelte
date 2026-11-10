@@ -71,11 +71,13 @@
                                 >
                                     {featuredProject.name}
                                 </h3>
+                                {#if featuredProject.language}
                                 <span
                                     class="rounded-md border border-[#27272a] bg-[#111111] px-2 py-1 text-xs font-semibold text-[#d4d4d8]"
                                 >
                                     {featuredProject.language}
                                 </span>
+                                {/if}
                                 <span
                                     class="rounded-md border border-[#3f3f46] bg-[#151515] px-2 py-1 text-xs font-semibold text-green-500"
                                 >
@@ -169,16 +171,20 @@
                                     >
                                         {project.name}
                                     </h3>
+                                    {#if project.language}
                                     <span
                                         class="rounded-md border border-[#27272a] bg-[#111111] px-2 py-1 text-xs font-semibold text-[#d4d4d8]"
                                     >
                                         {project.language}
                                     </span>
+                                    {/if}
+                                    {#if project.updated}
                                     <span
                                         class="rounded-md border border-[#3f3f46] bg-[#151515] px-2 py-1 text-xs font-semibold text-[#d4d4d8]"
                                     >
                                         {project.updated}
                                     </span>
+                                    {/if}
                                 </div>
 
                                 <p
@@ -245,11 +251,13 @@
                             >
                                 {project.name}
                             </h3>
+                            {#if project.language}
                             <span
                                 class="rounded-md border border-[#27272a] bg-[#111111] px-2 py-1 text-xs font-semibold text-[#d4d4d8]"
                             >
                                 {project.language}
                             </span>
+                            {/if}
                         </div>
                         <p
                             class="mt-3 max-w-2xl text-sm leading-7 text-[#a1a1aa]"
@@ -269,6 +277,7 @@
                     <div
                         class="flex items-start justify-between gap-4 lg:block lg:text-right"
                     >
+                        {#if project.updated}
                         <div>
                             <p
                                 class="text-xs font-bold uppercase tracking-[0.12em] text-[#71717a]"
@@ -281,6 +290,7 @@
                                 {project.updated}
                             </p>
                         </div>
+                        {/if}
                         {#if typeof project.stars === "number"}
                         <div class="mt-0 lg:mt-5">
                             <p
@@ -331,14 +341,18 @@
                     <div
                         class="mt-5 flex items-center justify-between gap-3 border-t border-[#27272a] pt-4 text-sm"
                     >
+                        {#if project.language}
                         <span
                             class="rounded-md border border-[#27272a] bg-[#111111] px-2 py-1 text-xs font-semibold text-[#d4d4d8]"
                         >
                             {project.language}
                         </span>
+                        {/if}
+                        {#if project.updated}
                         <span class="text-xs font-semibold text-[#a1a1aa]">
                             {project.updated}
                         </span>
+                        {/if}
                     </div>
                 </a>
             {/each}

@@ -22,7 +22,7 @@ pnpm dev             # http://localhost:5173
 
 1. Edit the files in `content/`. Every field has a comment above it.
 2. Run `pnpm check-content` until it prints `check-content: ok`.
-3. Replace `content/public/images/profile.png`, `og-image.png` and `resume.pdf`.
+3. Replace `content/public/images/profile.png`, `og-image.png` and `resume.pdf`. No files yet? Run `pnpm check-content --allow-placeholders` until you have them.
 4. Delete or replace `content/posts/hello-world.md` and `content/projects/sample-project.md`.
 5. Run `pnpm verify`, then follow `DEPLOYMENT.md`.
 

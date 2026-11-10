@@ -18,7 +18,7 @@ const years = () => formatExperience(careerStartDate, new Date());
 const list = (items: string[]) => items.map((item) => `- ${item}`).join("\n");
 
 export function profileSummary() {
-  return `${profile.role} at ${profile.company}. ${years()} years of professional experience. Based in ${profile.location}.
+  return `${profile.role} at ${profile.company}. ${years()} years of professional experience.${profile.location ? ` Based in ${profile.location}.` : ""}
 
 Focus: ${profile.focus}
 
@@ -65,12 +65,13 @@ export function projectsMarkdown() {
     const metrics = project.metrics?.length
       ? `\nMetrics: ${project.metrics.map((m) => `${m.value} ${m.label}`).join("; ")}`
       : "";
+    const language = project.language ? `
+Language: ${project.language}` : "";
     return `## ${project.name}
 
 ${project.description}
 
-Link: ${project.href}
-Language: ${project.language}${metrics}
+Link: ${project.href}${language}${metrics}
 Topics: ${project.topics.join(", ")}`;
   });
   return `# Open-source and side projects\n\n${items.join("\n\n")}`;
