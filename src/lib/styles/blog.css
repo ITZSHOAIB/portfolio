@@ -91,6 +91,7 @@
 }
 @media (min-width: 640px) {
   .post-card-cover { width: 19rem; flex-shrink: 0; align-self: center; }
+  .post-card--stacked .post-card-cover { width: 100%; align-self: auto; }
 }
 
 /* Callouts: GitHub-style `> [!TIP]` alerts, a soft tinted card with an icon. */

@@ -109,9 +109,9 @@
           <h2 id={`year-${group.year}`} class="mb-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#8a8a93]">
             {group.year}
           </h2>
-          <div class="grid gap-4">
+          <div class="grid gap-4 md:grid-cols-2">
             {#each group.posts as post}
-              <PostCard {post} level={3} />
+              <PostCard {post} level={3} stacked />
             {/each}
           </div>
         </section>
