@@ -86,8 +86,10 @@
     {#each tags as tag}<meta property="article:tag" content={tag} />{/each}
   {/if}
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content={site.twitterHandle} />
-  <meta name="twitter:creator" content={site.twitterHandle} />
+  {#if site.twitterHandle}
+    <meta name="twitter:site" content={site.twitterHandle} />
+    <meta name="twitter:creator" content={site.twitterHandle} />
+  {/if}
   <meta name="twitter:title" content={fullTitle} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={image} />

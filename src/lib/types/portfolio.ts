@@ -31,7 +31,8 @@ export type GithubProject = {
   href: string;
   /** Slug of a page in content/projects; the card links there instead of `href`. */
   page?: string;
-  language: string;
+  /** Leave out to hide the language badge. */
+  language?: string;
   /** A date (2026-01-31) or a short label such as "Active"; leave out to hide it. */
   updated?: string;
   /** Leave out if you do not want a star count. */

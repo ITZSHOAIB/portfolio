@@ -108,7 +108,7 @@ function checkProjectPages(root: string, problems: Problem[]) {
   for (const name of markdownFiles(root, "content/projects")) {
     const file = `content/projects/${name}`;
     const { data } = parseFrontmatter(readFileSync(join(root, file), "utf8"));
-    for (const key of ["title", "description", "repo", "updated"]) {
+    for (const key of ["title", "description", "repo"]) {
       if (!data[key]) problems.push({ file, field: key, message: "is missing. Add it to the frontmatter." });
     }
   }

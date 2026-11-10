@@ -65,12 +65,13 @@ export function projectsMarkdown() {
     const metrics = project.metrics?.length
       ? `\nMetrics: ${project.metrics.map((m) => `${m.value} ${m.label}`).join("; ")}`
       : "";
+    const language = project.language ? `
+Language: ${project.language}` : "";
     return `## ${project.name}
 
 ${project.description}
 
-Link: ${project.href}
-Language: ${project.language}${metrics}
+Link: ${project.href}${language}${metrics}
 Topics: ${project.topics.join(", ")}`;
   });
   return `# Open-source and side projects\n\n${items.join("\n\n")}`;

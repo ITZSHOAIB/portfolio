@@ -6,7 +6,7 @@ import { parseFrontmatter } from "$lib/content/frontmatter";
 //   title: Page title
 //   description: One-sentence summary used for the page header and SEO.
 //   repo: https://github.com/owner/name
-//   updated: 2026-11-09
+//   updated: 2026-11-09   (optional)
 //   ---
 const files = import.meta.glob("/content/projects/*.md", {
   query: "?raw",
@@ -19,7 +19,7 @@ export type ProjectPage = {
   title: string;
   description: string;
   repo: string;
-  updated: string;
+  updated?: string;
   body: string;
 };
 
@@ -28,9 +28,9 @@ export const projectPages: ProjectPage[] = Object.entries(files).map(
     const { data, body } = parseFrontmatter(raw);
     const slug = path.split("/").pop()!.replace(/\.md$/, "");
 
-    if (!data.title || !data.description || !data.repo || !data.updated) {
+    if (!data.title || !data.description || !data.repo) {
       throw new Error(
-        `Project page "${slug}" needs title, description, repo, and updated in its frontmatter.`,
+        `Project page "${slug}" needs title, description, and repo in its frontmatter.`,
       );
     }
 

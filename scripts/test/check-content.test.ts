@@ -123,6 +123,18 @@ test("--allow-placeholders accepts an untouched asset but not an untouched data 
   assert.equal(allowed.code, 0, allowed.out);
 });
 
+test("a project page does not need an updated date", () => {
+  const page = "---
+title: Tool
+description: A tool.
+repo: https://github.com/alex/tool
+---
+Body.
+";
+  const { code, out } = check(makeRoot({ "content/projects/tool.md": page }));
+  assert.equal(code, 0, out);
+});
+
 test("--json prints problems as data", () => {
   const { code, out } = check(makeRoot({ "content/public/resume.pdf": null }), "--json");
   assert.equal(code, 1);

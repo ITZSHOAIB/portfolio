@@ -49,7 +49,7 @@
                 name: project.name,
                 description: project.description,
                 url: project.href,
-                programmingLanguage: project.language,
+                ...(project.language && { programmingLanguage: project.language }),
                 keywords: project.topics,
                 ...(project.image
                     ? {
@@ -216,8 +216,10 @@
     <meta property="og:image:height" content={String(data.site.image.height)} />
     <meta property="og:image:alt" content={data.site.image.alt} />
     <meta name="twitter:card" content="summary_large_image" />
+    {#if data.site.twitterHandle}
     <meta name="twitter:site" content={data.site.twitterHandle} />
     <meta name="twitter:creator" content={data.site.twitterHandle} />
+    {/if}
     <meta name="twitter:title" content={data.site.title} />
     <meta name="twitter:description" content={data.site.description} />
     <meta name="twitter:image" content={socialImageUrl} />
