@@ -171,7 +171,7 @@ A `::figure <id>` line renders an interactive Svelte component. Register its cap
 For readers who learn with AI:
 
 - **Select to ask.** Selecting text in a post shows a small toolbar that opens Claude or ChatGPT with the passage, the post title and its URL, or copies that prompt.
-- **Post actions.** Each post has Copy as Markdown, Open in Claude, Open in ChatGPT and a `.md` link.
+- **Post actions.** Under the title, a "Read with" row opens the post in Claude or ChatGPT, or copies it as markdown.
 - **Markdown for agents.** `/blog/<slug>.md` serves each post as plain markdown. `llms.txt` links to it, `llms-full.txt` includes every post, and the `/mcp` server adds `list_blog_posts` and `read_blog_post`, with post paragraphs in `search_portfolio` results.
 
 ## Deployment

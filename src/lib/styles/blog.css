@@ -70,21 +70,27 @@
   .blog-reveal .prose-post > * { animation: none; }
 }
 
-/* Callouts: GitHub-style `> [!TIP]` alerts. */
+/* Callouts: GitHub-style `> [!TIP]` alerts, a soft tinted card with an icon. */
 .blog-page .prose-post .callout {
-  border: 1px solid #27272a;
-  border-left: 3px solid var(--callout, #52525b);
-  border-radius: 0.6rem;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--callout, #52525b) 9%, transparent), transparent 70%), #070707;
-  padding: 0.9rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--callout, #52525b) 22%, #18181b);
+  border-radius: 0.875rem;
+  background: color-mix(in srgb, var(--callout, #52525b) 6%, #050505);
+  padding: 1rem 1.15rem;
   color: #d4d4d8;
 }
-.blog-page .prose-post .callout > * + * { margin-top: 0.6rem; }
+.blog-page .prose-post .callout > * + * { margin-top: 0.5rem; }
 .blog-page .prose-post .callout-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fafafa;
+}
+.blog-page .prose-post .callout-icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
   color: var(--callout, #a1a1aa);
 }
 .callout-note { --callout: #a1a1aa; }
@@ -139,6 +145,13 @@
   white-space: pre-wrap;
   font-size: 0.875rem;
 }
+/* A prompt is prose, so it reads in the body font. */
+.blog-page .prose-post .prompt-text code {
+  font-family: inherit;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: #d4d4d8;
+}
 
 /* Interactive figures and captioned images. */
 .blog-page .prose-post .blog-figure,
@@ -154,8 +167,9 @@
 .blog-page .prose-post video { width: 100%; border-radius: 0.5rem; }
 
 /* Post action bar under the title. */
-.post-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.post-action { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
+.post-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.post-actions-label { margin-right: 0.15rem; font-size: 0.8rem; color: #71717a; }
+.post-action { border-radius: 999px; padding: 0.3rem 0.7rem; font-size: 0.78rem; }
 
 /* Floating "Ask" toolbar for selected text. */
 .ask-selection {
@@ -187,6 +201,7 @@
 .ask-selection button {
   display: inline-flex;
   align-items: center;
+  gap: 0.35rem;
   border-radius: 0.4rem;
   padding: 0.3rem 0.55rem;
   color: #fafafa;

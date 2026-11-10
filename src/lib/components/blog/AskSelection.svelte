@@ -88,6 +88,7 @@
     <span class="ask-selection-label"><Sparkles class="size-3.5" /> Ask</span>
     {#each aiTargets as target}
       <a href={chatUrl(target.id, prompt)} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" class="size-3.5" aria-hidden="true"><path fill="currentColor" d={target.path} /></svg>
         {target.label}
       </a>
     {/each}

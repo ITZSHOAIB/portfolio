@@ -1,6 +1,7 @@
 import type { Element, ElementContent, Root, Text } from "hast";
 import { SKIP, visit } from "unist-util-visit";
 import { aiTargets, chatUrl } from "$lib/ai/links";
+import { calloutIcon } from "$lib/content/callout-icons";
 import { FIGURE_LINE, figures } from "$lib/content/figures";
 
 // Blog-only markdown extensions. Each keeps the source readable as plain
@@ -55,6 +56,7 @@ export function rehypeCallouts() {
       node.properties = { className: ["callout", `callout-${match[1].toLowerCase()}`] };
       node.children.unshift(
         el("p", { className: ["callout-title"] }, [
+          calloutIcon(match[1]),
           text(match[2].trim() || calloutTitles[match[1]]),
         ]),
       );
@@ -116,11 +118,17 @@ export function rehypePromptBlocks(mode: RenderMode) {
                     "a",
                     {
                       className: ["prompt-action"],
+                      ariaLabel: `Open in ${target.label}`,
                       href: chatUrl(target.id, prompt),
                       target: "_blank",
                       rel: ["noopener", "noreferrer"],
                     },
-                    [text(`Open in ${target.label}`)],
+                    [
+                      el("svg", { viewBox: "0 0 24 24", width: 14, height: 14, ariaHidden: "true" }, [
+                        el("path", { d: target.path, fill: "currentColor" }),
+                      ]),
+                      text(target.label),
+                    ],
                   ),
                 ),
               ]),
