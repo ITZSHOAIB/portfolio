@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { allTags, postsWithTag } from "$lib/content/blog-queries";
 import type { EntryGenerator, PageServerLoad } from "./$types";
 

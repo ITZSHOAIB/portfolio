@@ -4,14 +4,19 @@
   import { siClaude, siGooglegemini } from "simple-icons";
   import { openAiPath } from "$lib/ai/links";
 
-  let { siteUrl, name }: { siteUrl: string; name: string } = $props();
+  let {
+    siteUrl,
+    name,
+    handle,
+    mcp,
+  }: { siteUrl: string; name: string; handle: string; mcp: boolean } = $props();
 
   // Prefilled chat links. Past this length some providers truncate or reject the URL.
   const MAX_LINK_PROMPT = 6000;
 
 
   const mcpUrl = $derived(`${siteUrl}/mcp`);
-  const command = $derived(`claude mcp add --transport http sohab ${mcpUrl}`);
+  const command = $derived(`claude mcp add --transport http ${handle} ${mcpUrl}`);
 
   const questions = $derived([
     {
@@ -88,7 +93,7 @@
     }
   }
 
-  // sohab.dev/?ask opens the dialog directly, for sharing.
+  // <site>/?ask opens the dialog directly, for sharing.
   onMount(() => {
     if (new URLSearchParams(location.search).has("ask")) dialog.showModal();
   });
@@ -221,6 +226,7 @@
       </div>
     </div>
 
+    {#if mcp}
     <details class="group mt-6 border-t border-[#27272a] pt-4">
       <summary
         class="flex cursor-pointer list-none items-center justify-between text-sm font-medium text-[#d4d4d8] hover:text-[#fafafa] [&::-webkit-details-marker]:hidden"
@@ -260,5 +266,6 @@
         </p>
       </div>
     </details>
+    {/if}
   </div>
 </dialog>

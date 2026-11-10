@@ -10,7 +10,7 @@
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
-    let askAi: AskAiDialog;
+    let askAi = $state<AskAiDialog>();
 
     const canonicalUrl = $derived(`${data.site.url}/`);
     const socialImageUrl = $derived(`${data.site.url}${data.site.image.path}`);
@@ -78,8 +78,8 @@
                 "@type": "Person",
                 "@id": `${canonicalUrl}#person`,
                 name: data.profile.name,
-                givenName: "Sohab",
-                familyName: "Sk",
+                givenName: data.profile.givenName,
+                familyName: data.profile.familyName,
                 url: canonicalUrl,
                 image: {
                     "@type": "ImageObject",
@@ -162,7 +162,7 @@
             {
                 "@type": "ItemList",
                 "@id": `${canonicalUrl}#selected-projects`,
-                name: "Selected projects by Sohab Sk",
+                name: `Selected projects by ${data.profile.name}`,
                 itemListElement: projectSchemaItems,
             },
         ],
@@ -253,15 +253,17 @@
                         href="/blog">Blog</a
                     >
                 {/if}
-                <button
-                    type="button"
-                    class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
-                    onclick={() => askAi.open()}
-                    aria-haspopup="dialog"
-                >
-                    <Sparkles class="size-3.5" />
-                    Ask AI
-                </button>
+                {#if data.site.features.askAi}
+                    <button
+                        type="button"
+                        class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
+                        onclick={() => askAi?.open()}
+                        aria-haspopup="dialog"
+                    >
+                        <Sparkles class="size-3.5" />
+                        Ask AI
+                    </button>
+                {/if}
             </div>
         </div>
     </header>
@@ -273,7 +275,7 @@
         <HeroSidebar
             profile={data.profile}
             experienceText={data.experienceText}
-            onAskAi={() => askAi.open()}
+            onAskAi={data.site.features.askAi ? () => askAi?.open() : undefined}
             hasBlog={data.blog.enabled}
             openToWorkText={data.site.features.openToWork
                 ? data.site.openToWorkText
@@ -296,5 +298,13 @@
         </section>
     </main>
 
-    <AskAiDialog bind:this={askAi} siteUrl={data.site.url} name={data.profile.name} />
+    {#if data.site.features.askAi}
+        <AskAiDialog
+            bind:this={askAi}
+            siteUrl={data.site.url}
+            name={data.profile.name}
+            handle={data.site.handle}
+            mcp={data.site.features.mcp}
+        />
+    {/if}
 </div>

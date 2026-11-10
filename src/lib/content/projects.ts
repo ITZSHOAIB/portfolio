@@ -1,6 +1,6 @@
 import { parseFrontmatter } from "$lib/content/frontmatter";
 
-// Project pages live in src/content/projects/<slug>.md with simple frontmatter:
+// Project pages live in content/projects/<slug>.md with simple frontmatter:
 //
 //   ---
 //   title: Page title
@@ -8,7 +8,7 @@ import { parseFrontmatter } from "$lib/content/frontmatter";
 //   repo: https://github.com/owner/name
 //   updated: 2026-11-09
 //   ---
-const files = import.meta.glob("/src/content/projects/*.md", {
+const files = import.meta.glob("/content/projects/*.md", {
   query: "?raw",
   import: "default",
   eager: true,

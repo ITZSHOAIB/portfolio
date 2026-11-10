@@ -1,11 +1,11 @@
 import { error } from "@sveltejs/kit";
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { postMarkdownUrl, postUrl } from "$lib/content/agent-markdown";
 import { blogEntries } from "$lib/content/blog";
 import { adjacentPosts, relatedPosts } from "$lib/content/blog-queries";
 import { splitFigures } from "$lib/content/figures";
 import { renderMarkdown } from "$lib/content/markdown";
-import { githubProjects } from "$lib/data/portfolio";
+import { githubProjects } from "$content/github-projects";
 import type { EntryGenerator, PageServerLoad } from "./$types";
 
 export const prerender = true;

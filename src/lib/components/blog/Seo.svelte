@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { site } from "$lib/config/site";
+  import { site } from "$content/site";
 
   let {
     title,

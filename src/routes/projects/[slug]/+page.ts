@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { marked } from "marked";
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { projectPages } from "$lib/content/projects";
 import type { EntryGenerator, PageLoad } from "./$types";
 

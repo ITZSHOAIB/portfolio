@@ -1,14 +1,11 @@
-import { site } from "$lib/config/site";
+import { site } from "$content/site";
 import { postMarkdown, postMarkdownUrl } from "$lib/content/agent-markdown";
 import { blogEntries, blogPosts } from "$lib/content/blog";
-import {
-  careerStartDate,
-  experience,
-  githubProjects,
-  profile,
-  selectedWork,
-  skillGroups,
-} from "$lib/data/portfolio";
+import { experience } from "$content/experience";
+import { githubProjects } from "$content/github-projects";
+import { careerStartDate, profile } from "$content/profile";
+import { selectedWork } from "$content/selected-work";
+import { skillGroups } from "$content/skills";
 import { formatExperience } from "$lib/utils/experience";
 
 // Markdown views of the portfolio data for agents. llms.txt, llms-full.txt,

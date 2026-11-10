@@ -3,6 +3,7 @@
     import IconMark from "$lib/components/IconMark.svelte";
     import { socialIcons } from "$lib/icons/portfolioIcons";
     import type { Profile } from "$lib/types/portfolio";
+    import { site } from "$content/site";
 
     let {
         profile,
@@ -12,7 +13,7 @@
         onAskAi,
     }: {
         profile: Profile;
-        onAskAi: () => void;
+        onAskAi?: () => void;
         experienceText: string;
         openToWorkText?: string;
         hasBlog?: boolean;
@@ -30,15 +31,17 @@
                 <a class="font-semibold tracking-tight" href="#top"
                     >{profile.domain}</a
                 >
-                <button
-                    type="button"
-                    class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-semibold text-[#fafafa]"
-                    onclick={onAskAi}
-                    aria-haspopup="dialog"
-                >
-                    <Sparkles class="size-3.5" />
-                    Ask AI
-                </button>
+                {#if onAskAi}
+                    <button
+                        type="button"
+                        class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm font-semibold text-[#fafafa]"
+                        onclick={onAskAi}
+                        aria-haspopup="dialog"
+                    >
+                        <Sparkles class="size-3.5" />
+                        Ask AI
+                    </button>
+                {/if}
             </div>
 
             <section
@@ -56,7 +59,7 @@
                 >
                     <img
                         class="size-26 rounded-2xl object-cover short:size-20"
-                        src="/images/sohab-profile.jpg"
+                        src={site.profileImage.path}
                         alt={`Portrait of ${profile.name}`}
                     />
                     <div class="min-w-0">

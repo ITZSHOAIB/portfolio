@@ -9,6 +9,8 @@ export type ProfileLink = Link & {
 
 export type Profile = {
   name: string;
+  givenName: string;
+  familyName: string;
   domain: string;
   role: string;
   company: string;
@@ -24,7 +26,7 @@ export type GithubProject = {
   name: string;
   description: string;
   href: string;
-  /** Slug of a page in src/content/projects; the card links there instead of `href`. */
+  /** Slug of a page in content/projects; the card links there instead of `href`. */
   page?: string;
   language: string;
   updated: string;
@@ -78,7 +80,7 @@ export type BlogPost = {
   tags: string[];
   /** Names of githubProjects the post relates to. */
   projects: string[];
-  /** Thumbnail path under static/, shown on the blog list card only. */
+  /** Thumbnail path under content/public/, shown on the blog list card only. */
   cover?: string;
   /** Former slugs. /blog/<alias> redirects permanently to the post (see /_redirects). */
   aliases: string[];

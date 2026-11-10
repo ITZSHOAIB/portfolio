@@ -3,7 +3,7 @@
 // Node built-ins are imported lazily: this module is bundled into the worker, where a
 // static `node:` import fails at deploy time even though the route never runs there.
 
-// `cover` is a finished 1200x630 JPEG under static/ (for example /images/blog/x.jpg)
+// `cover` is a finished 1200x630 JPEG under content/public/ (for example /images/blog/x.jpg)
 // with the title already on it. With one, the card is that image and nothing else.
 export type OgCard = { title: string; eyebrow: string; footer: string; cover?: string };
 
@@ -33,7 +33,7 @@ const box = (style: Record<string, string | number>, children: unknown) => ({
 
 const coverUri = async (cover: string) => {
   const { readFile } = await import("node:fs/promises");
-  const data = await readFile(`static${cover}`);
+  const data = await readFile(`content/public${cover}`);
   return `url(data:image/jpeg;base64,${data.toString("base64")})`;
 };
 
