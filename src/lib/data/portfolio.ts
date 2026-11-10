@@ -54,7 +54,7 @@ export const githubProjects = [
   {
     name: "Plico",
     description:
-      "Landing page for a file-based agents framework kit for composing local workflows, prompts, and tools into reusable AI agent projects.",
+      "TypeScript-first agent app kit: a folder of Markdown instructions, skills and TypeScript tools becomes a runnable, inspectable agent app you can embed in your own backend.",
     href: "https://plico.sohab.dev",
     language: "TypeScript",
     updated: "Active",

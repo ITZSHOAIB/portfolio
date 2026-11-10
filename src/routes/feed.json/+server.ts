@@ -8,8 +8,8 @@ export const GET = async () => {
   const posts = await feedPosts();
   const feed = {
     version: "https://jsonfeed.org/version/1.1",
-    title: `${site.name}: writing`,
-    home_page_url: `${site.url}/writing`,
+    title: `${site.name}: blog`,
+    home_page_url: `${site.url}/blog`,
     feed_url: `${site.url}/feed.json`,
     description: site.shortDescription,
     language: site.language,

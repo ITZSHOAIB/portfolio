@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ArrowDownToLine, Eye, Mail, Sparkles } from "@lucide/svelte";
+    import { ArrowDownToLine, BookOpen, Eye, Mail, Sparkles } from "@lucide/svelte";
     import IconMark from "$lib/components/IconMark.svelte";
     import { socialIcons } from "$lib/icons/portfolioIcons";
     import type { Profile } from "$lib/types/portfolio";
@@ -8,12 +8,14 @@
         profile,
         experienceText,
         openToWorkText,
+        hasBlog = false,
         onAskAi,
     }: {
         profile: Profile;
         onAskAi: () => void;
         experienceText: string;
         openToWorkText?: string;
+        hasBlog?: boolean;
     } = $props();
 </script>
 
@@ -117,6 +119,15 @@
                     >
                         <ArrowDownToLine class="size-4" />
                     </a>
+                    {#if hasBlog}
+                        <a
+                            class="inline-flex items-center gap-2 rounded-md border border-[#27272a] px-3 py-2.5 text-sm! font-bold text-[#e4e4e7] transition hover:border-[#52525b] hover:bg-[#0a0a0a]"
+                            href="/blog"
+                        >
+                            <BookOpen class="size-4" />
+                            Blog
+                        </a>
+                    {/if}
                 </div>
 
                 <div class="mt-7 border-t border-[#27272a] pt-7 short:mt-5 short:pt-5">

@@ -10,8 +10,11 @@ import {
   selectedWorkMarkdown,
   skillsMarkdown,
   contactMarkdown,
+  blogMarkdown,
+  findPost,
   type SectionName,
 } from "$lib/agent/knowledge";
+import { postMarkdown } from "$lib/content/agent-markdown";
 import { profile } from "$lib/data/portfolio";
 
 // A minimal, stateless, read-only MCP server over Streamable HTTP.
@@ -96,10 +99,37 @@ const tools: Tool[] = [
     run: () => text(contactMarkdown()),
   },
   {
+    name: "list_blog_posts",
+    title: "Blog posts",
+    description: "Published blog posts with titles, dates, slugs, summaries, and markdown links.",
+    inputSchema: noArgs,
+    run: () => text(blogMarkdown()),
+  },
+  {
+    name: "read_blog_post",
+    title: "Read a blog post",
+    description:
+      "The full text of one blog post as markdown. Interactive figures are described in text. Get slugs from list_blog_posts.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        slug: { type: "string", description: "The post slug, for example 'harness-engineering'." },
+      },
+      required: ["slug"],
+      additionalProperties: false,
+    },
+    run: (args) => {
+      const slug = typeof args.slug === "string" ? args.slug.trim() : "";
+      const post = slug ? findPost(slug) : undefined;
+      if (!post) return toolError(`No published post with slug "${slug}". Call list_blog_posts for the slugs.`);
+      return text(postMarkdown(post));
+    },
+  },
+  {
     name: "search_portfolio",
     title: "Search portfolio",
     description:
-      "Keyword search across experience, selected work, projects, and skills. Returns the best-matching passages with their section.",
+      "Keyword search across experience, selected work, projects, skills, and blog posts. Returns the best-matching passages with their section.",
     inputSchema: {
       type: "object",
       properties: {
@@ -202,7 +232,7 @@ function readResource(uri: string) {
   return null;
 }
 
-const instructions = `Read-only information about ${profile.name}, ${profile.role}, published from ${site.url}. Use the tools to look up experience, shipped work, projects, skills, and contact details. The data is the same as the public website.`;
+const instructions = `Read-only information about ${profile.name}, ${profile.role}, published from ${site.url}. Use the tools to look up experience, shipped work, projects, skills, blog posts, and contact details. The data is the same as the public website.`;
 
 class RpcError extends Error {
   constructor(

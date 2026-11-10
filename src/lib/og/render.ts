@@ -3,7 +3,9 @@
 // Node built-ins are imported lazily: this module is bundled into the worker, where a
 // static `node:` import fails at deploy time even though the route never runs there.
 
-export type OgCard = { title: string; eyebrow: string; footer: string };
+// `cover` is a finished 1200x630 JPEG under static/ (for example /images/blog/x.jpg)
+// with the title already on it. With one, the card is that image and nothing else.
+export type OgCard = { title: string; eyebrow: string; footer: string; cover?: string };
 
 const fontDir = "node_modules/@fontsource/inter/files";
 
@@ -29,11 +31,20 @@ const box = (style: Record<string, string | number>, children: unknown) => ({
   props: { style: { display: "flex", flexDirection: "column", ...style }, children },
 });
 
-export async function renderOgPng({ title, eyebrow, footer }: OgCard) {
+const coverUri = async (cover: string) => {
+  const { readFile } = await import("node:fs/promises");
+  const data = await readFile(`static${cover}`);
+  return `url(data:image/jpeg;base64,${data.toString("base64")})`;
+};
+
+export async function renderOgPng({ title, eyebrow, footer, cover }: OgCard) {
   const { default: satori } = await import("satori");
   const { Resvg } = await import("@resvg/resvg-js");
 
   const fontSize = title.length > 70 ? 54 : title.length > 40 ? 64 : 76;
+  const background = cover
+    ? `${await coverUri(cover)} 0 0 / cover`
+    : "radial-gradient(circle at 15% 0%, #1f1f23 0%, #09090b 55%, #000000 100%)";
 
   const tree = box(
     {
@@ -45,10 +56,9 @@ export async function renderOgPng({ title, eyebrow, footer }: OgCard) {
       padding: 72,
       color: "#fafafa",
       fontFamily: "Inter",
-      background:
-        "radial-gradient(circle at 15% 0%, #1f1f23 0%, #09090b 55%, #000000 100%)",
+      background,
     },
-    [
+    cover ? [] : [
       box(
         {
           fontSize: 26,

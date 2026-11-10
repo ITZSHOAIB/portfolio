@@ -69,13 +69,17 @@ export type SkillGroup = {
   more: string[];
 };
 
-export type WritingPost = {
+export type BlogPost = {
   title: string;
   description: string;
   slug: string;
   published: string;
   updated?: string;
   tags: string[];
+  /** Names of githubProjects the post relates to. */
+  projects: string[];
+  /** Thumbnail path under static/, shown on the blog list card only. */
+  cover?: string;
   readingMinutes: number;
 };
 

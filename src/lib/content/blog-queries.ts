@@ -1,5 +1,5 @@
-import { writingPosts } from "$lib/content/writing";
-import type { WritingPost } from "$lib/types/portfolio";
+import { blogPosts } from "$lib/content/blog";
+import type { BlogPost } from "$lib/types/portfolio";
 
 export const tagSlug = (tag: string) =>
   tag
@@ -12,7 +12,7 @@ export type TagSummary = { tag: string; slug: string; count: number };
 
 export function allTags(): TagSummary[] {
   const counts = new Map<string, TagSummary>();
-  for (const post of writingPosts) {
+  for (const post of blogPosts) {
     for (const tag of post.tags) {
       const slug = tagSlug(tag);
       const existing = counts.get(slug);
@@ -26,24 +26,24 @@ export function allTags(): TagSummary[] {
 }
 
 export const postsWithTag = (slug: string) =>
-  writingPosts.filter((post) => post.tags.some((tag) => tagSlug(tag) === slug));
+  blogPosts.filter((post) => post.tags.some((tag) => tagSlug(tag) === slug));
 
 // Newer posts first, so `newer` is the previous index and `older` the next.
 export function adjacentPosts(slug: string) {
-  const index = writingPosts.findIndex((post) => post.slug === slug);
+  const index = blogPosts.findIndex((post) => post.slug === slug);
   return {
-    newer: index > 0 ? writingPosts[index - 1] : undefined,
+    newer: index > 0 ? blogPosts[index - 1] : undefined,
     older:
-      index >= 0 && index < writingPosts.length - 1
-        ? writingPosts[index + 1]
+      index >= 0 && index < blogPosts.length - 1
+        ? blogPosts[index + 1]
         : undefined,
   };
 }
 
 // Posts sharing the most tags with `post`; ties go to the newer post.
-export function relatedPosts(post: WritingPost, limit = 3) {
+export function relatedPosts(post: BlogPost, limit = 3) {
   const mine = new Set(post.tags.map(tagSlug));
-  return writingPosts
+  return blogPosts
     .filter((other) => other.slug !== post.slug)
     .map((other) => ({
       other,

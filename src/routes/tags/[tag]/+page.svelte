@@ -12,15 +12,16 @@
 </script>
 
 <Seo
-  title={`${data.tag} | Writing | ${data.site.name}`}
+  title={`${data.tag} posts`}
   {description}
   path={`/tags/${data.slug}`}
+  noindex={data.posts.length < 2}
 />
 
 <BlogShell>
   <section class="blog-reveal">
     <p class="text-sm font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
-      <a class="transition hover:text-[#fafafa]" href="/writing">Writing</a> / Tag
+      <a class="transition hover:text-[#fafafa]" href="/blog">Blog</a> / Tag
     </p>
     <h1 class="blog-title mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
       {data.tag}

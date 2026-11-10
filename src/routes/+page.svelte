@@ -6,7 +6,7 @@
     import ProjectsSection from "$lib/components/ProjectsSection.svelte";
     import SelectedWorkSection from "$lib/components/SelectedWorkSection.svelte";
     import SkillsSection from "$lib/components/SkillsSection.svelte";
-    import WritingSection from "$lib/components/WritingSection.svelte";
+    import BlogSection from "$lib/components/BlogSection.svelte";
     import type { PageData } from "./$types";
 
     let { data }: { data: PageData } = $props();
@@ -190,11 +190,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    {#if data.writing.enabled}
+    {#if data.blog.enabled}
         <link
             rel="alternate"
             type="application/rss+xml"
-            title={`${data.site.name} writing`}
+            title={`${data.site.name} blog`}
             href="/rss.xml"
         />
     {/if}
@@ -246,15 +246,23 @@
             <a class="font-semibold tracking-tight" href="#top"
                 >{data.profile.name}</a
             >
-            <button
-                type="button"
-                class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
-                onclick={() => askAi.open()}
-                aria-haspopup="dialog"
-            >
-                <Sparkles class="size-3.5" />
-                Ask AI
-            </button>
+            <div class="flex items-center gap-3">
+                {#if data.blog.enabled}
+                    <a
+                        class="text-sm font-semibold text-[#d4d4d8] transition hover:text-[#fafafa]"
+                        href="/blog">Blog</a
+                    >
+                {/if}
+                <button
+                    type="button"
+                    class="ask-ai inline-flex cursor-pointer items-center gap-1.5 rounded-md px-3 py-2 text-sm! font-bold text-[#fafafa]"
+                    onclick={() => askAi.open()}
+                    aria-haspopup="dialog"
+                >
+                    <Sparkles class="size-3.5" />
+                    Ask AI
+                </button>
+            </div>
         </div>
     </header>
 
@@ -266,6 +274,7 @@
             profile={data.profile}
             experienceText={data.experienceText}
             onAskAi={() => askAi.open()}
+            hasBlog={data.blog.enabled}
             openToWorkText={data.site.features.openToWork
                 ? data.site.openToWorkText
                 : undefined}
@@ -280,8 +289,8 @@
                 <ProjectsSection projects={data.projects} />
                 <SkillsSection skills={data.skillSummary} />
 
-                {#if data.writing.enabled}
-                    <WritingSection posts={data.writing.posts} />
+                {#if data.blog.enabled}
+                    <BlogSection posts={data.blog.posts} />
                 {/if}
             </div>
         </section>

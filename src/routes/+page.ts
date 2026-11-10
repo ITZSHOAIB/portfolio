@@ -1,5 +1,5 @@
 import { site } from "$lib/config/site";
-import { writingPosts } from "$lib/content/writing";
+import { blogPosts } from "$lib/content/blog";
 import {
   careerStartDate,
   experience,
@@ -27,7 +27,7 @@ const secondarySkillNames = allSkillNames.filter(
 );
 
 export const load: PageLoad = () => {
-  const visibleWritingPosts = site.features.writing ? writingPosts : [];
+  const visibleBlogPosts = site.features.blog ? blogPosts : [];
 
   return {
     profile,
@@ -39,9 +39,9 @@ export const load: PageLoad = () => {
       secondary: secondarySkillNames,
       total: allSkillNames.length,
     },
-    writing: {
-      enabled: site.features.writing && visibleWritingPosts.length > 0,
-      posts: visibleWritingPosts,
+    blog: {
+      enabled: site.features.blog && visibleBlogPosts.length > 0,
+      posts: visibleBlogPosts,
     },
     experienceText: formatExperience(careerStartDate, new Date()),
     site,
