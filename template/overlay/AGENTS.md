@@ -32,7 +32,7 @@ If the human does not answer a question, use these defaults and list them in you
 | Experience `highlights`, selected-work `metrics`, `stack` | `[]` |
 | `careerStartDate` | The first day of the year they gave you |
 
-Dates are written in the files with CRLF line endings on Windows; make multi-line edits with a tool that preserves them.
+On Windows the files may use CRLF line endings; make multi-line edits with a tool that preserves them.
 
 The "about me" lives in `content/profile.ts` (`current`, `previous`, `writing`) and the short description in `content/site.ts`.
 
