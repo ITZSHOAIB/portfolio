@@ -18,6 +18,11 @@ export const figures: Record<string, FigureMeta> = {
     description:
       "A loop with four steps. 1. Spot a mistake the agent repeats. 2. Decide whether it needs a guide (the agent didn't know) or a sensor (nothing told it that it was wrong). 3. Fix it in a file: an AGENTS.md line, a script, a test or a lint rule. 4. The check runs on every future change, so the mistake does not come back. Then the loop starts again with the next mistake.",
   },
+  "layout-change": {
+    caption: "The same change in both layouts: five files either way, in five folders or in one.",
+    description:
+      "A request to add discount codes to checkout touches five files: a controller, a service, a repository, a schema and a test. In a layered tree they sit in five folders (controllers, services, repositories, schemas, tests), each mixed in with other features' files. In a feature tree they sit together in one checkout folder, next to the cart and billing folders.",
+  },
 };
 
 export const FIGURE_LINE = /^::figure\s+([a-z0-9-]+)\s*$/;
