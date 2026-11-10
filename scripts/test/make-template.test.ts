@@ -30,13 +30,23 @@ test("the template contains none of the owner's personal strings", () => {
 });
 
 test("it has the project files and a renamed package", () => {
-  for (const file of ["content/site.ts", "content/posts/hello-world.md", "content/public/resume.pdf", "content/public/images/profile.png", "src/routes/+page.svelte", "README.md"]) {
+  for (const file of ["content/site.ts", "content/posts/hello-world.md", "content/public/resume.pdf", "content/public/images/profile.png", "src/routes/+page.svelte", "README.md", "AGENTS.md", "CLAUDE.md", "SETUP.md", "DEPLOYMENT.md", "LICENSE"]) {
     assert.ok(statSync(join(out, file)).isFile(), file);
   }
   const pkg = JSON.parse(readFileSync(join(out, "package.json"), "utf8"));
   assert.equal(pkg.name, "agent-ready-portfolio");
   assert.equal(pkg.repository, undefined);
   assert.equal(pkg.author, undefined);
+});
+
+test("the agent runbook names only commands the template has", () => {
+  const pkg = JSON.parse(readFileSync(join(out, "package.json"), "utf8"));
+  const runbook = readFileSync(join(out, "AGENTS.md"), "utf8");
+  const commands = [...runbook.matchAll(/^pnpm ([\w:-]+)/gm)].map((match) => match[1]);
+  assert.ok(commands.includes("check-content"));
+  for (const command of commands) assert.ok(command === "install" || command === "dev" || pkg.scripts[command], command);
+  assert.equal(readFileSync(join(out, "CLAUDE.md"), "utf8").trim(), "@AGENTS.md");
+  assert.match(readFileSync(join(out, "LICENSE"), "utf8"), /MIT License[\s\S]*not\s+licensed\s+for\s+reuse/);
 });
 
 test("every check-content problem on a fresh template is an untouched starter value", () => {
