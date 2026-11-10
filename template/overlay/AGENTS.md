@@ -20,7 +20,7 @@ Collect these before editing. Do not invent any of them.
 - A square photo (at least 512x512) and a resume PDF. If they have none yet, keep the placeholders and say so.
 - Where they are based (or leave it out), and which features to keep: `blog`, `askAi`, `mcp`, `openToWork` (see `content/site.ts`).
 
-If the human does not answer a question, use these defaults and list them in your report: `blog` off unless they have posts, `openToWork` off, `askAi` and `mcp` on, `analyticsToken` empty, no location. Optional fields (`location`, a project card's `stars` and `updated`) are deleted rather than filled with made-up values. For required text the human did not give you, write the shortest honest value from facts you have, and list it in your report so they can improve it:
+If the human does not answer a question, use these defaults and list them in your report: `blog` off unless they have posts, `openToWork` off, `askAi` and `mcp` on, `analyticsToken` empty, no location. Optional fields (`location`, a project card's `stars`, `updated` and `language`, a project page's `updated`) are deleted rather than filled with made-up values. For required text the human did not give you, write the shortest honest value from facts you have, and list it in your report so they can improve it:
 
 | Field | If you have nothing |
 | --- | --- |
