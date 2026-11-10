@@ -13,9 +13,9 @@ SvelteKit · Tailwind · Cloudflare Pages · a blog, an MCP server and `llms.txt
 
 <img src="docs/screenshots/home.webp" alt="The portfolio home page with the placeholder person Alex Rivera: name, role, links, and a selected-work section" width="860">
 
-<sub>The screenshots show the placeholder content (Alex Rivera). Everything you see is replaced by your own.</sub>
+<sub>Placeholder content (Alex Rivera), as on the [live demo](https://portfolio-template.sohab.dev). Everything you see is replaced by your own.</sub>
 
-[**Use this template**](../../generate) · [Setup guide](SETUP.md) · [Agent runbook](AGENTS.md) · [Deploy](DEPLOYMENT.md)
+[**Live demo**](https://portfolio-template.sohab.dev) · [**Use this template**](../../generate) · [Setup guide](SETUP.md) · [Agent runbook](AGENTS.md) · [Deploy](DEPLOYMENT.md)
 
 </div>
 
