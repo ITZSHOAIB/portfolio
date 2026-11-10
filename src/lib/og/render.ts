@@ -3,8 +3,8 @@
 // Node built-ins are imported lazily: this module is bundled into the worker, where a
 // static `node:` import fails at deploy time even though the route never runs there.
 
-// `cover` is a path under static/ (for example /images/blog/x.jpg). With one, the card
-// becomes a photo on the left and the text on the right.
+// `cover` is a finished 1200x630 JPEG under static/ (for example /images/blog/x.jpg)
+// with the title already on it. With one, the card is that image and nothing else.
 export type OgCard = { title: string; eyebrow: string; footer: string; cover?: string };
 
 const fontDir = "node_modules/@fontsource/inter/files";
@@ -41,11 +41,10 @@ export async function renderOgPng({ title, eyebrow, footer, cover }: OgCard) {
   const { default: satori } = await import("satori");
   const { Resvg } = await import("@resvg/resvg-js");
 
-  const fontSize = cover ? 56 : title.length > 70 ? 54 : title.length > 40 ? 64 : 76;
+  const fontSize = title.length > 70 ? 54 : title.length > 40 ? 64 : 76;
   const background = cover
     ? `${await coverUri(cover)} 0 0 / cover`
     : "radial-gradient(circle at 15% 0%, #1f1f23 0%, #09090b 55%, #000000 100%)";
-  const textColumn: Record<string, string | number> = cover ? { marginLeft: 448 } : {};
 
   const tree = box(
     {
@@ -59,15 +58,14 @@ export async function renderOgPng({ title, eyebrow, footer, cover }: OgCard) {
       fontFamily: "Inter",
       background,
     },
-    [
+    cover ? [] : [
       box(
         {
-          fontSize: cover ? 22 : 26,
+          fontSize: 26,
           fontWeight: 600,
           letterSpacing: 4,
           textTransform: "uppercase",
-          color: "#7dd3fc",
-          ...textColumn,
+          color: "#a1a1aa",
         },
         eyebrow,
       ),
@@ -77,7 +75,6 @@ export async function renderOgPng({ title, eyebrow, footer, cover }: OgCard) {
           fontWeight: 700,
           lineHeight: 1.1,
           letterSpacing: -2,
-          ...textColumn,
         },
         title,
       ),
@@ -87,7 +84,6 @@ export async function renderOgPng({ title, eyebrow, footer, cover }: OgCard) {
           color: "#a1a1aa",
           borderTop: "2px solid #27272a",
           paddingTop: 28,
-          ...textColumn,
         },
         footer,
       ),

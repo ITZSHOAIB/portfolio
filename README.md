@@ -169,7 +169,7 @@ A prompt readers can copy or open in Claude or ChatGPT.
 
 A `::figure <id>` line renders a motion graphic: a Svelte component that plays itself while it is on screen, so readers watch rather than click (`autoplay` in `src/lib/components/blog/figures/autoplay.ts`). With reduced motion, it shows a static version instead. Register its caption and text description in `src/lib/content/figures.ts` and its component in `src/lib/components/blog/figures/index.ts`; an unknown id fails the build. Feeds and the `.md` copy show the caption, description and a link to the figure instead.
 
-A `cover` is a JPEG (about 16:9, dark, with room on the right) under `static/`. It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and the photo on the left of the post's social image (`/blog/<slug>/og.png`), with the title on the right. It is not shown on the post page. A post without one gets the plain text social card.
+A `cover` is a finished 1200x630 JPEG under `static/`, with the title already on it (large enough to read as a small thumbnail). It is the thumbnail on the `/blog` list card, beside the text on wide screens and above it on phones, and it is served as the post's social image (`/blog/<slug>/og.png`) as is. It is not shown on the post page. A post without one gets the plain text social card.
 
 For readers who learn with AI:
 
