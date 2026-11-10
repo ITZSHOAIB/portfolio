@@ -8,15 +8,15 @@
 </script>
 
 <article
-  class="post-card group relative flex flex-col gap-4 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111] sm:flex-row sm:items-start sm:gap-6 sm:p-6"
+  class="post-card group relative flex flex-col gap-4 rounded-lg border border-[#27272a] bg-[#0a0a0a] p-5 transition hover:border-[#52525b] hover:bg-[#111111] sm:flex-row sm:items-center sm:gap-8 sm:p-6"
 >
   {#if post.cover}
     <img
       class="post-card-cover sm:order-2"
       src={post.cover}
       alt=""
-      width="420"
-      height="270"
+      width="1200"
+      height="630"
       loading="lazy"
     />
   {/if}

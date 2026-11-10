@@ -85,12 +85,12 @@
   width: 100%;
   aspect-ratio: 1200 / 630;
   object-fit: cover;
-    border: 1px solid #1f1f23;
+  border: 1px solid #1f1f23;
   border-radius: 0.6rem;
   background: #000000;
 }
 @media (min-width: 640px) {
-  .post-card-cover { width: 17rem; flex-shrink: 0; }
+  .post-card-cover { width: 19rem; flex-shrink: 0; align-self: center; }
 }
 
 /* Callouts: GitHub-style `> [!TIP]` alerts, a soft tinted card with an icon. */
