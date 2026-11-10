@@ -58,26 +58,41 @@
   });
 </script>
 
-{#snippet partBox(index: number, row: "top" | "bottom")}
+{#snippet partBox(index: number)}
   {@const p = parts[index]}
-  <div class={`anatomy-part anatomy-part-${row}`} class:active={!still && active === index}>
+  <div class="anatomy-part" class:active={!still && active === index}>
     <p.icon class="size-4" aria-hidden="true" />
     <span>{p.label}</span>
   </div>
+{/snippet}
+
+<!-- Wires run from every part into the model: each drops to a shared bus, and the bus
+     meets the model. The active part lights its own wire and sends a pulse along it. -->
+{#snippet wires(indices: number[], flip: boolean)}
+  <svg class="anatomy-wires" class:flip viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true">
+    <path class="wire" d="M50 0 V20 H250 M150 0 V40 M250 0 V20" />
+    {#each indices as index, col}
+      {@const x = 50 + col * 100}
+      {@const d = x === 150 ? "M150 0 V40" : `M${x} 0 V20 H150 V40`}
+      {#if !still && active === index}
+        <path class="wire wire-on" {d} />
+        <path class="wire-pulse" {d} pathLength="1" style="--step: {STEP_MS}ms" />
+      {/if}
+    {/each}
+  </svg>
 {/snippet}
 
 <div class="anatomy" bind:this={root} style={`--step: ${STEP_MS}ms`}>
   <div class="anatomy-frame">
     <span class="anatomy-frame-label">Harness</span>
     <div class="anatomy-row">
-      {#each [0, 1, 2] as i}{@render partBox(i, "top")}{/each}
+      {#each [0, 1, 2] as i}{@render partBox(i)}{/each}
     </div>
-    <div class="anatomy-core">
-      <span class="anatomy-core-glow" aria-hidden="true"></span>
-      <span class="relative">Model</span>
-    </div>
+    {@render wires([0, 1, 2], false)}
+    <div class="anatomy-core"><span>Model</span></div>
+    {@render wires([3, 4, 5], true)}
     <div class="anatomy-row">
-      {#each [3, 4, 5] as i}{@render partBox(i, "bottom")}{/each}
+      {#each [3, 4, 5] as i}{@render partBox(i)}{/each}
     </div>
   </div>
 
@@ -107,17 +122,16 @@
   .anatomy-frame {
     position: relative;
     display: grid;
-    gap: 1.25rem;
-    border: 1px dashed #3f3f46;
+    padding: 2.4rem 0.75rem 1rem;
+    border: 1px solid #1f1f23;
     border-radius: 0.875rem;
-    padding: 1.75rem 0.75rem 1rem;
-    background: radial-gradient(18rem 9rem at 50% 50%, rgba(125, 211, 252, 0.06), transparent 70%);
+    background: #050505;
   }
   .anatomy-frame-label {
     position: absolute;
-    top: 0.5rem;
-    left: 0.75rem;
-    font-size: 0.7rem;
+    top: 0.6rem;
+    left: 0.85rem;
+    font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -129,7 +143,6 @@
     gap: 0.5rem;
   }
   .anatomy-part {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -142,76 +155,53 @@
     font-weight: 600;
     line-height: 1.2;
     color: #a1a1aa;
-    transition: border-color 300ms, background-color 300ms, color 300ms, transform 300ms;
+    transition: border-color 300ms, background-color 300ms, color 300ms;
   }
   .anatomy-part.active {
     border-color: #7dd3fc;
-    background: rgba(125, 211, 252, 0.08);
+    background: rgba(125, 211, 252, 0.07);
     color: #fafafa;
-    transform: translateY(-2px);
   }
-  /* Short connectors from each part toward the model. */
-  .anatomy-part::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    width: 1px;
-    height: 1.25rem;
-    background: linear-gradient(#3f3f46, transparent);
-    transition: background 300ms;
+  .anatomy-wires {
+    display: block;
+    width: 100%;
+    height: 2.25rem;
+    overflow: visible;
   }
-  .anatomy-part-top::after { top: 100%; }
-  .anatomy-part-bottom::after { bottom: 100%; transform: rotate(180deg); }
-  .anatomy-part.active::after { background: linear-gradient(#7dd3fc, transparent); }
-  /* A pulse runs from the active part into the model. */
-  .anatomy-part::before {
-    content: "";
-    position: absolute;
-    left: calc(50% - 2px);
-    width: 5px;
-    height: 5px;
-    border-radius: 999px;
-    background: #7dd3fc;
-    box-shadow: 0 0 8px #7dd3fc;
-    opacity: 0;
+  .anatomy-wires.flip { transform: scaleY(-1); }
+  .wire {
+    fill: none;
+    stroke: #3f3f46;
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    transition: stroke 300ms;
   }
-  .anatomy-part-top::before { top: 100%; }
-  .anatomy-part-bottom::before { bottom: 100%; }
-  .anatomy-part-top.active::before { animation: pulse-down 1.4s ease-in infinite; }
-  .anatomy-part-bottom.active::before { animation: pulse-up 1.4s ease-in infinite; }
-  @keyframes pulse-down {
-    0% { opacity: 0; transform: translateY(0); }
-    20% { opacity: 1; }
-    100% { opacity: 0; transform: translateY(1.2rem); }
+  .wire-on { stroke: #7dd3fc; }
+  /* A short bright segment travels from the part to the model. */
+  .wire-pulse {
+    fill: none;
+    stroke: #e0f5ff;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+    stroke-dasharray: 0.12 1;
+    animation: wire-travel 1.1s ease-in-out infinite;
   }
-  @keyframes pulse-up {
-    0% { opacity: 0; transform: translateY(0); }
-    20% { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-1.2rem); }
+  @keyframes wire-travel {
+    from { stroke-dashoffset: 0.12; }
+    to { stroke-dashoffset: -1; }
   }
   .anatomy-core {
-    position: relative;
     justify-self: center;
     display: grid;
     place-items: center;
-    width: min(12rem, 60%);
-    border: 1px solid #52525b;
+    width: min(13rem, 62%);
+    border: 1px solid #7dd3fc;
     border-radius: 999px;
-    background: #111111;
+    background: #0b1a22;
     padding: 0.7rem 1rem;
     font-weight: 700;
     color: #fafafa;
-  }
-  .anatomy-core-glow {
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    animation: core-pulse 1.4s ease-out infinite;
-  }
-  @keyframes core-pulse {
-    0%, 60% { box-shadow: 0 0 0 0 rgba(125, 211, 252, 0); }
-    75% { box-shadow: 0 0 0 0 rgba(125, 211, 252, 0.35); }
-    100% { box-shadow: 0 0 0 12px rgba(125, 211, 252, 0); }
   }
   .anatomy-detail {
     position: relative;
@@ -252,9 +242,11 @@
   }
   .anatomy-list strong { color: #fafafa; }
   .anatomy-list span { color: #8a8a93; }
+  @media (max-width: 420px) {
+    .anatomy-part { font-size: 0.72rem; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .anatomy-core-glow,
-    .anatomy-part::before { animation: none !important; }
-    .anatomy-part { transition: none; }
+    .wire-pulse { animation: none !important; }
+    .anatomy-part, .wire { transition: none; }
   }
 </style>

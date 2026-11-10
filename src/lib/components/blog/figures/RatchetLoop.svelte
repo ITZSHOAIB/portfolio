@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ChevronRight } from "@lucide/svelte";
   let { paused = false }: { paused?: boolean } = $props();
   import { onMount } from "svelte";
   import { autoplay } from "./autoplay";
@@ -23,24 +24,7 @@
   ];
 
   const STEP_MS = 2600;
-  const C = 200;
-  const R = 130;
-  // Nodes sit at 12, 3, 6 and 9 o'clock, so the loop reads clockwise.
-  const points = steps.map((_, i) => {
-    const angle = (i * Math.PI) / 2 - Math.PI / 2;
-    return { x: C + R * Math.cos(angle), y: C + R * Math.sin(angle) };
-  });
-  // Arrowheads halfway between nodes, pointing clockwise.
-  const arrows = steps.map((_, i) => {
-    const angle = (i * Math.PI) / 2 - Math.PI / 4;
-    return {
-      x: C + R * Math.cos(angle),
-      y: C + R * Math.sin(angle),
-      rotate: (angle * 180) / Math.PI + 180,
-    };
-  });
-
-  // Steps taken so far. It only grows, so the dot always travels clockwise.
+  // Steps taken so far. It only grows, so the loop always runs forward.
   let ticks = $state(0);
   const active = $derived(ticks % steps.length);
   let still = $state(false);
@@ -53,52 +37,25 @@
   });
 </script>
 
-<div class="ratchet" bind:this={root}>
-  <svg viewBox="0 0 400 400" class="ratchet-svg" aria-hidden="true">
-    <defs>
-      <radialGradient id="ratchet-glow">
-        <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.16" />
-        <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0" />
-      </radialGradient>
-    </defs>
-    <circle cx={C} cy={C} r={R - 30} fill="url(#ratchet-glow)" />
-    <circle cx={C} cy={C} r={R} fill="none" stroke="#3f3f46" stroke-width="1.5" stroke-dasharray="4 6" />
-    {#each arrows as arrow}
-      <path
-        d="M -6 -5 L 4 0 L -6 5"
-        fill="none"
-        stroke="#8a8a93"
-        stroke-width="1.5"
-        transform={`translate(${arrow.x} ${arrow.y}) rotate(${arrow.rotate - 90})`}
-      />
-    {/each}
-    {#each points as point, i}
-      <circle cx={point.x} cy={point.y} r="13" fill={active === i ? "#7dd3fc" : "#18181b"} stroke={active === i ? "#7dd3fc" : "#3f3f46"} class="ratchet-node" />
-      <text x={point.x} y={point.y + 4} text-anchor="middle" class="ratchet-node-num" fill={active === i ? "#000000" : "#d4d4d8"}>{i + 1}</text>
-    {/each}
-    {#if !still}
-    <g class="ratchet-orbit" style={`transform: rotate(${ticks * 90 - 22}deg)`}>
-      <circle class="ratchet-dot" r="4.5" cx={C} cy={C - R} fill="#fafafa" />
-    </g>
-    <text x={C} y={C - 6} text-anchor="middle" class="ratchet-center">
-      Step {active + 1}
-    </text>
-    <text x={C} y={C + 16} text-anchor="middle" class="ratchet-center-sub">
-      {steps[active].label}
-    </text>
-    {/if}
-  </svg>
-
-  <ol class="ratchet-steps">
+<div class="ratchet" bind:this={root} style={`--step: ${STEP_MS}ms`}>
+  <ol class="ratchet-track">
     {#each steps as step, i}
-      <li style={`--x: ${(points[i].x / 400) * 100}%; --y: ${(points[i].y / 400) * 100}%`}>
-        <span class="ratchet-step" class:active={!still && active === i}>
-          <span class="ratchet-num">{i + 1}</span>
-          {step.label}
-        </span>
+      <li class="ratchet-step" class:active={!still && active === i} class:done={!still && i < active}>
+        <span class="ratchet-num">{i + 1}</span>
+        <span class="ratchet-label">{step.label}</span>
+        {#if i < steps.length - 1}<ChevronRight class="ratchet-next" aria-hidden="true" />{/if}
       </li>
     {/each}
   </ol>
+
+  <!-- The way back: step 4 feeds step 1, so the fix is in place the next time round. -->
+  <svg class="ratchet-return" viewBox="0 0 640 36" aria-hidden="true">
+    <path class="return-line" d="M560 0 V22 Q560 28 554 28 H86 Q80 28 80 22 V8" />
+    <path class="return-head" d="M74 14 L80 6 L86 14" />
+    {#if !still && active === steps.length - 1}
+      <path class="return-pulse" pathLength="1" d="M560 0 V22 Q560 28 554 28 H86 Q80 28 80 22 V8" />
+    {/if}
+  </svg>
 
   {#if still}
     <ol class="ratchet-list">
@@ -114,82 +71,75 @@
 </div>
 
 <style>
-  .ratchet {
-    position: relative;
-  }
-  .ratchet-svg {
-    display: block;
-    width: 100%;
-    max-width: 26rem;
-    margin: 0 auto;
-  }
-  .ratchet-orbit {
-    transform-box: view-box;
-    transform-origin: 50% 50%;
-    transition: transform 1100ms cubic-bezier(0.65, 0, 0.35, 1);
-  }
-  .ratchet-dot { filter: drop-shadow(0 0 6px rgba(250, 250, 250, 0.8)); }
-  .ratchet-center { fill: #8a8a93; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
-  .ratchet-center-sub { fill: #fafafa; font-size: 17px; font-weight: 600; }
-  .ratchet-steps {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.4rem;
-    margin: 0.5rem 0 0;
+  .ratchet-track {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
-  .ratchet-steps li { margin: 0; }
-  /* Wide enough: labels sit on the loop, over the numbered nodes. */
-  @media (min-width: 560px) {
-    .ratchet-steps {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: block;
-      width: 100%;
-      max-width: 26rem;
-      aspect-ratio: 1;
-      margin: 0 auto;
-    }
-    .ratchet-steps li {
-      position: absolute;
-      left: var(--x);
-      top: var(--y);
-      transform: translate(-50%, -50%);
-    }
-  }
   .ratchet-step {
-    display: inline-flex;
+    position: relative;
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
-    white-space: nowrap;
+    gap: 0.6rem;
     border: 1px solid #27272a;
-    border-radius: 999px;
+    border-radius: 0.6rem;
     background: #0a0a0a;
-    padding: 0.35rem 0.7rem 0.35rem 0.4rem;
-    font-size: 0.8rem;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #d4d4d8;
-    transition: border-color 200ms, background-color 200ms, color 200ms;
+    line-height: 1.25;
+    color: #a1a1aa;
+    transition: border-color 300ms, background-color 300ms, color 300ms;
   }
-  .ratchet-step.active {
-    border-color: #7dd3fc;
-    background: #0b1a22;
-    color: #fafafa;
-  }
+  .ratchet-step.done { color: #d4d4d8; }
+  .ratchet-step.active { border-color: #7dd3fc; background: rgba(125, 211, 252, 0.07); color: #fafafa; }
   .ratchet-num {
+    flex: none;
     display: grid;
     place-items: center;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 999px;
     background: #27272a;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+    color: #d4d4d8;
+    transition: background-color 300ms, color 300ms;
   }
   .ratchet-step.active .ratchet-num { background: #7dd3fc; color: #000000; }
+  .ratchet-return, :global(.ratchet-next) { display: none; }
+  .return-line, .return-head { fill: none; stroke: #3f3f46; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .return-pulse {
+    fill: none;
+    stroke: #7dd3fc;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 0.14 1;
+    animation: return-travel var(--step) ease-in-out both;
+  }
+  @keyframes return-travel {
+    from { stroke-dashoffset: 0.14; }
+    to { stroke-dashoffset: -1; }
+  }
+  /* Wide enough: one row, chevrons between steps, and the return path underneath. */
+  @media (min-width: 560px) {
+    .ratchet-track { grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .ratchet-step { flex-direction: column; margin: 0 0.35rem; padding: 0.8rem 0.4rem; text-align: center; }
+    .ratchet-return { display: block; width: 100%; margin-top: 0.15rem; }
+    .ratchet-step :global(.ratchet-next) {
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: -1.1rem;
+      width: 1rem;
+      height: 1rem;
+      transform: translateY(-50%);
+      color: #52525b;
+    }
+    .ratchet-step.done :global(.ratchet-next) { color: #7dd3fc; }
+  }
   .ratchet-detail {
     min-height: 3.5rem;
     margin-top: 0.75rem;
@@ -216,10 +166,8 @@
     color: #a1a1aa;
   }
   .ratchet-list strong { color: #fafafa; }
-  .ratchet-node { transition: fill 200ms, stroke 200ms; }
-  .ratchet-node-num { font-size: 12px; font-weight: 700; }
   @media (prefers-reduced-motion: reduce) {
-    .ratchet-orbit, .ratchet-step, .ratchet-node { transition: none; }
-    .ratchet-detail-text { animation: none; }
+    .return-pulse, .ratchet-detail-text { animation: none; }
+    .ratchet-step, .ratchet-num { transition: none; }
   }
 </style>
