@@ -1,6 +1,6 @@
 import type { ExperienceItem } from "$lib/types/portfolio";
 
-export const experience = [
+export const experience: ExperienceItem[] = [
   {
     role: "Senior Software Engineer",
     company: "Skillsoft / Codecademy",
@@ -117,4 +117,4 @@ export const experience = [
       },
     ],
   },
-] satisfies ExperienceItem[];
+];

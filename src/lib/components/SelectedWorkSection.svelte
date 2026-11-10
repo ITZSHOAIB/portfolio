@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ArrowUpRight } from "@lucide/svelte";
+  import { copy } from "$content/copy";
   import SectionHeading from "$lib/components/SectionHeading.svelte";
   import type { SelectedWork } from "$lib/types/portfolio";
 
@@ -41,8 +42,8 @@
 >
   <SectionHeading
     eyebrow="Selected work"
-    title="AI products shipped to production."
-    description="The agentic systems behind my day job: what they do and the scale they run at."
+    title={copy.selectedWork.title}
+    description={copy.selectedWork.description}
   />
 
   <div class="grid gap-4">

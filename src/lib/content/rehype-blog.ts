@@ -2,7 +2,8 @@ import type { Element, ElementContent, Root, Text } from "hast";
 import { SKIP, visit } from "unist-util-visit";
 import { aiTargets, chatUrl } from "$lib/ai/links";
 import { calloutIcon } from "$lib/content/callout-icons";
-import { FIGURE_LINE, figures } from "$lib/content/figures";
+import { figures } from "$content/figures";
+import { FIGURE_LINE } from "$lib/content/figures";
 
 // Blog-only markdown extensions. Each keeps the source readable as plain
 // markdown, so the raw .md copy and the feeds stay useful.

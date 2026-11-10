@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ArrowUpRight, ChevronDown } from "@lucide/svelte";
+  import { copy } from "$content/copy";
   import IconMark from "$lib/components/IconMark.svelte";
   import SectionHeading from "$lib/components/SectionHeading.svelte";
   import { skillIcons } from "$lib/icons/portfolioIcons";
@@ -14,8 +15,8 @@
 >
   <SectionHeading
     eyebrow="Experience"
-    title="Production systems, from AI workflows to web platforms."
-    description="What shipped in each role, with the scale it reached."
+    title={copy.experience.title}
+    description={copy.experience.description}
   />
 
   <div class="divide-y divide-[#27272a] overflow-hidden rounded-lg border border-[#27272a] bg-[#0a0a0a]">

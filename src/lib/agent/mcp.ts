@@ -73,7 +73,7 @@ const tools: Tool[] = [
   {
     name: "get_selected_work",
     title: "Selected work",
-    description: "AI products shipped to production, with scale metrics and stack.",
+    description: "Selected work: notable projects with scale metrics and stack.",
     inputSchema: noArgs,
     run: () => text(selectedWorkMarkdown()),
   },
@@ -87,7 +87,7 @@ const tools: Tool[] = [
   {
     name: "get_skills",
     title: "Skills",
-    description: "Skills grouped by area (AI agents, frontend, backend, platform, blockchain, languages).",
+    description: "Skills grouped by area, such as languages, frontend, backend and platform.",
     inputSchema: noArgs,
     run: () => text(skillsMarkdown()),
   },
@@ -113,7 +113,7 @@ const tools: Tool[] = [
     inputSchema: {
       type: "object",
       properties: {
-        slug: { type: "string", description: "The post slug, for example 'harness-engineering'." },
+        slug: { type: "string", description: "The post slug, for example 'hello-world'." },
       },
       required: ["slug"],
       additionalProperties: false,

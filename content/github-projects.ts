@@ -1,6 +1,6 @@
 import type { GithubProject } from "$lib/types/portfolio";
 
-export const githubProjects = [
+export const githubProjects: GithubProject[] = [
   {
     name: "Plico",
     description:
@@ -94,4 +94,4 @@ export const githubProjects = [
     stars: 3,
     topics: ["hash", "data integrity", "crypto hash"],
   },
-] satisfies GithubProject[];
+];

@@ -19,6 +19,8 @@ export type Profile = {
   focus: string;
   current: string;
   previous: string;
+  /** One sentence about what the owner writes about; ends the author note under posts. */
+  writing: string;
   links: ProfileLink[];
 };
 

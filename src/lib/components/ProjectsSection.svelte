@@ -1,5 +1,6 @@
 <script lang="ts">
     import { ArrowUpRight, Download, Star } from "@lucide/svelte";
+    import { copy } from "$content/copy";
     import SectionHeading from "$lib/components/SectionHeading.svelte";
     import type { GithubProject } from "$lib/types/portfolio";
 
@@ -28,8 +29,8 @@
 >
     <SectionHeading
         eyebrow="Projects"
-        title="Selected public builds and products."
-        description="A focused set of shipped tools, libraries, and app projects."
+        title={copy.projects.title}
+        description={copy.projects.description}
     />
 
     <div class="grid gap-4">
