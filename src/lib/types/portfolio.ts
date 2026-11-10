@@ -80,6 +80,8 @@ export type BlogPost = {
   projects: string[];
   /** Thumbnail path under static/, shown on the blog list card only. */
   cover?: string;
+  /** Former slugs. /blog/<alias> redirects permanently to the post (see /_redirects). */
+  aliases: string[];
   readingMinutes: number;
 };
 

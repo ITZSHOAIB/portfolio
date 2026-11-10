@@ -11,6 +11,7 @@ import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 //   tags: [langgraph, agents]
 //   projects: [Plico]        (optional, names from githubProjects shown as cards)
 //   cover: /images/blog/x.svg (optional, thumbnail under static/ for the blog list card)
+//   aliases: [old-slug]      (optional, former slugs; they redirect to this post)
 //   draft: true              (optional, hides the post everywhere)
 //   ---
 const files = import.meta.glob("/src/content/blog/*.md", {
@@ -49,6 +50,7 @@ const entries: BlogEntry[] = Object.entries(files).flatMap(([path, raw]) => {
       tags: parseTags(data.tags),
       projects: parseTags(data.projects),
       cover: data.cover || undefined,
+      aliases: parseTags(data.aliases),
       readingMinutes: Math.max(
         1,
         Math.round(body.split(/\s+/).filter(Boolean).length / WORDS_PER_MINUTE),
@@ -68,3 +70,17 @@ export const blogEntries = entries.sort(
 export const blogPosts: BlogPost[] = blogEntries.map(
   ({ body: _body, ...post }) => post,
 );
+
+// A redirect must never shadow a real post or point two posts at the same old URL.
+const claimed = new Map(blogEntries.map((entry) => [entry.slug, entry.slug]));
+for (const entry of blogEntries) {
+  for (const alias of entry.aliases) {
+    const owner = claimed.get(alias);
+    if (owner) {
+      throw new Error(
+        `Blog post "${entry.slug}" lists the alias "${alias}", which is already used by "${owner}".`,
+      );
+    }
+    claimed.set(alias, entry.slug);
+  }
+}
