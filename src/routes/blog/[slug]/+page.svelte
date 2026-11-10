@@ -69,6 +69,9 @@
 <BlogShell width="max-w-5xl">
   <div class="xl:grid xl:grid-cols-[minmax(0,48rem)_14rem] xl:gap-14">
     <article class="blog-reveal min-w-0">
+      {#if data.post.cover}
+        <img class="post-cover mb-8" src={data.post.cover} alt="" width="1200" height="630" />
+      {/if}
       <p class="text-sm text-[#a1a1aa]">
         <time datetime={data.post.published}>{formatDate(data.post.published)}</time>
         · {data.post.readingMinutes} min read

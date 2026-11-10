@@ -10,6 +10,7 @@ import { parseFrontmatter, parseTags } from "$lib/content/frontmatter";
 //   updated: 2026-11-08      (optional)
 //   tags: [langgraph, agents]
 //   projects: [Plico]        (optional, names from githubProjects shown as cards)
+//   cover: /images/blog/x.svg (optional, art under static/ for the banner, card and social image)
 //   draft: true              (optional, hides the post everywhere)
 //   ---
 const files = import.meta.glob("/src/content/blog/*.md", {
@@ -42,6 +43,7 @@ const entries: BlogEntry[] = Object.entries(files).flatMap(([path, raw]) => {
       updated: data.updated,
       tags: parseTags(data.tags),
       projects: parseTags(data.projects),
+      cover: data.cover || undefined,
       readingMinutes: Math.max(
         1,
         Math.round(body.split(/\s+/).filter(Boolean).length / WORDS_PER_MINUTE),

@@ -78,6 +78,8 @@ export type BlogPost = {
   tags: string[];
   /** Names of githubProjects the post relates to. */
   projects: string[];
+  /** Path of the cover art under static/, such as /images/blog/post.svg. */
+  cover?: string;
   readingMinutes: number;
 };
 
