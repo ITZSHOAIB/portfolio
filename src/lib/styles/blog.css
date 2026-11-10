@@ -283,3 +283,14 @@
 @media (prefers-reduced-motion: reduce) {
   .ask-selection { animation: none; }
 }
+
+/* Cover on the featured post of the blog list: the full image in a rounded frame, never cropped. */
+.featured-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  border: 1px solid #1f1f23;
+  border-radius: 0.6rem;
+  background: #000000;
+}

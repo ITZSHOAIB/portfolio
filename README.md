@@ -139,7 +139,7 @@ Posts are markdown files in `src/content/blog/` with frontmatter:
 ---
 title: Post title
 description: One-sentence summary used for cards, SEO, and feeds.
-published: 2026-11-10
+published: 2026-11-10   # or 2026-11-10T14:30 to order posts published the same day
 updated: 2026-11-12   # optional
 tags: [agents, sveltekit]
 projects: [Plico]     # optional, "Where I use this" cards, by name from githubProjects
@@ -149,6 +149,8 @@ draft: true           # optional, hides the post everywhere
 ```
 
 Each published post gets a page at `/blog/<slug>` with a table of contents, Shiki syntax highlighting, `rehype-code-group` tabs, related posts, an author note and a generated social image at `/blog/<slug>/og.png`. The blog also serves `/blog`, `/tags/<tag>`, `/rss.xml` (full content), `/feed.json`, sitemap entries and `llms.txt` links. With no published posts, `/blog` is `noindex` and the home section stays hidden. Set `features.blog` to `false` in `src/lib/config/site.ts` to switch it all off.
+
+Posts are listed newest first; two posts on the same day are ordered by the time in `published` (date-only counts as midnight), then by title. The `/blog` page opens with the latest post as a featured card, then the rest grouped by year. With JavaScript it adds a search box and topic and project filter chips (the state lives in `?q=`, `?tag=` and `?project=`, so a filtered list can be linked), and without it the plain topic links and every post still work. It also links the RSS and JSON feeds.
 
 Posts are plain markdown with a few extensions. The source stays readable as markdown, so the `.md` copy, feeds and `llms-full.txt` keep working:
 
