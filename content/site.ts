@@ -14,6 +14,8 @@ export const site = {
   locale: "en_US",
   twitterHandle: "@0xSohab",
   themeColor: "#000000",
+  // Highlight colour (links, active filters, progress bar). A 6-digit hex such as #7dd3fc.
+  accent: "#7dd3fc",
   image: {
     path: "/images/og-image.png",
     width: 1668,

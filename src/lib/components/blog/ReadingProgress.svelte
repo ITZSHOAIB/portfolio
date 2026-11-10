@@ -20,7 +20,7 @@
 
 <!-- Decorative: scroll position is already available to assistive tech. -->
 <div
-  class="fixed inset-x-0 top-0 z-40 h-0.5 origin-left bg-[#7dd3fc]"
+  class="fixed inset-x-0 top-0 z-40 h-0.5 origin-left bg-accent"
   style={`transform: scaleX(${progress})`}
   aria-hidden="true"
 ></div>

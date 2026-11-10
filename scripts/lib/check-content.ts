@@ -51,6 +51,9 @@ function checkSite(root: string, site: Record<string, any>, problems: Problem[])
   for (const key of ["name", "title", "description"]) {
     if (!site[key]) problems.push({ file, field: key, message: "is empty. Fill it in." });
   }
+  if (site.accent !== undefined && !/^#[0-9a-fA-F]{6}$/.test(site.accent)) {
+    problems.push({ file, field: "accent", message: `"${site.accent}" is not a colour. Use a 6-digit hex such as #7dd3fc.` });
+  }
   checkImage(root, file, "image.path", site.image?.path, problems);
   checkImage(root, file, "profileImage.path", site.profileImage?.path, problems);
 }

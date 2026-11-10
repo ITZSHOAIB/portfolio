@@ -36,7 +36,7 @@
   {#if canCopy}
     <button type="button" class={`inline-flex items-center gap-1.5 ${link}`} onclick={copy}>
       {#if copied}
-        <Check class="size-3.5 text-[#7dd3fc]" aria-hidden="true" /> Copied
+        <Check class="size-3.5 text-accent" aria-hidden="true" /> Copied
       {:else}
         <Copy class="size-3.5" aria-hidden="true" /> Copy feed URL
       {/if}

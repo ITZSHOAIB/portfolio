@@ -22,7 +22,7 @@
   {/if}
   <div class="mt-5 md:mt-0">
     <p class="flex flex-wrap items-center gap-x-2 text-sm text-[#a1a1aa]">
-      <span class="rounded-md bg-[#7dd3fc]/10 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#7dd3fc]">Latest</span>
+      <span class="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-accent">Latest</span>
       <time datetime={post.published}>{formatDate(post.published)}</time>
       <span aria-hidden="true">·</span>
       <span>{post.readingMinutes} min read</span>
