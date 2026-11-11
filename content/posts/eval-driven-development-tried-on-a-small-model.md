@@ -4,7 +4,6 @@ description: I wrote the evals first, then the prompt, then changed one thing at
 published: 2026-11-11
 tags: [evals, llm, testing]
 projects: [Plico]
-draft: true
 ---
 
 Everyone says to write evals. I wanted to know what it feels like when you do it in the right order: spec first, cases second, prompt last. So I built a small thing that way, on a local model and a hosted one, and kept every number.
