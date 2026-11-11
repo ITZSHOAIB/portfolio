@@ -22,10 +22,12 @@ before(() => {
 });
 
 test("the template contains none of the owner's personal strings", () => {
+  // The README links to the hosted demo of this template; that URL is the one intended mention.
+  const demo = "https://portfolio-template.sohab.dev";
   const personal = /sohab|skillsoft|codecademy|itzshoaib|0xsohab|4techloverz|sksohab|harness-engineering|package-by-feature|agentic|blockchain|multi-agent|AI products/i;
   const hits = walk(out)
     .filter((path) => /\.(ts|svelte|md|json|css|html|yml|yaml|svg|webmanifest)$/.test(path) && !path.includes("pnpm-lock"))
-    .filter((path) => personal.test(readFileSync(path, "utf8")));
+    .filter((path) => personal.test(readFileSync(path, "utf8").replaceAll(demo, "")));
   assert.deepEqual(hits, []);
 });
 
