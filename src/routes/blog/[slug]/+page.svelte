@@ -1,5 +1,7 @@
 <script lang="ts">
   import { ArrowLeft, ArrowRight } from "@lucide/svelte";
+  import { initCodeGroups } from "rehype-code-group/client";
+  import "rehype-code-group/styles.css";
   import AskSelection from "$lib/components/blog/AskSelection.svelte";
   import AuthorNote from "$lib/components/blog/AuthorNote.svelte";
   import BlogFigure from "$lib/components/blog/BlogFigure.svelte";
@@ -19,6 +21,13 @@
 
   let article: HTMLElement | undefined = $state();
   let announcement = $state("");
+
+  // Code-group tabs are plain HTML from the markdown renderer. Re-run when
+  // client-side navigation swaps in another post.
+  $effect(() => {
+    void data.segments;
+    if (article) return initCodeGroups(article);
+  });
 
   // Copy buttons in ```prompt boxes are plain HTML from the markdown renderer.
   async function onArticleClick(event: MouseEvent) {

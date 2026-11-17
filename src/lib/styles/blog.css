@@ -41,6 +41,33 @@
 }
 .blog-page .prose-post pre.shiki code { font-size: 0.875rem; }
 
+/* Code groups (rehype-code-group): one framed box with the tabs on top. */
+.blog-page .prose-post .rehype-code-group {
+  --rcg-accent: var(--accent);
+  --rcg-border-color: #27272a;
+  --rcg-focus-color: var(--accent);
+  --rcg-tab-background-active: #0d0d0d;
+  --rcg-tab-color: #a1a1aa;
+  overflow: hidden;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+  background: #0a0a0a;
+}
+.blog-page .prose-post .rcg-tab {
+  padding: 0.55rem 0.95rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: color 150ms;
+}
+.blog-page .prose-post .rcg-tab:hover,
+.blog-page .prose-post .rcg-tab.active { color: #fafafa; }
+.blog-page .prose-post .rcg-tab:focus-visible { outline-offset: -2px; border-radius: 0; }
+.blog-page .prose-post .rcg-block > pre { margin: 0; border: 0; border-radius: 0; }
+/* Show only the first tab while the script loads, so the page doesn't jump. */
+@media (scripting: enabled) {
+  .blog-page .prose-post .rehype-code-group:not([data-rcg-enhanced]) .rcg-block:not(.active) { display: none; }
+}
+
 /* Tables */
 .blog-page .prose-post table {
   display: block;
