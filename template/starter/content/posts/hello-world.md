@@ -47,6 +47,26 @@ A `prompt` block is a prompt readers can copy or open in Claude or ChatGPT:
 Explain what a callout is and when to use one in a blog post.
 ```
 
+When readers need the same thing in different flavours, group the fences into tabs. Each label goes in brackets after the language:
+
+::: code-group
+
+```sh [npm]
+npm install zod
+```
+
+```sh [pnpm]
+pnpm add zod
+```
+
+```sh [bun]
+bun add zod
+```
+
+:::
+
+Feeds show every block under its label, and the Markdown copy keeps this source. See the [rehype-code-group docs](https://www.npmjs.com/package/rehype-code-group) for rich tabs, vertical tabs and syncing.
+
 ## Figures
 
 A figure is a small Svelte component that plays on its own while it is on screen. This one is registered in `content/figures/index.ts`:

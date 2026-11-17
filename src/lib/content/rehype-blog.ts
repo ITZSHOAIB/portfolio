@@ -148,6 +148,27 @@ export function rehypePromptBlocks(mode: RenderMode) {
   };
 }
 
+// Feeds cannot switch tabs, so a code group becomes its panels in order,
+// each under its tab label.
+export function rehypeFeedCodeGroups(mode: RenderMode) {
+  return () => (tree: Root) => {
+    if (mode !== "feed") return;
+    visit(tree, "element", (node, index, parent) => {
+      const classes = node.properties.className;
+      if (!Array.isArray(classes) || !classes.includes("rehype-code-group")) return;
+      if (!parent || index === undefined) return;
+
+      const panels = node.children.flatMap((child) => {
+        if (child.type !== "element" || child.properties.role !== "tabpanel") return [];
+        const label = String(child.properties["data-rcg-label"] ?? "");
+        return [el("p", {}, [el("strong", {}, [text(label)])]), ...child.children];
+      });
+      parent.children.splice(index, 1, ...panels);
+      return [SKIP, index + panels.length];
+    });
+  };
+}
+
 // Images load lazily. An image alone in a paragraph with a title,
 // `![alt](/images/x.png "Caption")`, becomes a captioned figure.
 export function rehypeMedia() {
