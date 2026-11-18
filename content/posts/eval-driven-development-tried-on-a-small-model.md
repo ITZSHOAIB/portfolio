@@ -1,12 +1,13 @@
 ---
 title: Eval-driven development, tried on a small model
-description: I wrote the evals first, then the prompt, then changed one thing at a time. What a 15-case eval taught me on llama3.2 and Gemini, and what it caught once I moved it into Plico.
-published: 2026-11-11
-tags: [evals, llm, testing]
+description: Eval-driven development on a small LLM. Spec and cases before the prompt, five trials per case, one change per version, then the same eval in Plico.
+published: 2026-11-18
+cover: /images/blog/eval-driven-development.jpg
+tags: [evals, llm, testing, ai-agents]
 projects: [Plico]
 ---
 
-Everyone says to write evals. I wanted to know what it feels like when you do it in the right order: spec first, cases second, prompt last. So I built a small thing that way, on a local model and a hosted one, and kept every number.
+Everyone says to write evals. I wanted to know what eval-driven development feels like when you do it in the right order: spec first, cases second, prompt last. So I built a small thing that way, on a local model and a hosted one, and kept every number.
 
 The task is deliberately boring. Read a support ticket and reply with JSON: a `category` (billing, bug, access, how-to, feature, other) and a `priority` (urgent, normal, low). The reply must be bare JSON with exactly those two fields. Anything else fails.
 
