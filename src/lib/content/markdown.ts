@@ -2,6 +2,7 @@ import rehypeShiki from "@shikijs/rehype";
 import type { Element, Root } from "hast";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeCodeGroup from "rehype-code-group";
+import remarkCodeGroup from "rehype-code-group/remark";
 import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import remarkGfm from "remark-gfm";
@@ -11,6 +12,7 @@ import { unified } from "unified";
 import { visit } from "unist-util-visit";
 import {
   rehypeCallouts,
+  rehypeFeedCodeGroups,
   rehypeFigures,
   rehypeMedia,
   rehypePromptBlocks,
@@ -57,6 +59,7 @@ export async function renderMarkdown(
   const file = await unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkCodeGroup)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeSlug)
     .use(collectToc(toc))
@@ -69,7 +72,9 @@ export async function renderMarkdown(
     .use(rehypeFigures(mode, url))
     .use(rehypePromptBlocks(mode))
     .use(rehypeMedia)
-    .use(rehypeCodeGroup, {})
+    // The blog page loads the tab script and styles; an inline <script> in {@html} would not run.
+    .use(rehypeCodeGroup, { assets: "none" })
+    .use(rehypeFeedCodeGroups(mode))
     .use(rehypeShiki, { theme: "github-dark-default" })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(markdown);
