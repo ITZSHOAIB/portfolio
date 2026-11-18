@@ -1,0 +1,8 @@
+{
+  "eyebrow": "AGENT = MODEL + HARNESS",
+  "title": "Harness\nEngineering",
+  "sub": "The part that isn't the model.",
+  "chip": ["guides", "sensors", "*ratchet*"],
+  "topics": ["ai-agents", "harness-engineering"],
+  "tabs": ["Plico", "Dev Skills"]
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Blog cover</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  /* Blog cover, 1200x630, in the Plico update-card design language.
+     Fixed: frame and ruler, star field, header, footer tabs, type and colours.
+     Per post (card.json): eyebrow, title, sub, chip, topics, tabs, illustration. */
+  :root { --bg: #0a0b0b; --line: #232928; --line-soft: #171c1b; --fg: #eef2f0; --muted: #8b9693; --accent: #62bfa8; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; background: var(--bg); overflow: hidden; }
+  body { position: relative; font-family: "Geist", system-ui, sans-serif; color: var(--fg); }
+  #stars { position: absolute; inset: 0; width: 1200px; height: 630px; }
+  .rail { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
+  .rail.l { left: 32px; } .rail.r { right: 32px; }
+  .rule { position: absolute; left: 0; right: 0; height: 1px; background: var(--line); }
+  .rule.top { top: 72px; } .rule.bottom { bottom: 52px; }
+  .ruler { position: absolute; left: 32px; right: 32px; bottom: 52px; height: 10px;
+    background:
+      repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 80px) bottom / 100% 10px no-repeat,
+      repeating-linear-gradient(90deg, var(--line-soft) 0 1px, transparent 1px 10px) bottom / 100% 5px no-repeat; }
+  .plus { position: absolute; width: 13px; height: 13px; transform: translate(-6px, -6px); }
+  .plus::before, .plus::after { content: ""; position: absolute; background: var(--muted); }
+  .plus::before { left: 6px; top: 0; width: 1px; height: 13px; }
+  .plus::after { top: 6px; left: 0; height: 1px; width: 13px; }
+
+  header { position: absolute; left: 32px; right: 32px; top: 0; height: 72px;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+  .site { font-family: "Geist Mono", monospace; font-size: 19px; color: var(--muted); }
+  .site b { color: var(--fg); font-weight: 500; }
+  .chip { font-family: "Geist Mono", monospace; font-size: 17px; border: 1px solid var(--line);
+    padding: 7px 14px; display: flex; gap: 12px; align-items: center; color: var(--muted); }
+  .chip b { color: var(--accent); font-weight: 500; }
+  .chip i { width: 1px; height: 18px; background: var(--line); }
+
+  main { position: absolute; left: 32px; top: 72px; bottom: 52px; width: 600px;
+    display: flex; flex-direction: column; justify-content: center; padding: 0 0 0 76px; }
+  .eyebrow { font-family: "Geist Mono", monospace; font-size: 16px; color: var(--accent); letter-spacing: .04em; margin-bottom: 20px; }
+  h1 { font-size: 74px; line-height: 1.0; letter-spacing: -0.045em; font-weight: 500; }
+  .sub { margin-top: 22px; font-size: 32px; line-height: 1.2; letter-spacing: -0.02em; color: var(--accent); }
+
+  /* The illustration's box: SVGs use a 568x482 viewBox. */
+  .visual { position: absolute; left: 590px; top: 92px; width: 568px; height: 482px; }
+  .visual > svg { width: 100%; height: 100%; overflow: visible; }
+
+  footer { position: absolute; left: 0; right: 0; bottom: 0; height: 52px; display: flex;
+    align-items: stretch; justify-content: space-between; padding-left: 32px; font-size: 17px; }
+  .status { display: flex; align-items: center; gap: 9px; padding-left: 18px; color: var(--muted); font-family: "Geist Mono", monospace; }
+  .status i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .tabs { display: flex; margin-right: 32px; }
+  .tabs span { display: flex; align-items: center; padding: 0 18px; border-left: 1px solid var(--line); }
+  .tabs span:last-child { border-right: 1px solid var(--line); }
+  .tabs .on { background: var(--accent); color: #04140f; font-weight: 500; }
+</style>
+</head>
+<body>
+  <canvas id="stars" width="2400" height="1260"></canvas>
+  <div class="rail l"></div><div class="rail r"></div>
+  <div class="rule top"></div><div class="rule bottom"></div><div class="ruler"></div>
+  <div class="plus" style="left:32px;top:72px"></div><div class="plus" style="left:1168px;top:72px"></div>
+  <div class="plus" style="left:32px;top:578px"></div><div class="plus" style="left:1168px;top:578px"></div>
+
+  <header>
+    <div class="site"><b>sohab.dev</b> / blog</div>
+    <div class="chip" id="chip"></div>
+  </header>
+
+  <main>
+    <div class="eyebrow" id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <p class="sub" id="sub"></p>
+  </main>
+
+  <div class="visual" id="visual"></div>
+
+  <footer>
+    <div class="status"><i></i><span id="topics"></span></div>
+    <div class="tabs" id="tabs"></div>
+  </footer>
+
+<script>
+  const data = /*DATA*/{};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+  $("eyebrow").textContent = data.eyebrow ?? "";
+  $("title").innerHTML = esc(data.title).replace(/\n/g, "<br>");
+  $("sub").textContent = data.sub ?? "";
+  // A chip is two or three short parts; *stars* mark the accented one.
+  $("chip").innerHTML = (data.chip ?? []).map((part) => esc(part).replace(/\*(.+?)\*/g, "<b>$1</b>")).join("<i></i>");
+  $("topics").textContent = (data.topics ?? []).join(" · ");
+  $("tabs").innerHTML = ["Blog", ...(data.tabs ?? [])]
+    .map((t, i) => `<span class="${i === 0 ? "on" : ""}">${esc(t)}</span>`).join("");
+  $("visual").innerHTML = data.svg ?? "";
+
+  // Seeded star field, so a cover renders the same every time. Kept clear of text and the illustration.
+  let seed = data.seed ?? 11;
+  const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+  document.fonts.ready.then(() => {
+    const keepOut = [...document.querySelectorAll("h1, .sub, .eyebrow, .visual, header > *")].map((n) => {
+      const r = n.getBoundingClientRect();
+      return [r.left - 16, r.top - 16, r.right + 16, r.bottom + 16];
+    });
+    const clear = (x, y) => !keepOut.some(([l, t, r, b]) => x > l && x < r && y > t && y < b);
+    const c = $("stars").getContext("2d");
+    c.scale(2, 2);
+    for (let i = 0; i < 70; i++) {
+      const x = 40 + rand() * 1120, y = 80 + rand() * 490;
+      if (!clear(x, y)) continue;
+      c.fillStyle = `rgba(232,240,237,${0.2 + rand() * 0.4})`;
+      c.fillRect(Math.round(x), Math.round(y), 2, 2);
+    }
+    c.fillStyle = "#62bfa8";
+    for (let i = 0; i < 10; i++) {
+      const x = Math.round(40 + rand() * 1120), y = Math.round(80 + rand() * 490);
+      if (!clear(x, y)) continue;
+      c.fillRect(x - 5, y, 11, 1.5); c.fillRect(x, y - 5, 1.5, 11);
+    }
+  });
+</script>
+</body>
+</html>
