@@ -56,7 +56,7 @@ Every post gets its own drawing, made for that post's idea. Don't reuse another 
 | --- | --- |
 | eval-driven-development | Trial cards with pass dots, a baseline card, and a magnifier on the failing trial |
 | harness-engineering | A dark MODEL cube on a cream harness plate, guide and sensor blocks wired to it, and a ratchet wheel |
-| package-by-feature | Five layer slabs with checkout's file in red on each, and the same five files as one green `checkout/` column |
+| package-by-feature | The agent's search path: five red hops across five layer folders, then one green hop into `checkout/`, which holds all five files |
 
 What changes is the picture. What stays is how it's drawn:
 

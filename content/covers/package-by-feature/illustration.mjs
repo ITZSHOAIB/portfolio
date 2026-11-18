@@ -1,38 +1,46 @@
-// The same change, two layouts: checkout's file in each of five layer folders (red),
-// then the same five files in one feature folder (green).
-import { C, box, isoAt, plus, shadow, svg, tag } from "../kit/draw.mjs";
+// The agent's search path for one change, "add discount codes to checkout".
+// By layer it hops through five folders to find checkout's files (red);
+// by feature it makes one hop into checkout/, where all five are (green).
+import { C, box, isoAt, leftText, plus, shadow, svg } from "../kit/draw.mjs";
 
-const layers = ["controllers/", "services/", "repositories/", "schemas/", "tests/"];
-const n = layers.length;
-let s = shadow(300, 444, 250, 22);
+const CELL = 74, TILE = 48, EDGE = 16;
+let s = shadow(300, 452, 256, 20);
 
-// By layer: one slab per folder, one tile per feature. Checkout is the third tile in each.
-const stack = isoAt(150, 92);
-const T = 40, GAP = 34;
-for (let i = n - 1; i >= 0; i--) {
-  const z = (n - 1 - i) * GAP - 150;
-  s += box(stack, 0, 0, z, T * 4 + 12, T + 12, 8);
-  for (let c = 0; c < 4; c++) {
-    s += box(stack, 10 + c * T, 10, z + 8, T - 8, T - 8, 8, c === 2
-      ? { top: C.red, left: "#8f3524", right: "#8f3524", halftone: false, sw: 1.5 }
-      : { top: C.top, left: C.grey, right: C.grey, halftone: false, sw: 1.5 });
+// A row of folders on a board, with each folder's name printed on the board's front edge.
+function row(iso, names, files, color, hops) {
+  let out = box(iso, 0, 0, -EDGE, CELL * (names.length + 1), CELL, EDGE);
+  names.forEach((name, i) => {
+    out += leftText(iso, (i + 1) * CELL + 3, CELL, -EDGE + 4.5, name, `fill="${C.ink}" font-size="9"`);
+  });
+  // the agent, in the first cell
+  const m = (CELL - 26) / 2;
+  out += box(iso, m, m, 0, 26, 26, 26, { top: C.dark, left: C.ink, right: C.ink, line: C.accent, sw: 1.5, halftone: "adots" });
+  // folders: a tab at the back, the body, and files standing in it
+  names.forEach((_, i) => {
+    const x = (i + 1) * CELL + (CELL - TILE) / 2, y = (CELL - TILE) / 2;
+    out += box(iso, x, y, 0, 18, 8, 17, { halftone: false, sw: 1.5 }) + box(iso, x, y + 6, 0, TILE, TILE - 6, 13, { sw: 1.5 });
+    for (let f = 0; f < files[i]; f++) {
+      out += box(iso, x + 8 + f * 6, y + 16, 13, 4, 18, 11, { top: color, left: color, right: color, halftone: false, sw: 1.2 });
+    }
+  });
+  // hops: arcs from cell to cell, numbered where they land
+  const at = (i, z) => iso(i * CELL + CELL / 2, CELL / 2, z);
+  for (let i = 0; i < hops; i++) {
+    const a = at(i, i ? 30 : 30), b = at(i + 1, 30);
+    out += `<path d="M${a.join(" ")}Q${(a[0] + b[0]) / 2} ${Math.min(a[1], b[1]) - 30} ${b.join(" ")}" fill="none" stroke="${color === C.red ? C.redOnDark : C.accent}" stroke-width="2.5" stroke-dasharray="5 4"/>`;
+    if (hops > 1) out += `<circle cx="${b[0]}" cy="${b[1]}" r="8.5" fill="${C.red}" stroke="${C.ink}" stroke-width="1.5"/><text x="${b[0]}" y="${b[1] + 3.5}" fill="${C.top}" font-size="10" text-anchor="middle">${i + 1}</text>`;
   }
-  const [lx, ly] = stack(0, T + 12, z + 4);
-  s += `<text x="${lx - 12}" y="${ly + 4}" fill="${C.muted}" font-size="12" text-anchor="end">${layers[i]}</text>`;
+  return out;
 }
+const caption = (x, y, title, line, color, anchor) =>
+  `<text x="${x}" y="${y}" fill="${C.muted}" font-size="11" letter-spacing="1" text-anchor="${anchor}">${title}</text>` +
+  `<text x="${x}" y="${y + 19}" fill="${color}" font-size="12.5" text-anchor="${anchor}">${line}</text>`;
 
-// By feature: one folder, the same five files stacked.
-const col = isoAt(440, 150);
-s += box(col, 0, 0, -150, 52, 52, 8);
-for (let i = n - 1; i >= 0; i--) {
-  s += box(col, 10, 10, -142 + (n - 1 - i) * 26, 32, 32, 20, { top: C.accent, left: C.green, right: C.green, sw: 1.5 });
-}
-s += tag(400, 128, "checkout/");
+s += row(isoAt(72, 104), ["controllers/", "services/", "repositories/", "schemas/", "tests/"], [1, 1, 1, 1, 1], C.red, 5);
+s += caption(4, 50, "BY LAYER", "5 hops · 5 folders", C.redOnDark, "start");
 
-s += `<path d="M330 214C364 196 388 196 410 210" fill="none" stroke="${C.accent}" stroke-width="2" stroke-dasharray="5 4"/>`;
-s += `<path d="M400 200l11 10-14 4" fill="none" stroke="${C.accent}" stroke-width="2"/>`;
-s += `<text x="190" y="384" fill="${C.redOnDark}" font-size="12" text-anchor="middle">5 files · 5 folders</text>`;
-s += `<text x="440" y="384" fill="${C.accent}" font-size="12" text-anchor="middle">5 files · 1 folder</text>`;
+s += row(isoAt(140, 262), ["checkout/", "cart/", "billing/"], [5, 0, 0], C.green, 1);
+s += caption(4, 352, "BY FEATURE", "1 hop · 1 folder", C.accent, "start");
 
-s += plus(24, 24) + plus(548, 420);
+s += plus(548, 40) + plus(22, 440);
 export default svg(s);
