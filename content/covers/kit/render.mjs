@@ -12,7 +12,11 @@ if (!process.argv[2]) throw new Error("Usage: node content/covers/kit/render.mjs
 const dir = resolve(process.argv[2]);
 const slug = basename(dir);
 const card = JSON.parse(readFileSync(join(dir, "card.json"), "utf8"));
-card.svg = readFileSync(join(dir, card.illustration ?? "illustration.svg"), "utf8");
+// An illustration.mjs (built with draw.mjs) wins over a hand-made illustration.svg.
+const script = join(dir, "illustration.mjs");
+card.svg = existsSync(script)
+  ? (await import(pathToFileURL(script).href)).default
+  : readFileSync(join(dir, "illustration.svg"), "utf8");
 
 const work = join(tmpdir(), `blog-cover-${slug}`);
 rmSync(work, { recursive: true, force: true });

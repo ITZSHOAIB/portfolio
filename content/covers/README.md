@@ -6,8 +6,9 @@ Every post cover uses one design: the Plico update-card language, adapted for a 
 content/covers/
   kit/template.html            the fixed design; fills in a card's data
   kit/render.mjs               renders a card to content/public/images/blog/<slug>.jpg
+  kit/draw.mjs                 helpers for drawing an illustration
   <slug>/card.json             the post's text
-  <slug>/illustration.svg      the post's picture, 568x482
+  <slug>/illustration.mjs      the post's picture, 568x482 (or a hand-made illustration.svg)
 ```
 
 The folder name is the post's slug and the output file's name, so the post's frontmatter is `cover: /images/blog/<slug>.jpg`.
@@ -15,7 +16,7 @@ The folder name is the post's slug and the output file's name, so the post's fro
 ## Make one
 
 1. Copy the closest existing folder to `content/covers/<slug>/`.
-2. Edit `card.json` and redraw `illustration.svg` (see the rules below).
+2. Edit `card.json` and draw a new illustration for this post (see below).
 3. Render, then open the JPEG and look at it at full size and at thumbnail size:
 
    ```sh
@@ -46,17 +47,35 @@ The folder name is the post's slug and the output file's name, so the post's fro
 | `topics` | Bottom left | The post's main tags. |
 | `tabs` | Bottom right | Tools or projects the post uses. "Blog" is always added first and highlighted. |
 | `seed` | Optional | Changes the star field. Defaults to 11. |
-| `illustration` | Optional | Another SVG file name in the folder. |
 
-## Illustration rules
+## The illustration
 
-The SVG uses `viewBox="0 0 568 482"` and `font-family="Geist Mono,monospace"`. It sits to the right of the title. Start from an existing one and keep its parts:
+Every post gets its own drawing, made for that post's idea. Don't reuse another post's picture with new labels:
 
-- **Two cards**, tilted in opposite directions: a large one at `translate(14 52) rotate(-5)`, about 300x262, and a small one at `translate(352 92) rotate(7)`, about 196x204. Each has a lighter top face, a side face with the `#dots` halftone, a 2px ink outline, and a dark header bar with an accent label `01 / NAME`.
-- **A magnifier** at `translate(400 368) scale(.86)`, showing four short lines from the story. Keep each line to about 15 characters, or it touches the ring.
-- **A dotted shadow** ellipse under everything, and two small plus marks.
-- **A single symbol per post**, repeated: dots for trials, squares for files, pills for harness parts. Filled green means good or grouped, red means a failure or a problem, an empty grey outline means not involved.
-- **Real content only.** Labels, numbers and names come from the post. The cover should still make sense after someone has read it.
+| Post | Drawing |
+| --- | --- |
+| eval-driven-development | Trial cards with pass dots, a baseline card, and a magnifier on the failing trial |
+| harness-engineering | A dark MODEL cube on a cream harness plate, guide and sensor blocks wired to it, and a ratchet wheel |
+| package-by-feature | Five layer slabs with checkout's file in red on each, and the same five files as one green `checkout/` column |
+
+What changes is the picture. What stays is how it's drawn:
+
+- **Objects, not diagrams.** Cream solids with a 2px ink outline: a light top face, plain front faces, and the `#dots` halftone on the right-hand face. Isometric boxes or tilted cards both work.
+- **One dark hero object** when there's a central thing, such as the model: a dark face with an accent outline and the `#adots` halftone.
+- **Mono labels** in Geist Mono: accent on dark, ink on cream, muted for captions. Leader lines end in a dot.
+- **Colour means something.** Green is good, grouped or fixed. Red is failing, scattered or regressed. Grey is not involved. Accent marks what the post is about.
+- **A dotted shadow** on the floor under the drawing, and two small plus marks.
+- **Real content only.** Labels, numbers and names come from the post or its figures. The cover should still make sense after someone has read the post.
+- **Readable as a thumbnail.** At a third of its size, the shape should still tell the story without the labels.
+
+### Drawing it
+
+The drawing is 568x482 and sits to the right of the title. Either:
+
+- write `<slug>/illustration.mjs`, which builds the SVG with the helpers in `kit/draw.mjs` and default-exports it (see harness-engineering and package-by-feature), or
+- hand-write `<slug>/illustration.svg` with `viewBox="0 0 568 482"` and `font-family="Geist Mono,monospace"` (see eval-driven-development).
+
+`render.mjs` uses the `.mjs` when both exist. `draw.mjs` has the colours (`C`), the `svg` wrapper with the halftone patterns, an isometric projection (`isoAt`), `box`, text on a box's faces, `tag`, `lead`, `shadow` and `plus`. Draw boxes back to front.
 
 | Colour | Hex | Use |
 | --- | --- | --- |
