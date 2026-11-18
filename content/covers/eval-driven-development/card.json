@@ -1,0 +1,8 @@
+{
+  "eyebrow": "SPEC → CASES → PROMPT",
+  "title": "Eval-Driven\nDevelopment",
+  "sub": "Tried on a small model.",
+  "chip": ["15 cases", "*× 5* trials"],
+  "topics": ["evals", "llm", "testing"],
+  "tabs": ["Gemini", "llama3.2", "Plico"]
+}
